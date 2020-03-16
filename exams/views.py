@@ -1,3 +1,7 @@
 from django.shortcuts import render
 
-# Create your views here.
+
+def exams_index(request):
+    template = "templates/exams.html"
+    context = {}
+    return render(request, template, context)
