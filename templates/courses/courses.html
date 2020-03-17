@@ -2,4 +2,13 @@
 
 {% block content %}
     <h1>Courses</h1>
+
+    <ul>
+        {% for c in courses.all %}
+            <li>{{ c.title }} </li>
+            <li>{{ c.description }} </li>
+            <li>{{ c.geolocation }} </li>
+            <li>{{ c.title }} </li>
+        {% endfor %}
+    </ul>
 {% endblock content %}

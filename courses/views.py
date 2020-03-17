@@ -1,3 +1,4 @@
+import json
 from http import HTTPStatus
 
 from django.shortcuts import render
@@ -5,15 +6,24 @@ from django.http import HttpResponse
 
 from courses.models import Course, AcceptedCrypto
 
+"""
+HTML RENDERS
+"""
+
 
 def course_index(request):
     template = "courses/courses.html"
-    context = {}
+    all_courses = Course.objects.all()
+    context = {"courses": all_courses}
     return render(request, template, context)
 
 
-def create_course(request):
+"""
+API CALLS
+"""
 
+
+def create_course(request):
     if request.is_ajax() and request.method == "POST":
         title = request.POST.get("title")
         description = request.POST.get("description")
@@ -28,3 +38,15 @@ def create_course(request):
         return HttpResponse(status=HTTPStatus.OK)
     else:
         return HttpResponse(status=HTTPStatus.FORBIDDEN)
+
+
+def courses(request):
+    all_courses = Course.objects.all()
+    courses_dict = {}
+
+    for course in all_courses:
+        course_data = {"title": course.title, "description": course.description, "geolocation": course.geolocation,
+                       "accepted_cryptos": course.get_actepted_cryptos}
+        courses_dict[course.id] = course_data
+
+    return HttpResponse(json.dumps(courses_dict))
