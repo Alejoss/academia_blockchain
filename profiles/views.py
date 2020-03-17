@@ -22,3 +22,7 @@ def create_profile(request):
         return render(request, template, {"user": user})
     else:
         return HttpResponse(status=HTTPStatus.FORBIDDEN)
+
+
+def complete_account(request):  # TODO implement % complete profile?
+    pass
