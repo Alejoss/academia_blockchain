@@ -13,11 +13,12 @@ def profile(request):
 
 def create_profile(request):
     if request.is_ajax() and request.method == "POST":
-        template = "profiles/login_succesfull.html"
+        template = "profiles/create_profile_succesfull.html"
         username = request.POST.get("username")
         email = request.POST.get("email")
         password = request.POST.get("password")
         user = User.objects.create_user(username, email, password)
+        # TODO send email to confirm account
         return render(request, template, {"user": user})
     else:
         return HttpResponse(status=HTTPStatus.FORBIDDEN)

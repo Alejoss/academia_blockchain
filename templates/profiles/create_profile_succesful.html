@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    {% if user.is_authenticated %}
+        <h2>Gracias por ser parte de la revolucion! por favor entra a tu email y dale click al
+            link que te enviamos para confirmar tu cuenta.</h2>
+    {% else %}
+        <h2>OH! Nada que mostrar aqui.</h2>
+    {% endif %}
+{% endblock content %}
