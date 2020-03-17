@@ -1,7 +1,6 @@
-
 from django.urls import path
-from exams import views
+from profiles import views
 
 urlpatterns = [
-    path('/', views.profile, name="profile"),
+    path('', views.profile, name="profile"),
 ]
