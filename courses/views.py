@@ -2,7 +2,9 @@ import json
 from http import HTTPStatus
 
 from django.shortcuts import render
+
 from django.http import HttpResponse
+from django.contrib.auth.decorators import login_required
 
 from courses.models import Course, AcceptedCrypto
 
@@ -11,10 +13,16 @@ HTML RENDERS
 """
 
 
-def course_index(request):
+def html_course_index(request):
     template = "courses/courses.html"
     all_courses = Course.objects.all()
     context = {"courses": all_courses}
+    return render(request, template, context)
+
+
+def html_create_course(request):
+    template = "courses/create_course.html"
+    context = {}
     return render(request, template, context)
 
 
@@ -23,7 +31,7 @@ API CALLS
 """
 
 
-def create_course(request):
+def api_create_course(request):
     if request.is_ajax() and request.method == "POST":
         title = request.POST.get("title")
         description = request.POST.get("description")
@@ -40,7 +48,7 @@ def create_course(request):
         return HttpResponse(status=HTTPStatus.FORBIDDEN)
 
 
-def courses(request):
+def api_courses(request):
     all_courses = Course.objects.all()
     courses_dict = {}
 

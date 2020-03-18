@@ -12,8 +12,13 @@
             <div class="col-md-12">
                 <ul class="nav">
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'course_index' %}">Home</a>
+                        <a class="nav-link" href="{% url 'course_index' %}">Courses</a>
                     </li>
+                    {% if user.is_authenticated %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'create_course' %}">Create Course</a>
+                    </li>
+                    {% endif %}
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'exams_index' %}">Exams</a>
                     </li>
