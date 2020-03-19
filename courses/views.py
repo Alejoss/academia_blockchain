@@ -36,7 +36,8 @@ def api_create_course(request):
         title = request.POST.get("title")
         description = request.POST.get("description")
         geolocation = request.POST.get("geolocation")
-        accepted_cryptos = request.POST.get("accepted_cryptos")
+        accepted_cryptos = request.POST.get("accepted_cryptos", [])
+        print(accepted_cryptos)
         course = Course.objects.create(title=title, description=description, geolocation=geolocation)
 
         for c in accepted_cryptos:

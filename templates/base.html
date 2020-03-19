@@ -4,7 +4,12 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
-     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+
+    <script src="https://code.jquery.com/jquery-3.4.1.js"
+			  integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+			  crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+
 </head>
 <body>
     <div class="container-fluid">
@@ -12,11 +17,11 @@
             <div class="col-md-12">
                 <ul class="nav">
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'course_index' %}">Courses</a>
+                        <a class="nav-link" href="{% url 'html_course_index' %}">Courses</a>
                     </li>
                     {% if user.is_authenticated %}
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'create_course' %}">Create Course</a>
+                        <a class="nav-link" href="{% url 'html_create_course' %}">Create Course</a>
                     </li>
                     {% endif %}
                     <li class="nav-item">
