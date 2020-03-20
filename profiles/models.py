@@ -9,3 +9,10 @@ class Profile(models.Model):
     is_accreditor = models.BooleanField(default=False)
 
 
+class AcceptedCrypto(models.Model):
+    name = models.CharField(max_length=50, blank=True)
+    code = models.CharField(max_length=10, blank=True)
+
+    def __str__(self):
+        return self.name
+

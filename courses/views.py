@@ -1,10 +1,10 @@
+from http import HTTPStatus
 import json
 from http import HTTPStatus
 
-from django.shortcuts import render
-
-from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
+from django.shortcuts import render
+from django.http import HttpResponse
 
 from courses.models import Course, AcceptedCrypto
 
@@ -38,10 +38,10 @@ def api_create_course(request):
         geolocation = request.POST.get("geolocation")
         accepted_cryptos = request.POST.get("accepted_cryptos", [])
         course = Course.objects.create(title=title, description=description, geolocation=geolocation)
+        # TODO add creator of the course
 
         for c in accepted_cryptos:
             code = c.upper()
-            print(code) # TODO debug this
             if AcceptedCrypto.objects.filter(code=c.upper()).exists():
                 accepted_crypto = AcceptedCrypto.objects.get(code=c.upper())
                 print(accepted_crypto)

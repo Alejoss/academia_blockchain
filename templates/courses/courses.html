@@ -5,10 +5,9 @@
 
     <ul>
         {% for c in courses.all %}
-            <li>{{ c.title }} </li>
+            <li><strong>{{ c.title }}</strong></li>
             <li>{{ c.description }} </li>
             <li>{{ c.geolocation }} </li>
-            <li>{{ c.title }} </li>
         {% endfor %}
     </ul>
 {% endblock content %}
