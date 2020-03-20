@@ -22,6 +22,12 @@
                 </label>
                 <input type="text" class="form-control" id="geolocation" />
             </div>
+            <div class="form-group">
+                <label for="accepted_cryptos">
+                   Cryptos Aceptadas (codigos, separados por comas)
+                </label>
+                <input type="text" class="form-control" id="accepted_cryptos" />
+            </div>
             <button type="submit" class="btn btn-primary" id="submit_course">
                 Submit
             </button>
@@ -36,8 +42,10 @@
                     "title": $("#title").val(),
                     "description": $("#description").val(),
                     "geolocation": $("#geolocation").val(),
+                    "accepted_cryptos": $("#accepted_cryptos").val(),
                     "csrfmiddlewaretoken": '{{ csrf_token }}'
                 };
+
                 $.ajax({
                     method: "POST",
                     data: data,

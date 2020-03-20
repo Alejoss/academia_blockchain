@@ -37,12 +37,15 @@ def api_create_course(request):
         description = request.POST.get("description")
         geolocation = request.POST.get("geolocation")
         accepted_cryptos = request.POST.get("accepted_cryptos", [])
-        print(accepted_cryptos)
         course = Course.objects.create(title=title, description=description, geolocation=geolocation)
 
         for c in accepted_cryptos:
-            if AcceptedCrypto.objects.filter(code=course).exists():
-                course.accepted_cryptos.add(c)
+            code = c.upper()
+            print(code) # TODO debug this
+            if AcceptedCrypto.objects.filter(code=c.upper()).exists():
+                accepted_crypto = AcceptedCrypto.objects.get(code=c.upper())
+                print(accepted_crypto)
+                course.accepted_cryptos.add(accepted_crypto)
 
         return HttpResponse(status=HTTPStatus.OK)
     else:
