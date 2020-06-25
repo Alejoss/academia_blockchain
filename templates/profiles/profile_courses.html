@@ -1,0 +1,113 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="main-wrapper blog-grid-left-sidebar">
+
+
+<!-- ====================================
+———	BLOG GRID LEFT SIDEBAR
+===================================== -->
+<section class="py-8 py-md-10">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-8 col-lg-9 order-md-1">
+				<div class="row">
+
+                    <div class="col-12">
+                        <div class="text-sm-center mt-6">
+                          <button type="submit" class="btn btn-danger text-uppercase">
+                            Crear Nuevo Curso o Evento
+                          </button>
+                        </div>
+                      </div>
+
+                    <div class="media media-avator-view flex-column flex-sm-row">
+                      <div class="media-body">
+                      <hr>
+                        <p>
+                           <strong>Guardados: </strong>:
+                        </p>
+
+                          <div class="media media-list-view mb-5">
+                               <div class="media-body">
+                                    <h3 class="mb-3 mb-lg-2 mb-xl-3">
+                                        <a class="text-success text-capitalize font-weight-bold" href="{% url 'event_singular_localized' %}">
+                                            Finanzas Descentralizadas</a>
+                                    </h3>
+
+                                    <ul class="list-unstyled d-flex text-muted mb-2">
+                                        <li class="mr-3">
+                                            <i class="fa fa-map-marker mr-2" aria-hidden="true"></i>Evento Prescencial en Buenos Aires / Argentina
+                                        </li>
+                                        <li>
+                                            <i class="fa fa-clock-o mr-2" aria-hidden="true"></i>Miércoles 5 Junio / 9.00AM-11.00AM
+                                        </li>
+                                    </ul>
+                                </div>
+                          </div>
+
+
+                      <p>
+                       <strong>Tus Cursos y Eventos: </strong>
+                      </p>
+                          <div class="media media-list-view mb-5">
+                          <div class="media-body">
+                            <h3 class="mb-3 mb-lg-2 mb-xl-3">
+                                <a class="text-danger text-capitalize font-weight-bold" href="{% url 'event_recorded_online' %}">
+                                    Canto Mongol de Garganta</a>
+                            </h3>
+
+                            <ul class="list-unstyled d-flex text-muted mb-2">
+                                <li class="mr-3">
+                                    <i class="fa fa-mouse-pointer mr-2" aria-hidden="true"></i>Curso grabado
+                                </li>
+                                <li>
+                                    <i class="fa fa-external-link-square mr-2" aria-hidden="true"></i>Disponible en Vimeo
+                                </li>
+                            </ul>
+
+                            </div>
+                          </div>
+
+                      </div>
+                    </div>
+
+				</div>
+			</div>
+
+			<div class="col-md-4 col-lg-3">
+				<div class="card shadow-none bg-transparent">
+					<h4 class="card-header font-weight-bold bg-success rounded-top text-white">Tu Perfil</h4>
+					<div class="card-body border border-top-0 rounded-bottom">
+						<ul class="list-unstyled mb-0">
+							<li class="mb-2">
+								<a class="text-muted font-weight-medium d-block border rounded py-2 pl-3" href="{% url 'profile_data' %}">Datos de Perfil</a>
+							</li>
+							<li class="my-2">
+								<a class="text-muted font-weight-medium d-block border rounded py-2 pl-3" href="{% url 'profile_security' %}">Seguridad</a>
+							</li>
+							<li class="my-2">
+								<a class="text-dark text-underline font-weight-medium d-block border rounded py-2 pl-3" href="{% url 'profile_courses' %}">Cursos y Eventos</a>
+							</li>
+							<li class="my-2">
+								<a class="text-muted font-weight-medium d-block border rounded py-2 pl-3" href="{% url 'profile_accreditation' %}">Acreditaciones</a>
+							</li>
+							<li class="mt-2">
+								<a class="text-muted font-weight-medium d-block border rounded py-2 pl-3" href="{% url 'profile_certificates' %}">Certificados</a>
+							</li>
+                            <li class="mt-2">
+								<a class="text-muted font-weight-medium d-block border rounded py-2 pl-3" href="{% url 'profile_content' %}">Contenido Descentralizado</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</section>
+
+</div> <!-- element wrapper ends -->
+
+{% endblock content %}

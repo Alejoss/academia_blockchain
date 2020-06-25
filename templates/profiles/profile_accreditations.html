@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="main-wrapper blog-grid-left-sidebar">
+
+
+<!-- ====================================
+———	BLOG GRID LEFT SIDEBAR
+===================================== -->
+<section class="py-8 py-md-10">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-8 col-lg-9 order-md-1">
+				<div class="row">
+                    <div class="media media-avator-view flex-column flex-sm-row">
+                        <p class="text-secondary font-size-20 font-weight-medium d-inline-block mb-1" href="teachers-details.html">
+                            No eres acreditador por ahora. Eres experto en algo? <a href="">Crea una acreditación</a> y aprovecha tu conocimiento
+                            para generar reputación, validar la aptitud de otros en tu área y ganar dinero. Genera tu propio certificado o el de tu institución
+                            y nosotros te ayudamos a guardarlo en la cadena de bloques de Ethereum.
+                        </p>
+                    </div>
+                    <hr>
+				</div>
+
+                <div class="media media-list-view mb-5">
+                    <a class="media-img" href="{% url 'exam_manage' %}">
+                        <img src="https://cdn.weisscrypto.com/media/Default/_Profiles/506e0558/918c2c59/WCA080719_1.jpg?v=637008045440000000" alt="Image">
+                    </a>
+
+                    <div class="media-body">
+                        <h3 class="mb-3 mb-lg-2 mb-xl-3">
+                            <a class="text-dark text-capitalize font-weight-bold" href="{% url 'exam_manage' %}">
+                                Consultor de Finanzas Descentralizadas</a>
+                        </h3>
+
+                        <ul class="list-unstyled d-flex text-muted mb-2">
+                            <li class="mr-3">
+                                <i class="fa fa-vcard-o mr-2" aria-hidden="true"></i>4 Aplicaciones por revisar
+                            </li>
+                            <li class="mr-3">
+                                <i class="fa fa-edit mr-2" aria-hidden="true"></i>Editar
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+			</div>
+
+			<div class="col-md-4 col-lg-3">
+				<div class="card shadow-none bg-transparent">
+					<h4 class="card-header font-weight-bold bg-success rounded-top text-white">Tu Perfil</h4>
+					<div class="card-body border border-top-0 rounded-bottom">
+						<ul class="list-unstyled mb-0">
+							<li class="mb-2">
+								<a class="text-muted font-weight-medium d-block border rounded py-2 pl-3" href="{% url 'profile_data' %}">Datos de Perfil</a>
+							</li>
+							<li class="my-2">
+								<a class="text-muted font-weight-medium d-block border rounded py-2 pl-3" href="{% url 'profile_security' %}">Seguridad</a>
+							</li>
+							<li class="my-2">
+								<a class="text-muted font-weight-medium d-block border rounded py-2 pl-3" href="{% url 'profile_courses' %}">Cursos y Eventos</a>
+							</li>
+							<li class="my-2">
+								<a class="text-dark text-underline font-weight-medium d-block border rounded py-2 pl-3" href="{% url 'profile_accreditation' %}">Acreditaciones</a>
+							</li>
+							<li class="mt-2">
+								<a class="text-muted font-weight-medium d-block border rounded py-2 pl-3" href="{% url 'profile_certificates' %}">Certificados</a>
+							</li>
+                            <li class="mt-2">
+								<a class="text-muted font-weight-medium d-block border rounded py-2 pl-3" href="{% url 'profile_content' %}">Contenido Descentralizado</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</section>
+
+</div> <!-- element wrapper ends -->
+
+{% endblock content %}

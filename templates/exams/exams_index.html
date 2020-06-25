@@ -1,0 +1,138 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+
+    <!-- ====================================
+    ———	SEARCH RESULT
+    ===================================== -->
+
+<section class="pt-7 pb-7 pt-md-10">
+	<div class="container">
+
+        <p class="text-secondary font-size-20 font-weight-medium d-inline-block mb-1" href="teachers-details.html">
+            Academia Blockchain te conecta con instituciones/personas expertas en distintos temas que pueden acreditar tu conocimiento. Si apruebas su examen, recibirás un
+            certificado que será respaldado en una cadena de bloques.
+        </p>
+		<form class="shadow-sm rounded mb-8">
+			<div class="input-group input-group-lg">
+				<div class="input-group-prepend">
+					<span class="input-group-text bg-light border-0 px-4">
+						<i class="fa fa-search text-muted font-size-18" aria-hidden="true"></i>
+					</span>
+				</div>
+				<input type="text" class="form-control bg-light border-0 form-control-lg"
+				 placeholder="En qué quieres certificarte?" required="">
+                <div class="input-group-append">
+					<button type="submit" class="btn shadow-none btn-lg btn-danger text-uppercase">buscar</button>
+				</div>
+			</div>
+		</form>
+	</div>
+</section>
+
+<section class="pb-md-10 pb-6">
+<div class=" container">
+    <div class="list-fullwidth">
+
+     <div class="media media-list-view mb-5">
+        <a class="media-img" href="{% url 'exam' %}">
+            <img src="https://cdn.weisscrypto.com/media/Default/_Profiles/506e0558/918c2c59/WCA080719_1.jpg?v=637008045440000000" alt="Image">
+        </a>
+
+        <div class="media-body">
+            <h3 class="mb-3 mb-lg-2 mb-xl-3">
+                <a class="text-dark text-capitalize font-weight-bold" href="{% url 'exam' %}">
+                    Consultor de Finanzas Descentralizadas</a>
+            </h3>
+
+            <ul class="list-unstyled d-flex text-muted mb-2">
+                <li class="mr-3">
+                    <i class="fa fa-vcard-o mr-2" aria-hidden="true"></i>Jose SuperCripto
+                </li>
+            </ul>
+
+            <p class="text-justify mb-lg-2">They must explain to you how all this mistaken idea of denouncing pleasure and
+                praising pain was born and I will give you a com plete account of the system, and expound the actual teachings of
+                the great explorer of the truth, the master-builder of human happiness. No one rejects, dislikes, or avoids
+                pleasure itself.</p>
+
+            <div class="">
+                <a class="btn btn-link text-hover-success text-underline pl-0" href="{% url 'exam' %}">
+                    <i class="fa fa-angle-double-right mr-1" aria-hidden="true"></i> Leer más
+                </a>
+            </div>
+        </div>
+    </div>
+
+     <div class="media media-list-view mb-5">
+        <a class="media-img" href="">
+            <img src= "https://httpsamc-a.akamaihd.net/3864268799001/3864268799001_4779366770001_1602-CocinaItalianaT2-RobertoSalvatore2.jpg?pubId=3864268799001&videoId=4048532764001" alt="Image">
+        </a>
+
+        <div class="media-body">
+            <h3 class="mb-3 mb-lg-2 mb-xl-3">
+                <a class="text-dark text-capitalize font-weight-bold" href="course-single-left-sidebar.html">
+                    Cheff de Cocina Italiana</a>
+            </h3>
+
+            <ul class="list-unstyled d-flex text-muted mb-2">
+                <li class="mr-3">
+                    <i class="fa fa-vcard-o mr-2" aria-hidden="true"></i>Giancomo Bruno
+                </li>
+            </ul>
+
+            <p class="text-justify mb-lg-2">They must explain to you how all this mistaken idea of denouncing pleasure and
+                praising pain was born and I will give you a com plete account of the system, and expound the actual teachings of
+                the great explorer of the truth, the master-builder of human happiness. No one rejects, dislikes, or avoids
+                pleasure itself.</p>
+
+            <div class="">
+                <a class="btn btn-link text-hover-success text-underline pl-0" href="course-single-left-sidebar.html">
+                    <i class="fa fa-angle-double-right mr-1" aria-hidden="true"></i> Leer más
+                </a>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="media media-list-view mb-5">
+        <a class="media-img" href="">
+            <img src= "https://pbs.twimg.com/media/D3Vu0riUUAAYEav.jpg" alt="Image">
+        </a>
+
+        <div class="media-body">
+            <h3 class="mb-3 mb-lg-2 mb-xl-3">
+                <a class="text-dark text-capitalize font-weight-bold" href="course-single-left-sidebar.html">
+                    </a>Conocedor de Historia Mexicana
+            </h3>
+
+            <ul class="list-unstyled d-flex text-muted mb-2">
+                <li class="mr-3">
+                    <i class="fa fa-vcard-o mr-2" aria-hidden="true"></i>Angel Mora
+                </li>
+            </ul>
+
+            <p class="text-justify mb-lg-2">They must explain to you how all this mistaken idea of denouncing pleasure and
+                praising pain was born and I will give you a com plete account of the system, and expound the actual teachings of
+                the great explorer of the truth, the master-builder of human happiness. No one rejects, dislikes, or avoids
+                pleasure itself.</p>
+
+            <div class="">
+                <a class="btn btn-link text-hover-success text-underline pl-0" href="course-single-left-sidebar.html">
+                    <i class="fa fa-angle-double-right mr-1" aria-hidden="true"></i> Leer más
+                </a>
+            </div>
+        </div>
+    </div>
+
+
+    </div>
+</div>
+</section>
+
+{% endblock content %}
+
+{% block extra_js %}
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDU79W1lu5f6PIiuMqNfT1C6M0e_lq1ECY"></script>
+{% endblock extra_js %}
