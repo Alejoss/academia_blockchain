@@ -23,6 +23,7 @@ SECRET_KEY = os.environ['ACADEMIA_BLOCKCHAIN_SKEY']
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
+HEROKU = True
 
 ALLOWED_HOSTS = ["*"]
 
@@ -83,6 +84,8 @@ DATABASES = {
     }
 }
 
+if HEROKU:
+    DATABASES['default'] = dj_database_url.config(conn_max_age=600, ssl_require=True)
 
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
