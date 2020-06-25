@@ -135,3 +135,5 @@ STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
 
 # Other config
 LOGIN_REDIRECT_URL = "html_course_index"
+
+django_heroku.settings(locals())
