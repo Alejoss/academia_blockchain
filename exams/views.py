@@ -8,9 +8,21 @@ from exams.models import Exam
 from profiles.models import Profile
 
 
-def html_exams_index(request):
-    template = "exams/exams.html"
-    context = {}
+def exam_index(request):
+    template = "exams/exams_index.html"
+    context = {"exam_index_active": "active"}
+    return render(request, template, context)
+
+
+def exam(request):
+    template = "exams/exam.html"
+    context = {"exam_index_active": "active"}
+    return render(request, template, context)
+
+
+def exam_manage(request):
+    template = "exams/exam_manage.html"
+    context = {"exam_index_active": "active"}
     return render(request, template, context)
 
 

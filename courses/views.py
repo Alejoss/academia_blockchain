@@ -13,16 +13,40 @@ HTML RENDERS
 """
 
 
-def html_course_index(request):
+def course_index(request):
     template = "courses/courses.html"
     all_courses = Course.objects.all()
-    context = {"courses": all_courses}
+    context = {"courses": all_courses, "course_index_active": "active"}
+    return render(request, template, context)
+
+
+def event_singular_localized(request):
+    template = "courses/event_singular_localized.html"
+    context = {"course_index_active": "active"}
+    return render(request, template, context)
+
+
+def event_recorded_online(request):
+    template = "courses/event_recorded_online.html"
+    context = {"course_index_active": "active"}
+    return render(request, template, context)
+
+
+def event_recurrent_localized(request):
+    template = "courses/event_recurrent_localized.html"
+    context = {"course_index_active": "active"}
+    return render(request, template, context)
+
+
+def event_singular_online(request):
+    template = "courses/event_singular_online.html"
+    context = {"course_index_active": "active"}
     return render(request, template, context)
 
 
 def html_create_course(request):
     template = "courses/create_course.html"
-    context = {}
+    context = {"course_index_active": "active"}
     return render(request, template, context)
 
 

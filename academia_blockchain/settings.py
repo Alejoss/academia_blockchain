@@ -56,8 +56,7 @@ ROOT_URLCONF = 'academia_blockchain.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'templates'),
-                 os.path.join(BASE_DIR, 'templates')]
+        'DIRS': [os.path.join(BASE_DIR, 'templates')]
         ,
         'APP_DIRS': True,
         'OPTIONS': {
@@ -121,4 +120,13 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR + "/media/"
+STATIC_ROOT = 'staticfiles/'
 STATIC_URL = '/static/'
+
+STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
+
+
+# Other config
+LOGIN_REDIRECT_URL = "html_course_index"
