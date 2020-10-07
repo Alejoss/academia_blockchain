@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+<div class="main-wrapper blog-grid-left-sidebar">
+
+<!-- ====================================
+———	BLOG GRID LEFT SIDEBAR
+===================================== -->
+<section class="py-8 py-md-10">
+	<div class="container">
+		<div class="row">
+
+    <div class="col-md-4 col-lg-3">
+        <div class="card shadow-none bg-transparent">
+            <h4 class="card-header font-weight-bold bg-warning rounded-top text-white">Tu Perfil</h4>
+            <div class="card-body border border-top-0 rounded-bottom">
+                <ul class="list-unstyled mb-0">
+                    <li class="mb-2">
+                        <a class="text-muted font-weight-medium d-block border rounded py-2 pl-3 {{ underline_pdata }}" href="{% url 'profile_data' %}">Datos de Perfil</a>
+                    </li>
+                    <li class="my-2">
+                        <a class="text-muted font-weight-medium d-block border rounded py-2 pl-3 {{ underline_psecurity }} " href="{% url 'profile_security' %}">Seguridad</a>
+                    </li>
+                    <li class="my-2">
+                        <a class="text-muted font-weight-medium d-block border rounded py-2 pl-3 {{ underline_pevents }}" href="{% url 'profile_events' %}">Cursos y Eventos</a>
+                    </li>
+{#                    <li class="my-2">#}
+{#                        <a class="text-muted font-weight-medium d-block border rounded py-2 pl-3 {{ underline_paccreditation }}" href="{% url 'profile_accreditation' %}">Acreditaciones</a>#}
+{#                    </li>#}
+                    <li class="mt-2">
+                        <a class="text-muted font-weight-medium d-block border rounded py-2 pl-3 {{ underline_pcertificates }}" href="{% url 'profile_certificates' %}">Certificados</a>
+                    </li>
+                    <li class="mt-2">
+                        <a class="text-muted font-weight-medium d-block border rounded py-2 pl-3 {{ underline_pcontent }}" href="{% url 'profile_content' %}">Contenido Descentralizado</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    {% block profile_content %}
+
+
+    {% endblock profile_content %}
+        </div>
+        </div>
+    </section>
+
+</div> <!-- element wrapper ends -->
+
+{% endblock content %}

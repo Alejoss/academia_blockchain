@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+<section class="py-8 py-md-10">
+  <div class="container">
+        <div class="row">
+          <div class="col-sm-6 offset-lg-2 col-lg-4">
+            <div class="mb-4 mb-sm-0">
+              <div class="bg-warning rounded-top p-2">
+                <h3 class="text-white font-weight-bold mb-0 ml-2">Crea una Cuenta</h3>
+              </div>
+
+              <div class="border rounded-bottom-sm border-top-0">
+                <div class="p-3">
+                  <form action="{% url 'profile_register' %}" method="POST" role="form">
+                      {% csrf_token %}
+
+                      {% if form.errors %}
+                        <div class="form-group text-center text-secondary mb-0">
+                          <p class="mb-0">{{ form.errors }} </p>
+                        </div>
+                      {% endif %}
+
+                    <div class="form-group form-group-icon">
+                        {{ form.username }}
+                    </div>
+
+                    <div class="form-group form-group-icon">
+                        {{ form.email }}
+                    </div>
+
+                    <div class="form-group form-group-icon">
+                      <input type="password" class="form-control border" placeholder="Contraseña" required=""
+                             name="password1">
+                    </div>
+
+                    <div class="form-group form-group-icon">
+                      <input type="password" class="form-control border" placeholder="Contraseña" required=""
+                             name="password2">
+                    </div>
+
+                    <div class="form-group">
+                      <button type="submit" class="btn btn-success text-uppercase w-100">Crear Cuenta</button>
+                    </div>
+
+                    <div class="form-group text-center text-secondary mb-0">
+                      <p class="mb-0">¿Ya estás registrado? <a class="text-danger" href="#">Acceder</a></p>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        </div>
+</section>
+{% endblock content %}

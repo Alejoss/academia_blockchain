@@ -25,7 +25,7 @@ SECRET_KEY = os.environ['ACADEMIA_BLOCKCHAIN_SKEY']
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-HEROKU = True
+HEROKU = False
 
 ALLOWED_HOSTS = ["*"]
 
@@ -134,6 +134,7 @@ STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
 
 
 # Other config
-LOGIN_REDIRECT_URL = "html_course_index"
+LOGIN_REDIRECT_URL = "event_index"
+LOGOUT_REDIRECT_URL = "event_index"
 
 django_heroku.settings(locals())

@@ -17,14 +17,14 @@ from django.contrib import admin
 from django.conf import settings
 from django.conf.urls.static import static
 from django.urls import path, include
-from exams import views as exam_views
+from courses import views as courses_views
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', exam_views.exam_index, name="exam_index"),
+    path('', courses_views.event_index, name="event_index"),
     path('courses/', include('courses.urls')),
-    path('exams/', include('exams.urls')),
+    # path('exams/', include('exams.urls')),
     path('profiles/', include('profiles.urls')),
 ]
 

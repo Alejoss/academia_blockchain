@@ -2,37 +2,44 @@
 
 
 {% block content %}
+<section class="py-8 py-md-10">
+  <div class="container">
+<div class="row">
+  <div class="col-sm-6 offset-lg-2 col-lg-4">
+    <div class="mb-4 mb-sm-0">
+      <div class="border rounded-bottom-sm border-top-0">
+        <div class="p-3">
+          <form action="{% url 'login' %}" method="POST" role="form">
+              {% csrf_token %}
 
-{% if form.errors %}
-<p>Your username and password didn't match. Please try again.</p>
-{% endif %}
+              {% if form.errors %}
+                <div class="form-group text-center text-secondary mb-0">
+                  <p class="mb-0">{{ form.errors }} </p>
+                </div>
+              {% endif %}
 
-{% if next %}
-    {% if user.is_authenticated %}
-    <p>Your account doesn't have access to this page. To proceed,
-    please login with an account that has access.</p>
-    {% else %}
-    <p>Please login to see this page.</p>
-    {% endif %}
-{% endif %}
+            <div class="form-group form-group-icon">
+                {{ form.username }}
+            </div>
 
-<form method="post" action="{% url 'login' %}">
-{% csrf_token %}
-<table>
-<tr>
-    <td>{{ form.username.label_tag }}</td>
-    <td>{{ form.username }}</td>
-</tr>
-<tr>
-    <td>{{ form.password.label_tag }}</td>
-    <td>{{ form.password }}</td>
-</tr>
-</table>
+            <div class="form-group form-group-icon">
+                {{ form.password }}
+            </div>
 
-<input type="submit" value="login">
-<input type="hidden" name="next" value="{{ next }}">
-</form>
+            <div class="form-group">
+              <button type="submit" class="btn btn-success text-uppercase w-100">Entrar</button>
+            </div>
 
+            <div class="form-group text-center text-secondary mb-0">
+              <p class="mb-0">¿No estás registrado? <a class="text-danger" href="#">Unirse a Academia Blockchain</a></p>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+  </div></section>
 {#    TODO password reset activar #}
     {#<p><a href="{% url 'password_reset' %}">Lost password?</a></p>#}
     {# Assumes you setup the password_reset view in your URLconf #}

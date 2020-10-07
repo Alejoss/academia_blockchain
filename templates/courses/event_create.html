@@ -1,0 +1,210 @@
+{% extends 'base.html' %}
+
+{% block extra_head %}
+  <script src='https://cdn.tiny.cloud/1/yedm03jmmtjrfydjtb1xhl94q6b8w29cudjs7xo4bsboo0qy/tinymce/5/tinymce.min.js' referrerpolicy="origin">
+  </script>
+{% endblock extra_head %}
+
+{% block content %}
+{#    <h2>Crea</h2>#}
+    <section class="py-8 py-md-10">
+    <div class="container">
+    <div class="row">
+    <div class="col-sm-8 offset-lg-2 col-lg-8">
+         <div class="bg-warning rounded-top p-2">
+            <h3 class="text-white font-weight-bold mb-0 ml-2">Crea, Comparte</h3>
+          </div>
+    <div class="mb-4 mb-sm-0">
+        <hr>
+        <form method="post" id="event_create_form" role="form" action="{% url 'event_create' %}">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="Tipo">
+                    ¿Qué quieres crear?
+                </label>
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="event_type_description" id="radio_pre_recorded" value="pre_recorded" checked>
+                  <label class="form-check-label" for="event_type_description">
+                    CURSO PRE GRABADO - <strong>Ya grabaste el curso.</strong>
+                  </label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="event_type_description" id="radio_live_course" value="live_course" checked>
+                  <label class="form-check-label" for="event_type_description">
+                    CURSO EN VIVO - <strong>Vas a dar el curso.</strong>
+                  </label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="event_type_description" id="radio_event_single" value="event_single" checked>
+                  <label class="form-check-label" for="event_type_description">
+                    EVENTO - <strong> Se viene una conferencia, una conversación, una clase maestra.</strong>
+                  </label>
+                </div>
+            </div>
+
+            <div class="form-check">
+                <input type="checkbox" class="form-check-input" id="event_recurrent" name="event_recurrent"/>
+                <label class="form-check-label" for="event_recurrent">
+                    Evento Recurrente - <strong> Un evento que se repite, y se repite y ...</strong>
+                </label>
+            </div>
+
+            <hr>
+
+            <div class="form-group">
+                <label for="title">
+                    Titulo
+                </label>
+                <input type="text" class="form-control" id="title" name="title"/>
+            </div>
+            <div class="form-group">
+                <label for="image">
+                    Imagen
+                </label>
+
+                <div class="custom-file">
+                   <input type="file" class="custom-file-input" id="image_file">
+                   <label class="custom-file-label" for="image_file">Elegir imagen...</label>
+                     <small id="" class="form-text text-muted">
+                      Max 3Mb. Recomendado 800/500 px ???.
+                    </small>
+                   <div class="invalid-feedback">Imagen inválida</div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="description">
+                    Descripción
+                </label>
+                <textarea class="form-control" id="description" rows="7" name="description"></textarea>
+            </div>
+
+            <label class="my-1 mr-2" for="">Plataforma</label>
+              <select class="custom-select my-1 mr-sm-2" id="platform_select" name="platform_name">
+                    {% for platform in platforms %}
+                        <option value="{{ platform.name }}">{{ platform.name }}</option>
+                    {% endfor %}
+              </select>
+                <small class="form-text text-muted">
+                  Qué plataforma vas a utilizar para compartir el curso / evento?
+                </small>
+
+            <div class="form-group">
+                <label for="other_platform">
+                    Otra Plataforma
+                </label>
+                <input type="text" class="form-control" id="other_platform" name="other_platform"
+                    data-date-format="dd/mm/yyyy"/>
+                <small class="form-text text-muted">
+                  Utilizas alguna otra plataforma para compartir el curso / evento?
+                </small>
+            </div>
+
+            <div class="form-group date">
+                <label for="date_start">
+                    Fecha de Inicio
+                </label>
+                <input data-provide="datepicker" type="text" class="form-control" data-date-format="dd/mm/yyyy"
+                       id="date_start" name="date_start"/>
+            </div>
+
+            <div class="form-group date">
+                <label for="date_start">
+                    Fecha de Grabación
+                </label>
+                <input data-provide="datepicker" type="text" data-date-format="dd/mm/yyyy"
+                       class="form-control"
+                       id="record_date" name="record_date"/>
+            </div>
+
+            <div class="form-group date">
+                <label for="date_end">
+                    Fecha Final
+                </label>
+                <input data-provide="datepicker" type="text" class="form-control" id="date_end" name="date_end"
+                    data-date-format="dd/mm/yyyy"/>
+            </div>
+
+            <div class="form-group">
+                <label for="time_day">
+                    Hora
+                </label>
+                <input type="text" class="form-control timepicker" id="time_day" name="time_day"/>
+            </div>
+
+            <div class="form-group">
+                <label for="time_day">
+                    Zona Horaria
+                </label>
+                <select class="custom-select my-1 mr-sm-2" id="" name="time_zone">
+                  <option value="GMT+2" selected>GMT + 2</option>
+                  <option value="GMT+1">GMT + 1</option>
+                  <option value="GMT+3">GMT - 3</option>
+                  <option value="GMT+4">GMT - 4</option>
+                  <option value="GMT+5">GMT - 5</option>
+                  <option value="GMT+6">GMT - 6</option>
+                  <option value="GMT+7">GMT - 7</option>
+                  <option value="GMT+8">GMT - 8</option>
+                  <option value="GMT+9">GMT - 9</option>
+                  <option value="GMT">GMT + 0</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="title">
+                    Más detalles sobre la fecha y el horario.
+                </label>
+                <input type="text" class="form-control" id="" name="schedule_description"/>
+                <small id="passwordHelpBlock" class="form-text text-muted">
+                    Una descripción extra sobre el calendario y la hora.
+                </small>
+
+            </div>
+
+            <button type="submit" class="btn btn-primary" id="submit_form">
+                Crear
+            </button>
+        </form>
+
+        <hr>
+
+        <p>
+            *Recuerda que en tu <a href="">perfil</a> puedes definir los métodos con los que la gente puede contactarte.
+            Por ahora son Telegram, Whatsapp, y Gmail.
+        </p>
+    </div>
+    </div>
+    </div>
+    </div>
+    </section>
+
+{% endblock content %}
+
+{% block extra_js %}
+<script src="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.js"></script>
+
+    <script>
+        $( document ).ready(function() {
+            $('.datepicker').datepicker({
+                format: 'dd/mm/yyyy',
+            });
+
+            $("#submit_form").on("click", function () {
+                console.log("SUBMIT!!")
+                $("#event_create_form").submit();
+            })
+
+            $('.timepicker').timepicker({
+                timeFormat: 'h:mm p',
+                interval: 30,
+                minTime: '6',
+                defaultTime: '12',
+                dynamic: false,
+                dropdown: true,
+                scrollbar: true
+            });
+            tinymce.init({
+              selector: '#description'
+            });
+        });
+    </script>
+{% endblock %}

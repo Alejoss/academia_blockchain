@@ -1,113 +1,92 @@
-{% extends 'base.html' %}
+{% extends 'profiles/profile_base.html' %}
 
-{% block content %}
-
-<div class="main-wrapper blog-grid-left-sidebar">
-
+{% block profile_content %}
 
 <!-- ====================================
 ———	BLOG GRID LEFT SIDEBAR
 ===================================== -->
-<section class="py-8 py-md-10">
-	<div class="container">
-		<div class="row">
-			<div class="col-md-8 col-lg-9 order-md-1">
-				<div class="row">
+<div class="col-md-8 col-lg-9 order-md-1">
+    <div class="row">
 
-                    <div class="media media-avator-view flex-column flex-sm-row">
-                    <a class="media-img mb-5 mb-sm-0 mr-md-5 mr-lg-6 rounded-sm shadow-sm" href="">
-                        <img class="rounded-sm" src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2F4.bp.blogspot.com%2F-IQIrbJmVx4M%2FUCv-ZlNFbYI%2FAAAAAAAAJsg%2FtSq8wwZ-aF0%2Fs1600%2FProfessionalPortfolioAmandaStone12.jpg&f=1&nofb=1" alt="avator-img1.jpg">
-                    </a>
-                      <div class="media-body">
-                        <a class="font-size-20 font-weight-medium d-inline-block mb-1" href="teachers-details.html">Amanda Stone</a>
+        <div class="media media-avator-view flex-column flex-sm-row">
+        <a class="media-img mb-5 mb-sm-0 mr-md-5 mr-lg-6 rounded-sm shadow-sm" href="">
+            <img class="rounded-sm" src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2F4.bp.blogspot.com%2F-IQIrbJmVx4M%2FUCv-ZlNFbYI%2FAAAAAAAAJsg%2FtSq8wwZ-aF0%2Fs1600%2FProfessionalPortfolioAmandaStone12.jpg&f=1&nofb=1" alt="avator-img1.jpg">
+        </a>
+          <div class="media-body">
+            <p class="font-size-20 font-weight-medium d-inline-block mb-1">{{ user.username }}</p>
+              <br>
+            <p class="font-size-15 text-muted font-weight-medium d-inline-block mb-1">{{ user.get_full_name }}</p>
 
-                        <span class="text-muted font-size-15 mb-1 d-block">Mitología Maya, Canto Gutural, Literatura Pagana, Teletubies, Administración de Empresas</span>
-                        <p>
-                            Soy una persona muy contradictoria como el planeta mismo y me gusta el blablabla y no hago el bla bla bla pero si el blablabla de vez en cuando.
-                            Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
-                        </p>
+            <span class="text-muted font-size-15 mb-1 d-block">
+                <strong>
+                    Intereses:
+                </strong>
+               {{ profile.interests }}</span>
+            <p>
+                {{ profile.profile_description }}
+            </p>
+{#            TODO edicion perfil#}
+            <span class="text-muted font-size-15 mb-1 d-block">
+                <p>
+                   <strong>Criptos preferidas</strong>:
+                    {% for crypto in accepted_cryptos %}
+                        {{ crypto.code }}
+                    {% endfor %}
+                </p>
+                <p>
+                <strong>Métodos de Contacto</strong>:
+                <ul>
+                    <li>
+                        Whatsapp: +593998375445 Envíame un mensaje en horarios de oficina 8am - 5pm GMT-5
+                    </li>
+                </ul>
+                </p>
+            </span>
+          </div>
+        </div>
 
-                        <p>
-                           <strong>Criptos preferidas</strong>: BTC, XMR, DASH, ZEN
-                        </p>
-                          <hr>
-                      </div>
-                    </div>
-                <form>
-                    <div class="row">
-                      <div class="col-sm-6 col-xs-12">
-                        <div class="form-group form-group-icon">
-                          <i class="fa fa-user"></i>
-                          <input type="text" class="form-control border-info" placeholder="Amanda Stone">
-                        </div>
-                      </div>
+    <form>
+        <div class="row">
+          <div class="col-sm-6 col-xs-12">
+            <div class="form-group form-group-icon">
+              <i class="fa fa-user"></i>
+              <input type="text" class="form-control border-info" placeholder="Amanda Stone">
+            </div>
+          </div>
 
-                      <div class="col-sm-6 col-xs-12">
-                        <div class="form-group form-group-icon">
-                          <i class="fa fa-money"></i>
-                          <input type="email" class="form-control border-info" placeholder="BTC, XMR, DASH, ZEN">
-                        </div>
-                      </div>
+          <div class="col-sm-6 col-xs-12">
+            <div class="form-group form-group-icon">
+              <i class="fa fa-money"></i>
+              <input type="email" class="form-control border-info" placeholder="BTC, XMR, DASH, ZEN">
+            </div>
+          </div>
 
-                      <div class="col-12">
-                        <div class="form-group form-group-icon">
-                          <i class="fa fa-smile-o"></i>
-                          <input type="text" class="form-control border-info" placeholder="Mitología Maya, Canto Gutural, Literatura Pagana, Teletubies, Administración de Empresas">
-                        </div>
-                      </div>
+          <div class="col-12">
+            <div class="form-group form-group-icon">
+              <i class="fa fa-smile-o"></i>
+              <input type="text" class="form-control border-info" placeholder="Mitología Maya, Canto Gutural, Literatura Pagana, Teletubies, Administración de Empresas">
+            </div>
+          </div>
 
-                      <div class="col-12">
-                        <div class="form-group form-group-icon">
+          <div class="col-12">
+            <div class="form-group form-group-icon">
 
-                          <textarea class="form-control border-info" placeholder="Soy una persona muy contradictoria como el planeta mismo y me gusta el blablabla y no hago el bla bla bla pero si el blablabla de vez en cuando.
-                            Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum." rows="8"></textarea>
-                        </div>
-                      </div>
+              <textarea class="form-control border-info" placeholder="Soy una persona muy contradictoria como el planeta mismo y me gusta el blablabla y no hago el bla bla bla pero si el blablabla de vez en cuando.
+                Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum." rows="8"></textarea>
+            </div>
+          </div>
 
-                      <div class="col-12">
-                        <div class="text-sm-center mt-6">
-                          <button type="submit" class="btn btn-danger text-uppercase">
-                            Guardar Cambios
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-                  </form>
-				</div>
-			</div>
+          <div class="col-12">
+            <div class="text-sm-center mt-6">
+              <button type="submit" class="btn btn-danger text-uppercase">
+                Guardar Cambios
+              </button>
+            </div>
+          </div>
+        </div>
+      </form>
 
-			<div class="col-md-4 col-lg-3">
-				<div class="card shadow-none bg-transparent">
-					<h4 class="card-header font-weight-bold bg-success rounded-top text-white">Tu Perfil</h4>
-					<div class="card-body border border-top-0 rounded-bottom">
-						<ul class="list-unstyled mb-0">
-							<li class="mb-2">
-								<a class="font-weight-medium d-block border rounded py-2 pl-3 text-dark text-underline" href="{% url 'profile_data' %}">Datos de Perfil</a>
-							</li>
-							<li class="my-2">
-								<a class="text-muted font-weight-medium d-block border rounded py-2 pl-3" href="{% url 'profile_security' %}">Seguridad</a>
-							</li>
-							<li class="my-2">
-								<a class="text-muted font-weight-medium d-block border rounded py-2 pl-3" href="{% url 'profile_courses' %}">Cursos y Eventos</a>
-							</li>
-							<li class="my-2">
-								<a class="text-muted font-weight-medium d-block border rounded py-2 pl-3" href="{% url 'profile_accreditation' %}">Acreditaciones</a>
-							</li>
-							<li class="mt-2">
-								<a class="text-muted font-weight-medium d-block border rounded py-2 pl-3" href="{% url 'profile_certificates' %}">Certificados</a>
-							</li>
-                            <li class="mt-2">
-								<a class="text-muted font-weight-medium d-block border rounded py-2 pl-3" href="{% url 'profile_content' %}">Contenido Descentralizado</a>
-							</li>
-						</ul>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+    </div>
+</div>
 
-</section>
-
-</div> <!-- element wrapper ends -->
-
-{% endblock content %}
+{% endblock profile_content %}

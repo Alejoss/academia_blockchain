@@ -1,0 +1,141 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+  <!-- ====================================
+  ———	BREADCRUMB
+  ===================================== -->
+  <section class="breadcrumb-bg" style="background-image: url('https://www.legalexecutiveinstitute.com/wp-content/uploads/2016/04/blockchain.jpg'); ">
+    <div class="container">
+      <div class="breadcrumb-holder">
+        <div>
+          <h1 class="breadcrumb-title"> Utiliza criptomonedas para aprender y gana criptomonedas compartiendo conocimiento. </h1>
+        </div>
+      </div>
+    </div>
+  </section>
+
+<!-- ====================================
+———	SEARCH RESULT
+===================================== -->
+
+
+<section class="pt-7 pb-7 pt-md-10">
+	<div class="container">
+		<form class="shadow-sm rounded mb-8">
+			<div class="input-group input-group-lg">
+				<div class="input-group-prepend">
+					<span class="input-group-text bg-light border-0 px-4">
+						<i class="fa fa-search text-muted font-size-18" aria-hidden="true"></i>
+					</span>
+				</div>
+				<input type="text" class="form-control bg-light border-0 form-control-lg" aria-label="Amount (to the nearest dollar)"
+				 placeholder="Cursos / Eventos / Conversaciones" required="">
+{#				<div class="input-group-append">#}
+{#					<button type="submit" class="btn shadow-none btn-lg btn-info text-uppercase">En Persona</button>#}
+{#				</div>#}
+                <div class="input-group-append">
+					<button type="submit" class="btn shadow-none btn-lg btn-info text-uppercase">Buscar</button>
+				</div>
+			</div>
+		</form>
+{#        <p>Configura tu perfil para localizar el mapa en tu ciudad / Cambiar localizacion del mapa</p>#}
+{##}
+{#        <div class="media mb-5">#}
+{#            <img src= "https://miro.medium.com/max/4064/1*qYUvh-EtES8dtgKiBRiLsA.png" alt="Image">#}
+{#        </div>#}
+{#        <div class="mb-10" id="map" style="width:100%; height:420px;"></div>#}
+        <h2 class="text-capitalize text-muted font-weight-bold mb-0">Actividad Reciente: </h2>
+	</div>
+</section>
+
+<section class="pb-md-10 pb-6">
+<div class=" container">
+    <div class="list-fullwidth">
+
+        {% for event in events %}
+            <div class="media media-list-view mb-5">
+{#                {% if event.event_type == "COURSE" %}#}
+{#                    <a class="media-img" href="{% url 'event_detail' %}">#}
+{#                    <img src= "https://www.tornadobitcoin.com/wp-content/uploads/2020/01/Untitled-design.png" alt="Image">#}
+{#                    <div class="media-img-overlay">#}
+        {#                <span class="badge badge-success badge-rounded-circle">$50</span>#}
+{#                    </div>#}
+{#                    </a>#}
+{#                {% endif %}#}
+                <div class="media-body">
+                    <h3 class="mb-3 mb-lg-2 mb-xl-3">
+                        {% if event.event_type == "COURSE" %}
+{#                            lo que cambia es el color del title#}
+                            <a class="text-info text-capitalize font-weight-bold" href="{% url 'event_detail' event.id %}">
+                            {{ event.title }}</a>
+                        {% elif event.event_type == "EVENT" %}
+                            <a class="text-success text-capitalize font-weight-bold" href="{% url 'event_detail' event.id %}">
+                            {{ event.title }}</a>
+                        {% endif %}
+                    </h3>
+
+                    <ul class="list-unstyled d-flex text-muted mb-2">
+                        <li class="mr-3">
+                            {% if event.event_type == "COURSE" %}
+                                {% if event.is_recorded %}
+                                    <i class="fa fa-play-circle mr-2" aria-hidden="true"></i>Curso Grabado
+                                {% else %}
+                                    <i class="fa fa-video-camera mr-2" aria-hidden="true"></i>Curso en Línea
+                                {% endif %}
+                            {% elif event.event_type == "EVENT" %}
+                                {% if event.is_recurrent %}
+                                    <i class="fa fa-calendar mr-2" aria-hidden="true"></i>Evento Recurrente
+                                {% else %}
+                                    <i class="fa fa-tag mr-2" aria-hidden="true"></i>Evento
+                                {% endif %}
+                            {% endif %}
+                        </li>
+                        <li>
+                            {% if event.is_recorded %}
+                                {% if event.is_recorded %}
+                                    <i class="fa fa-clock-o mr-2" aria-hidden="true"></i>
+                                    {{ event.date_recorded|date:"SHORT_DATE_FORMAT" }}
+                                {% endif %}
+                            {% elif event.is_recurrent %}
+                                {% if event.schedule_description %}
+                                    <i class="fa fa-clock-o mr-2" aria-hidden="true"></i>
+                                    {{ event.schedule_description }}
+                                {% endif %}
+                            {% else %}
+                                {% if event.date_start %}
+                                    <i class="fa fa-clock-o mr-2" aria-hidden="true"></i>
+                                    {{ event.date_start|date:"SHORT_DATE_FORMAT" }}
+                                {% endif %}
+                                {% if event.date_end %}
+                                    - {{ event.date_end|date:"SHORT_DATE_FORMAT" }}
+                                {% endif %}
+                            {% endif %}
+                        </li>
+                    </ul>
+
+                    <p class="text-justify mb-lg-2">
+                        {{ event.description | safe }}
+                    </p>
+
+{#                    <div class="">#}
+{#                        <a href="" class="btn btn-sm btn-white text-uppercase mb-1 mr-4 btn-hover-success">#}
+{#                            <i class="fa fa-star mr-2" aria-hidden="true"></i>Guardar#}
+{#                        </a>#}
+{#                        <a class="btn btn-link text-hover-success text-underline pl-0" href="}">#}
+{#                            <i class="fa fa-angle-double-right mr-1" aria-hidden="true"></i> Leer más#}
+{#                        </a>#}
+{#                    </div>#}
+                </div>
+            </div>
+        {% endfor %}
+
+    </div>
+</div>
+</section>
+
+{% endblock content %}
+
+{% block extra_js %}
+    <script src="https://maps.googleapis.com/maps/api/js"></script>
+{% endblock extra_js %}

@@ -1,0 +1,108 @@
+{% extends 'profiles/profile_base.html' %}
+
+{% block profile_content %}
+    <div class="col-md-8 col-lg-9 order-md-1">
+        <div class="row">
+
+            <div class="media media-avator-view flex-column flex-sm-row">
+              <div class="media-body">
+{#                <p>#}
+{#                   <strong>Guardados: </strong>:#}
+{#                </p>#}
+{#            TODO eventos y cursos guardados#}
+{#                  <div class="media media-list-view mb-5">#}
+{#                       <div class="media-body">#}
+{#                            <h3 class="mb-3 mb-lg-2 mb-xl-3">#}
+{#                                <a class="text-success text-capitalize font-weight-bold" href="">#}
+{#                                    Finanzas Descentralizadas</a>#}
+{#                            </h3>#}
+{##}
+{#                            <ul class="list-unstyled d-flex text-muted mb-2">#}
+{#                                <li class="mr-3">#}
+{#                                    <i class="fa fa-map-marker mr-2" aria-hidden="true"></i>Evento Prescencial en Buenos Aires / Argentina#}
+{#                                </li>#}
+{#                                <li>#}
+{#                                    <i class="fa fa-clock-o mr-2" aria-hidden="true"></i>Miércoles 5 Junio / 9.00AM-11.00AM#}
+{#                                </li>#}
+{#                            </ul>#}
+{#                        </div>#}
+{#                                    <hr>#}
+{#                  </div>#}
+
+                  <div class="col-12">
+                    <div class="text-sm-center mt-6">
+{#                                TODO solo usuarios con email confirmado pueden crear un curso#}
+                      <button type="submit" class="btn btn-warning text-uppercase"
+                              onclick="location.href = '{% url 'event_create' %}' ">
+                        Crear Nuevo Curso o Evento
+                      </button>
+                    </div>
+                      <hr>
+
+                      <p>
+                         <strong>Tus Cursos y Eventos: </strong>
+                          <br>
+                      </p>
+
+                  </div>
+
+                  {% for event in events %}
+                  <div class="media media-list-view mb-5">
+                    <div class="media-body">
+                    <h3 class="mb-3 mb-lg-2 mb-xl-3">
+                        {% if event.event_type == "COURSE" %}
+                            <a class="text-info text-capitalize font-weight-bold" href="{% url 'event_detail' event.id %}">
+                            {{ event.title }}</a>
+                        {% elif event.event_type == "EVENT" %}
+                            <a class="text-success text-capitalize font-weight-bold" href="{% url 'event_detail' event.id %}">
+                            {{ event.title }}</a>
+                        {% endif %}
+                    </h3>
+                    <ul class="list-unstyled d-flex text-muted mb-2">
+                        <li class="mr-3">
+                            {% if event.event_type == "COURSE" %}
+                                {% if event.is_recorded %}
+                                    <i class="fa fa-play-circle mr-2" aria-hidden="true"></i>Curso Grabado
+                                {% else %}
+                                    <i class="fa fa-video-camera mr-2" aria-hidden="true"></i>Curso en Línea
+                                {% endif %}
+                            {% elif event.event_type == "EVENT" %}
+                                {% if event.is_recurrent %}
+                                    <i class="fa fa-calendar mr-2" aria-hidden="true"></i>Evento Recurrente
+                                {% else %}
+                                    <i class="fa fa-tag mr-2" aria-hidden="true"></i>Evento
+                                {% endif %}
+                            {% endif %}
+                        </li>
+                        <li>
+                            {% if event.is_recorded %}
+                                {% if event.is_recorded %}
+                                    <i class="fa fa-clock-o mr-2" aria-hidden="true"></i>
+                                    {{ event.date_recorded|date:"SHORT_DATE_FORMAT" }}
+                                {% endif %}
+                            {% elif event.is_recurrent %}
+                                {% if event.schedule_description %}
+                                    <i class="fa fa-clock-o mr-2" aria-hidden="true"></i>
+                                    {{ event.schedule_description }}
+                                {% endif %}
+                            {% else %}
+                                {% if event.date_start %}
+                                    <i class="fa fa-clock-o mr-2" aria-hidden="true"></i>
+                                    {{ event.date_start|date:"SHORT_DATE_FORMAT" }}
+                                {% endif %}
+                                {% if event.date_end %}
+                                    - {{ event.date_end|date:"SHORT_DATE_FORMAT" }}
+                                {% endif %}
+                            {% endif %}
+                        </li>
+                    </ul>
+                    </div>
+                  </div>
+                  {% endfor %}
+              </div>
+            </div>
+
+        </div>
+    </div>
+
+{% endblock profile_content %}

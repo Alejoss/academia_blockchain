@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from courses.models import Course
+from courses.models import Event, ConnectionPlatform
 
-admin.site.register(Course)
-
+admin.site.register(Event)
+admin.site.register(ConnectionPlatform)

@@ -1,86 +1,42 @@
-{% extends 'base.html' %}
+{% extends 'profiles/profile_base.html' %}
 
-{% block content %}
+{% block profile_content %}
 
-<div class="main-wrapper blog-grid-left-sidebar">
+    <div class="col-md-8 col-lg-9 order-md-1">
+        <div class="row">
+        <form>
+            <div class="row">
+              <div class="col-12">
+                <div class="form-group form-group-icon">
+                  <i class="fa fa-envelope"></i>
+                  <input type="text" class="form-control border-info" placeholder="aamaya@gmail.com">
+                </div>
+              </div>
 
+              <div class="col-sm-6 col-xs-12">
+                <div class="form-group form-group-icon">
+                  <i class="fa fa-user-secret"></i>
+                  <input type="password" class="form-control border-info" placeholder="Cambiar Contraseña">
+                </div>
+              </div>
 
-<!-- ====================================
-———	BLOG GRID LEFT SIDEBAR
-===================================== -->
-<section class="py-8 py-md-10">
-	<div class="container">
-		<div class="row">
-			<div class="col-md-8 col-lg-9 order-md-1">
-				<div class="row">
-                <form>
-                    <div class="row">
-                      <div class="col-12">
-                        <div class="form-group form-group-icon">
-                          <i class="fa fa-envelope"></i>
-                          <input type="text" class="form-control border-info" placeholder="aamaya@gmail.com">
-                        </div>
-                      </div>
+              <div class="col-sm-6 col-xs-12">
+                <div class="form-group form-group-icon">
+                  <i class="fa fa-user-secret"></i>
+                  <input type="password" class="form-control border-info" placeholder="Repetir Contraseña">
+                </div>
+              </div>
 
-                      <div class="col-sm-6 col-xs-12">
-                        <div class="form-group form-group-icon">
-                          <i class="fa fa-user-secret"></i>
-                          <input type="password" class="form-control border-info" placeholder="Cambiar Contraseña">
-                        </div>
-                      </div>
+              <div class="col-12">
+                <div class="text-sm-center mt-6">
+                  <button type="submit" class="btn btn-danger text-uppercase">
+                    Guardar Cambios
+                  </button>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+    </div>
 
-                      <div class="col-sm-6 col-xs-12">
-                        <div class="form-group form-group-icon">
-                          <i class="fa fa-user-secret"></i>
-                          <input type="password" class="form-control border-info" placeholder="Repetir Contraseña">
-                        </div>
-                      </div>
-
-                      <div class="col-12">
-                        <div class="text-sm-center mt-6">
-                          <button type="submit" class="btn btn-danger text-uppercase">
-                            Guardar Cambios
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-                  </form>
-				</div>
-			</div>
-
-			<div class="col-md-4 col-lg-3">
-				<div class="card shadow-none bg-transparent">
-					<h4 class="card-header font-weight-bold bg-success rounded-top text-white">Tu Perfil</h4>
-					<div class="card-body border border-top-0 rounded-bottom">
-                        <ul class="list-unstyled mb-0">
-							<li class="mb-2">
-								<a class="text-muted font-weight-medium d-block border rounded py-2 pl-3" href="{% url 'profile_data' %}">Datos de Perfil</a>
-							</li>
-							<li class="my-2">
-								<a class="text-dark text-underline font-weight-medium d-block border rounded py-2 pl-3" href="{% url 'profile_security' %}">Seguridad</a>
-							</li>
-							<li class="my-2">
-								<a class="text-muted font-weight-medium d-block border rounded py-2 pl-3" href="{% url 'profile_courses' %}">Cursos y Eventos</a>
-							</li>
-							<li class="my-2">
-								<a class="text-muted font-weight-medium d-block border rounded py-2 pl-3" href="{% url 'profile_accreditation' %}">Acreditaciones</a>
-							</li>
-							<li class="mt-2">
-								<a class="text-muted font-weight-medium d-block border rounded py-2 pl-3" href="{% url 'profile_certificates' %}">Certificados</a>
-							</li>
-                            <li class="mt-2">
-								<a class="text-muted font-weight-medium d-block border rounded py-2 pl-3" href="{% url 'profile_content' %}">Contenido Descentralizado</a>
-							</li>
-						</ul>
-					</div>
-				</div>
-			</div>
-
-		</div>
-	</div>
-
-</section>
-
-</div> <!-- element wrapper ends -->
-
-{% endblock content %}
+{% endblock profile_content %}
