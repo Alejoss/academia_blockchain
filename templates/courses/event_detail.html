@@ -84,10 +84,10 @@
                                         <p class="text-muted font-weight-bold">{{ event.date_start|date:"SHORT_DATE_FORMAT" }}</p>
                                     {% endif %}
                                     {% if event.date_end %}
-                                        <p class="text-muted font-weight-bold">- {{ event.date_end|date:"SHORT_DATE_FORMAT" }}</p>
+                                        <p class="text-muted font-weight-bold">hasta el {{ event.date_end|date:"SHORT_DATE_FORMAT" }}</p>
                                     {% endif %}
                                     <p class="text-muted font-weight-bold">
-                                        - {{ event.date_start|time:"H:i" }}
+                                        A las {{ event.date_start|time:"H:i" }}
                                     </p>
                                     {% if event.schedule_description %}
                                         <p class="text-muted font-weight-bold">
@@ -152,7 +152,9 @@
 		</div>
 	</div>
     </div>
-</div>
+    </div>
+    </div>
+    </div>
 </section>
 
 {% endblock content %}
