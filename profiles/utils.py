@@ -29,6 +29,6 @@ class AcademiaLoginForm(AuthenticationForm):
         strip=False,
         widget=forms.PasswordInput(attrs={'autocomplete': 'current-password',
                                           'class': 'form-control border', 'id': 'email', 'name': 'email',
-                                          'placeholder': "Correo Electrónico"
+                                          'placeholder': "Contraseña"
                                           }),
     )
