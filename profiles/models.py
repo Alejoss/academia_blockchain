@@ -11,6 +11,9 @@ class Profile(models.Model):
     def __str__(self):
         return self.user.username
 
+    def cryptos_list(self):
+        return [crypto for crypto in AcceptedCrypto.objects.filter(user=self.user)]
+
 
 class AcceptedCrypto(models.Model):
     user = models.ManyToManyField(User)

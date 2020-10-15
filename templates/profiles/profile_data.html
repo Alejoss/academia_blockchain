@@ -27,7 +27,7 @@
             </p>
 {#            TODO edicion perfil#}
             <span class="text-muted font-size-15 mb-1 d-block">
-                <p>
+                <p class="text-muted">
                    <strong>Criptos preferidas</strong>:
                     {% for crypto in accepted_cryptos %}
                         {{ crypto.code }}
@@ -46,15 +46,20 @@
 
     <div class="col-12">
         <div class="text-sm-center mt-6">
-          <button type="submit" class="btn btn-warning text-uppercase">
-            Editar
+          <button id="edit_button" type="submit" class="btn btn-warning text-uppercase">
+            Editar Perfil
           </button>
-{#            TODO dar click en Editar debe mostrar el formulario#}
+          <button id="edit_button" type="submit" class="btn btn-info text-uppercase">
+            Criptos Preferidas
+          </button>
+          <button id="edit_button" type="submit" class="btn btn-success text-uppercase">
+            Métodos de Contacto
+          </button>
         </div>
         <hr>
     </div>
 
-    <form>
+    <form class = "" id="edit_form">
         <div class="row">
           <div class="col-sm-6 col-xs-12">
             <div class="form-group form-group-icon">
@@ -72,25 +77,23 @@
           </div>
 
           <div class="col-sm-6 col-xs-12">
-            <div class="form-group form-group-icon">
-              <i class="fa fa-money"></i>
-              <input type="email" class="form-control border-info" placeholder="">
-            </div>
-          </div>
-
-          <div class="col-12">
-            <div class="form-group form-group-icon">
+           <div class="form-group form-group-icon">
               <i class="fa fa-smile-o"></i>
-              <input type="text" class="form-control border-info" placeholder="{{ profile.interests }}">
-            </div>
+               <textarea type="text" class="form-control border-info" placeholder="{{ profile.interests }}"></textarea>
+               <small id="" class="form-text text-muted">
+                    ¿Qué te apasiona? Separa tus intereses con comas.
+                </small>
+           </div>
           </div>
 
           <div class="col-12">
             <div class="form-group form-group-icon">
 
-              <textarea class="form-control border-info" placeholder="Soy una persona muy contradictoria como el planeta mismo y me gusta el blablabla y no hago el bla bla bla pero si el blablabla de vez en cuando.
-                Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum." rows="8"></textarea>
+              <textarea class="form-control border-info" placeholder="{{ profile.profile_description }}" rows="8"></textarea>
             </div>
+              <small id="" class="form-text text-muted">
+                  ¿A qué te dedicas?
+              </small>
           </div>
 
           <div class="col-12">
@@ -107,3 +110,15 @@
 </div>
 
 {% endblock profile_content %}
+
+
+{% block extra_js %}
+    <script>
+    $( document ).ready(function() {
+        $("#edit_form").hide()
+        $("#edit_button").on("click", function(){
+           $("#edit_form").show();
+       });
+    });
+    </script>
+{% endblock extra_js %}

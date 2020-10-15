@@ -35,7 +35,6 @@ def register_profile(request):
 
 
 class AcademiaLogin(LoginView):
-
     template_name = "profiles/login.html"
     authentication_form = AcademiaLoginForm
 
@@ -49,10 +48,16 @@ def content(request):
 def profile_data(request):
     template = "profiles/profile_data.html"
     profile, created = Profile.objects.get_or_create(user=request.user)  # loggear si created
-    accepted_cryptos = AcceptedCrypto.objects.filter(user=request.user)
-    
+    accepted_cryptos = profile.cryptos_list()
+    cryptos_string = ""
+    for c in accepted_cryptos:
+        cryptos_string += (c.code + ", ")
+    if len(cryptos_string) > 2:
+        cryptos_string = cryptos_string[:-2]
+
     context = {"profile_index_active": "active", "underline_pdata": "text-underline",
-               "profile": profile, "accepted_cryptos": accepted_cryptos}
+               "profile": profile, "accepted_cryptos": accepted_cryptos,
+               "cryptos_string": cryptos_string}
     return render(request, template, context)
 
 
