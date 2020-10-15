@@ -16,6 +16,7 @@ class AcademiaUserCreationForm(UserCreationForm):
                                                'placeholder': "Correo Electrónico"})
         }
 
+
 class AcademiaLoginForm(AuthenticationForm):
     # Cambia el idioma del form de django como sea necesario
 

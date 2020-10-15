@@ -33,38 +33,55 @@
                         {{ crypto.code }}
                     {% endfor %}
                 </p>
-                <p>
+
                 <strong>Métodos de Contacto</strong>:
                 <ul>
                     <li>
                         Whatsapp: +593998375445 Envíame un mensaje en horarios de oficina 8am - 5pm GMT-5
                     </li>
                 </ul>
-                </p>
             </span>
           </div>
         </div>
+
+    <div class="col-12">
+        <div class="text-sm-center mt-6">
+          <button type="submit" class="btn btn-warning text-uppercase">
+            Editar
+          </button>
+{#            TODO dar click en Editar debe mostrar el formulario#}
+        </div>
+        <hr>
+    </div>
 
     <form>
         <div class="row">
           <div class="col-sm-6 col-xs-12">
             <div class="form-group form-group-icon">
               <i class="fa fa-user"></i>
-              <input type="text" class="form-control border-info" placeholder="Amanda Stone">
+              <input type="text" class="form-control border-info" placeholder="{{ user.username }}">
+            </div>
+            <div class="form-group form-group-icon">
+              <i class="fa fa-user"></i>
+              <input type="text" class="form-control border-info" placeholder="{{ user.first_name }}">
+            </div>
+            <div class="form-group form-group-icon">
+              <i class="fa fa-user"></i>
+              <input type="text" class="form-control border-info" placeholder="{{ user.last_name }}">
             </div>
           </div>
 
           <div class="col-sm-6 col-xs-12">
             <div class="form-group form-group-icon">
               <i class="fa fa-money"></i>
-              <input type="email" class="form-control border-info" placeholder="BTC, XMR, DASH, ZEN">
+              <input type="email" class="form-control border-info" placeholder="">
             </div>
           </div>
 
           <div class="col-12">
             <div class="form-group form-group-icon">
               <i class="fa fa-smile-o"></i>
-              <input type="text" class="form-control border-info" placeholder="Mitología Maya, Canto Gutural, Literatura Pagana, Teletubies, Administración de Empresas">
+              <input type="text" class="form-control border-info" placeholder="{{ profile.interests }}">
             </div>
           </div>
 

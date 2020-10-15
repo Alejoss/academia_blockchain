@@ -50,6 +50,7 @@ def profile_data(request):
     template = "profiles/profile_data.html"
     profile, created = Profile.objects.get_or_create(user=request.user)  # loggear si created
     accepted_cryptos = AcceptedCrypto.objects.filter(user=request.user)
+    
     context = {"profile_index_active": "active", "underline_pdata": "text-underline",
                "profile": profile, "accepted_cryptos": accepted_cryptos}
     return render(request, template, context)
