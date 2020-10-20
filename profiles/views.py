@@ -46,19 +46,35 @@ def content(request):
 
 
 def profile_data(request):
-    template = "profiles/profile_data.html"
-    profile, created = Profile.objects.get_or_create(user=request.user)  # loggear si created
-    accepted_cryptos = profile.cryptos_list()
-    cryptos_string = ""
-    for c in accepted_cryptos:
-        cryptos_string += (c.code + ", ")
-    if len(cryptos_string) > 2:
-        cryptos_string = cryptos_string[:-2]
+    # TODO editar perfil
+    if request.method == "POST":
+        username = request.POST.get("username")
+        first_name = request.POST.get("first_name")
+        last_name = request.POST.get("last_name")
+        interests = request.POST.get("interests")
+        profile_description = request.POST.get("profile_description")
 
-    context = {"profile_index_active": "active", "underline_pdata": "text-underline",
-               "profile": profile, "accepted_cryptos": accepted_cryptos,
-               "cryptos_string": cryptos_string}
-    return render(request, template, context)
+        print("username:%s " % username)
+        print("first_name:%s " % first_name)
+        print("last_name:%s " % last_name)
+        print("interests:%s " % interests)
+        print("profile_description:%s " % profile_description)
+        return HttpResponse("printed!")
+
+    else:
+        template = "profiles/profile_data.html"
+        profile, created = Profile.objects.get_or_create(user=request.user)  # loggear si created
+        accepted_cryptos = profile.cryptos_list()
+        cryptos_string = ""
+        for c in accepted_cryptos:
+            cryptos_string += (c.code + ", ")
+        if len(cryptos_string) > 2:
+            cryptos_string = cryptos_string[:-2]
+
+        context = {"profile_index_active": "active", "underline_pdata": "text-underline",
+                   "profile": profile, "accepted_cryptos": accepted_cryptos,
+                   "cryptos_string": cryptos_string}
+        return render(request, template, context)
 
 
 def profile_edit_contact(request):

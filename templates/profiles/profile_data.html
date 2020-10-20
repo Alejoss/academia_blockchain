@@ -59,28 +59,29 @@
         <hr>
     </div>
 
-    <form id="edit_form">
+    <form method="post" action="{% url 'profile_data' %}" id="edit_form">
+        {% csrf_token %}
         {#                TODO submit form backend#}
         <div class="row">
           <div class="col-sm-6 col-xs-12">
             <div class="form-group form-group-icon">
               <i class="fa fa-user"></i>
-              <input type="text" class="form-control border-info" placeholder="{{ user.username }}">
+              <input name="username" type="text" class="form-control border-info" placeholder="{{ user.username }}">
             </div>
             <div class="form-group form-group-icon">
               <i class="fa fa-user"></i>
-              <input type="text" class="form-control border-info" placeholder="{{ user.first_name }}">
+              <input name="first_name" type="text" class="form-control border-info" placeholder="{{ user.first_name }}">
             </div>
             <div class="form-group form-group-icon">
               <i class="fa fa-user"></i>
-              <input type="text" class="form-control border-info" placeholder="{{ user.last_name }}">
+              <input name="last_name" type="text" class="form-control border-info" placeholder="{{ user.last_name }}">
             </div>
           </div>
 
           <div class="col-sm-6 col-xs-12">
            <div class="form-group form-group-icon">
               <i class="fa fa-smile-o"></i>
-               <textarea type="text" class="form-control border-info" placeholder="{{ profile.interests }}"></textarea>
+               <textarea name="interests" type="text" class="form-control border-info" placeholder="{{ profile.interests }}"></textarea>
                <small id="" class="form-text text-muted">
                     ¿Qué te apasiona? Separa tus intereses con comas.
                 </small>
@@ -90,7 +91,7 @@
           <div class="col-12">
             <div class="form-group form-group-icon">
 
-              <textarea class="form-control border-info" placeholder="{{ profile.profile_description }}" rows="8"></textarea>
+              <textarea name="profile_description" class="form-control border-info" placeholder="{{ profile.profile_description }}" rows="8"></textarea>
             </div>
               <small id="" class="form-text text-muted">
                   ¿A qué te dedicas?
