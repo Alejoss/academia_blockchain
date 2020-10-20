@@ -49,17 +49,18 @@
           <button id="edit_button" type="submit" class="btn btn-warning text-uppercase">
             Editar Perfil
           </button>
-          <button id="edit_button" type="submit" class="btn btn-info text-uppercase">
+          <button id="edit_cryptos" type="submit" class="btn btn-info text-uppercase">
             Criptos Preferidas
           </button>
-          <button id="edit_button" type="submit" class="btn btn-success text-uppercase">
+          <button id="edit_contact" type="submit" class="btn btn-success text-uppercase">
             Métodos de Contacto
           </button>
         </div>
         <hr>
     </div>
 
-    <form class = "" id="edit_form">
+    <form id="edit_form">
+        {#                TODO submit form backend#}
         <div class="row">
           <div class="col-sm-6 col-xs-12">
             <div class="form-group form-group-icon">
@@ -118,7 +119,13 @@
         $("#edit_form").hide()
         $("#edit_button").on("click", function(){
            $("#edit_form").show();
-       });
+        });
+        $("#edit_cryptos").on("click", function(){
+           window.location.href = "{% url 'profile_edit_cryptos' %}";
+        });
+        $("#edit_contact").on("click", function(){
+           window.location.href = "{% url 'profile_edit_contact' %}";
+        });
     });
     </script>
 {% endblock extra_js %}

@@ -1,0 +1,75 @@
+{% extends 'profiles/profile_base.html' %}
+
+{% block profile_content %}
+
+<!-- ====================================
+———	BLOG GRID LEFT SIDEBAR
+===================================== -->
+<div class="col-md-8 col-lg-9 order-md-1">
+    <div class="row">
+        <div class="media-body">
+            <p class="font-size-20 font-weight-medium d-inline-block mb-1">Tus métodos de contacto</p>
+            <small id="" class="form-text text-muted">
+                Edita la forma en que prefieres que te contacten, puedes añadir un mensaje (opcional).
+            </small>
+            <hr>
+        </div>
+    </div>
+
+        <div class="row">
+            <form method="post" action="{% url 'profile_edit_contact' %}" id = "contact_method_form">
+{#                TODO submit form backend#}
+                {% csrf_token %}
+                <div class="contact_method_wrapper">
+                  <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="fa fa-link"></i></span>
+                    </div>
+                    <input name="contact_name_1" type="text" class="form-control" placeholder="Facebook">
+                    <input name="contact_url_1" type="text" class="form-control" placeholder="www.facebook.com/miperfil">
+                  </div>
+                  <textarea name="contact_text_1" type="text" class="form-control"
+                            placeholder="Envíame un mensaje, estoy conectado en las tardes"></textarea>
+                    <hr>
+                </div>
+            </form>
+        </div>
+        <button id="new_contact_method" type="submit" class="btn btn-success text-uppercase">
+                Nuevo Método de Contacto
+        </button>
+        <button id="save_form" type="submit" class="btn btn-danger text-uppercase">
+                Guardar
+        </button>
+</div>
+
+{% endblock profile_content %}
+
+
+{% block extra_js %}
+    <script>
+    $( document ).ready(function() {
+        $(".hidden").hide()
+        let counter = 2
+        $("#new_contact_method").on("click", function(){
+            $(".contact_method_wrapper").append(
+                '<div class="input-group mb-3">' +
+                '<div class="input-group-prepend">' +
+                '<span class="input-group-text"><i class="fa fa-link"></i></span>' +
+                '</div>\n' +
+                '<input name="contact_name_number"'.replace("number", counter) + ' type="text" class="form-control" placeholder="">' +
+                '<input name="contact_url_number"'.replace("number", counter) + ' type="text" class="form-control" placeholder="">' +
+                '</div>\n' +
+                '<textarea name="contact_text_number"'.replace("number", counter) + ' type="text" class="form-control"' +
+                'placeholder=""></textarea>' +
+                '<hr>'
+            );
+            counter += 1;
+            console.log("counter: " + counter)
+        });
+        $("#save_form").on("click", function(){
+            $("#contact_method_form").submit();
+        });
+
+    });
+    </script>
+{% endblock extra_js %}

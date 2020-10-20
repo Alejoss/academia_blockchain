@@ -11,6 +11,9 @@ urlpatterns = [
     path('profile_certificates/', views.profile_certificates, name="profile_certificates"),
     path('profile_content/', views.profile_content, name="profile_content"),
 
+    path('profile_edit_contact/', views.profile_edit_contact, name="profile_edit_contact"),
+    path('profile_edit_cryptos/', views.profile_edit_cryptos, name="profile_edit_cryptos"),
+
     path('content/', views.content, name="content"),  # Proximamente
 
     # manejo de cuentas

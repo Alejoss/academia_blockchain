@@ -61,6 +61,20 @@ def profile_data(request):
     return render(request, template, context)
 
 
+def profile_edit_contact(request):
+    template = "profiles/profile_edit_contact.html"
+    if request.method == "POST":
+        post_data = request.POST
+        print("post_data: %s" % post_data)
+
+    context = {}
+    return render(request, template, context)
+
+
+def profile_edit_cryptos(request):
+    pass
+
+
 def profile_security(request):
     template = "profiles/profile_security.html"
     context = {"profile_index_active": "active", "underline_psecurity": "text-underline"}
