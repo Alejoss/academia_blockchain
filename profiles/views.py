@@ -46,7 +46,6 @@ def content(request):
 
 
 def profile_data(request):
-    # TODO editar perfil
     if request.method == "POST":
         username = request.POST.get("username")
         first_name = request.POST.get("first_name")
@@ -54,11 +53,16 @@ def profile_data(request):
         interests = request.POST.get("interests")
         profile_description = request.POST.get("profile_description")
 
-        print("username:%s " % username)
-        print("first_name:%s " % first_name)
-        print("last_name:%s " % last_name)
-        print("interests:%s " % interests)
-        print("profile_description:%s " % profile_description)
+        profile = Profile.objects.get(user=request.user)
+        request.user.username = username
+        request.user.first_name = first_name
+        request.user.last_name = last_name
+        request.user.save()
+
+        profile.interests = interests
+        profile.profile_description = profile_description
+        profile.save()
+
         return HttpResponse("printed!")
 
     else:
