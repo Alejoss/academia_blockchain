@@ -28,7 +28,7 @@ class ContactMethod(models.Model):
     user = models.ManyToManyField(User)
     name = models.CharField(max_length=50, blank=True)
     description = models.CharField(max_length=250, blank=True)
-    url_link = models.URLField(blank=True)
+    url_link = models.CharField(max_length=250, blank=True)
 
     def __str__(self):
         return self.name

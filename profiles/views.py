@@ -6,7 +6,7 @@ from django.contrib.auth.views import LoginView
 from django.http import HttpResponse
 
 from profiles.utils import AcademiaUserCreationForm, AcademiaLoginForm
-from profiles.models import Profile, AcceptedCrypto
+from profiles.models import Profile, AcceptedCrypto, ContactMethod
 from courses.models import Event
 
 
@@ -86,9 +86,11 @@ def profile_edit_contact(request):
     if request.method == "POST":
         post_data = request.POST
         print("post_data: %s" % post_data)
-
-    context = {}
-    return render(request, template, context)
+    else:
+        contact_methods = ContactMethod.objects.filter(user=request.user)
+        print("contact_methods: %s" % contact_methods)
+        context = {"contact_methods": contact_methods}
+        return render(request, template, context)
 
 
 def profile_edit_cryptos(request):

@@ -10,28 +10,43 @@
         <div class="media-body">
             <p class="font-size-20 font-weight-medium d-inline-block mb-1">Tus métodos de contacto</p>
             <small id="" class="form-text text-muted">
-                Edita la forma en que prefieres que te contacten, puedes añadir un mensaje (opcional).
+                Edita la forma en que prefieres que te contacten, incluye un link o un número y un mensaje (opcional).
             </small>
             <hr>
         </div>
     </div>
 
         <div class="row">
-            <form method="post" action="{% url 'profile_edit_contact' %}" id = "contact_method_form">
+            <div method="post" action="{% url 'profile_edit_contact' %}" id = "contact_method_form">
 {#                TODO submit form backend#}
-                {% csrf_token %}
                 <div class="contact_method_wrapper">
-                  <div class="input-group mb-3">
-                    <div class="input-group-prepend">
-                      <span class="input-group-text"><i class="fa fa-link"></i></span>
-                    </div>
-                    <input name="contact_name_1" type="text" class="form-control" placeholder="Facebook">
-                    <input name="contact_url_1" type="text" class="form-control" placeholder="www.facebook.com/miperfil">
-                  </div>
-                  <textarea name="contact_text_1" type="text" class="form-control"
-                            placeholder="Envíame un mensaje, estoy conectado en las tardes"></textarea>
-                    <hr>
+                {% if contact_methods %}
+                    {% for c in contact_methods %}
+                          <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                              <span class="input-group-text"><i class="fa fa-link"></i></span>
+                            </div>
+                            <input name="contact_name_1" type="text" class="form-control" value="{{ c.name }}" placeholder="Facebook, Telegram ...">
+                            <input name="contact_url_1" type="text" class="form-control" value="{{ c.url_link }}" placeholder="link / mail / número">
+                          </div>
+                          <textarea name="contact_text_1" type="text" class="form-control"
+                                    placeholder="Envíame un mensaje, estoy conectado en las tardes">{{ c.description }}</textarea>
+                            <hr>
+                    {% endfor %}
+                {% else %}
+                      <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text"><i class="fa fa-link"></i></span>
+                        </div>
+                        <input name="contact_name_1" type="text" class="form-control" placeholder="Facebook, Telegram ...">
+                        <input name="contact_url_1" type="text" class="form-control" placeholder="link / mail / número">
+                      </div>
+                      <textarea name="contact_text_1" type="text" class="form-control"
+                                placeholder="Envíame un mensaje, estoy conectado en las tardes"></textarea>
+                        <hr>
+                {% endif %}
                 </div>
+            </div>
             </form>
         </div>
         <button id="new_contact_method" type="submit" class="btn btn-success text-uppercase">
@@ -49,6 +64,7 @@
     <script>
     $( document ).ready(function() {
         $(".hidden").hide()
+        let form_data = {"number": 0}
         let counter = 2
         $("#new_contact_method").on("click", function(){
             $(".contact_method_wrapper").append(
