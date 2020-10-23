@@ -17,7 +17,8 @@
     </div>
 
         <div class="row">
-            <div method="post" action="{% url 'profile_edit_contact' %}" id = "contact_method_form">
+            <form method="post" id = "contact_method_form">
+                {% csrf_token %}
 {#                TODO submit form backend#}
                 <div class="contact_method_wrapper">
                 {% if contact_methods %}
@@ -26,10 +27,12 @@
                             <div class="input-group-prepend">
                               <span class="input-group-text"><i class="fa fa-link"></i></span>
                             </div>
-                            <input name="contact_name_1" type="text" class="form-control" value="{{ c.name }}" placeholder="Facebook, Telegram ...">
-                            <input name="contact_url_1" type="text" class="form-control" value="{{ c.url_link }}" placeholder="link / mail / número">
+                            <input name="contact_name_{{ forloop.counter }}" type="text" class="form-control"
+                                   id="contact_name_{{ forloop.counter }}" value="{{ c.name }}" placeholder="Facebook, Telegram ...">
+                            <input name="contact_url_{{ forloop.counter }}" type="text" class="form-control"
+                                   id="contact_url_{{ forloop.counter }}" value="{{ c.url_link }}" placeholder="link / mail / número">
                           </div>
-                          <textarea name="contact_text_1" type="text" class="form-control"
+                          <textarea name="contact_text_{{ forloop.counter }}" type="text" class="form-control" id="contact_text_{{ forloop.counter }}"
                                     placeholder="Envíame un mensaje, estoy conectado en las tardes">{{ c.description }}</textarea>
                             <hr>
                     {% endfor %}
@@ -38,25 +41,23 @@
                         <div class="input-group-prepend">
                           <span class="input-group-text"><i class="fa fa-link"></i></span>
                         </div>
-                        <input name="contact_name_1" type="text" class="form-control" placeholder="Facebook, Telegram ...">
-                        <input name="contact_url_1" type="text" class="form-control" placeholder="link / mail / número">
+                        <input id="contact_name_1" name="contact_name_1" type="text" class="form-control" placeholder="Facebook, Telegram ...">
+                        <input id="contact_url_1" name="contact_url_1" type="text" class="form-control" placeholder="link / mail / número">
                       </div>
-                      <textarea name="contact_text_1" type="text" class="form-control"
+                      <textarea name="contact_text_1" type="text" class="form-control" id="contact_text_2"
                                 placeholder="Envíame un mensaje, estoy conectado en las tardes"></textarea>
                         <hr>
                 {% endif %}
                 </div>
-            </div>
             </form>
         </div>
-        <button id="new_contact_method" type="submit" class="btn btn-success text-uppercase">
+        <button id="new_contact_method" class="btn btn-success text-uppercase">
                 Nuevo Método de Contacto
         </button>
-        <button id="save_form" type="submit" class="btn btn-danger text-uppercase">
+        <button id="save_form" class="btn btn-danger text-uppercase">
                 Guardar
         </button>
 </div>
-
 {% endblock profile_content %}
 
 
@@ -64,28 +65,52 @@
     <script>
     $( document ).ready(function() {
         $(".hidden").hide()
-        let form_data = {"number": 0}
-        let counter = 2
+
+        let counter = {{ contact_methods|length }}
+        console.log(counter);
         $("#new_contact_method").on("click", function(){
+            counter += 1;
             $(".contact_method_wrapper").append(
                 '<div class="input-group mb-3">' +
                 '<div class="input-group-prepend">' +
                 '<span class="input-group-text"><i class="fa fa-link"></i></span>' +
                 '</div>\n' +
-                '<input name="contact_name_number"'.replace("number", counter) + ' type="text" class="form-control" placeholder="">' +
-                '<input name="contact_url_number"'.replace("number", counter) + ' type="text" class="form-control" placeholder="">' +
+                '<input name="contact_name_number" id="contact_name_number"'.replace("number", counter) +
+                ' type="text" class="form-control" placeholder="">' +
+                '<input name="contact_url_number" id="contact_url_number'.replace("number", counter) +
+                ' type="text" class="form-control" placeholder="">' +
                 '</div>\n' +
-                '<textarea name="contact_text_number"'.replace("number", counter) + ' type="text" class="form-control"' +
+                '<textarea name="contact_text_number" id="contact_text_number"'.replace("number", counter) +
+                ' type="text" class="form-control"' +
                 'placeholder=""></textarea>' +
                 '<hr>'
             );
-            counter += 1;
             console.log("counter: " + counter)
         });
-        $("#save_form").on("click", function(){
-            $("#contact_method_form").submit();
+        $("#save_form").on("click", function(e){
+            e.preventDefault();
+            let form_data = {"csrfmiddlewaretoken": $('input[name=csrfmiddlewaretoken]').val()};
+            for (i = 1; i <= counter; i++){
+                let contact_name = $("#contact_name_"+i).val();
+                let contact_url = $("#contact_url_"+i).val();
+                let contact_text = $("#contact_text_"+i).val();
+                form_data["contact_method " + String(i)] = [contact_name, contact_url, contact_text];
+            }
+            console.log(form_data);
+            {#TODO armar el dict con los datos de contacto#}
+            $.ajax({
+                url: "{% url 'profile_edit_contact' %}",
+                method: "post",
+                data: form_data,
+                success: function(response){
+                    console.log("SUCCESS");
+                },
+                error: function(response){
+                    console.log("ERROR");
+                    console.log(response);
+                }
+            })
         });
-
     });
     </script>
 {% endblock extra_js %}

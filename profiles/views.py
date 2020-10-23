@@ -85,7 +85,13 @@ def profile_edit_contact(request):
     template = "profiles/profile_edit_contact.html"
     if request.method == "POST":
         post_data = request.POST
-        print("post_data: %s" % post_data)
+        print("post_data %s" % request.POST)
+        number_contacts = request.POST.get("number_contacts")
+        print("number_contacts %s" % number_contacts)
+        for k, v in request.POST.items():
+            print("k: %s" % k)
+            print("v: %s" % v)
+        return HttpResponse("SUCESSS")
     else:
         contact_methods = ContactMethod.objects.filter(user=request.user)
         print("contact_methods: %s" % contact_methods)
