@@ -83,22 +83,45 @@ def profile_data(request):
 
 def profile_edit_contact(request):
     template = "profiles/profile_edit_contact.html"
-    if request.method == "POST":
 
-        for k, v in request.POST.lists():
-            if len(v) > 2:
-                contact_name = v[0]
-                contact_link = v[1]
-                contact_description = v[2]
-                obj, created = ContactMethod.objects.get_or_create(name=contact_name,
-                                                                   url_link=contact_link,
-                                                                   description=contact_description)
-                print("obj: %s" % obj)
-                print("created: %s" % created)
+    if request.method == "POST":
+        contact_id = request.POST.get("contact_id")
+        contact_name = request.POST.get("contact_name")
+        contact_url = request.POST.get("contact_url")
+        contact_description = request.POST.get("contact_text")
+
+        print("contact_id: %s" % contact_id)
+        print("contact_name: %s" % contact_name)
+        print("contact_url: %s" % contact_url)
+        print("contact_description: %s" % contact_description)
+
+        if int(contact_id) > 0:  # ContactMethod existente
+            try:
+                obj = ContactMethod.objects.get(id=contact_id)
+            except Exception as e:
+                return HttpResponse("Contact Method not found", status=404)
+            if contact_name == "0":
+                # Delete ContactMethod
+                obj.deleted = True
+                obj.save()
+            else:
+                obj.name = contact_name
+                obj.url_link = contact_url
+                obj.description = contact_description
+                obj.save()
+        else:  # Crear nuevo ContactMethod
+            if len(contact_name) > 1:
+                new_obj = ContactMethod.objects.create(
+                    name=contact_name,
+                    url_link=contact_url,
+                    description=contact_description
+                )
+                new_obj.user.add(request.user)
+                return HttpResponse("New Contact Method created")
 
         return HttpResponse("SUCESSS")
     else:
-        contact_methods = ContactMethod.objects.filter(user=request.user)
+        contact_methods = ContactMethod.objects.filter(user=request.user, deleted=False)
         print("contact_methods: %s" % contact_methods)
         context = {"contact_methods": contact_methods}
         return render(request, template, context)
