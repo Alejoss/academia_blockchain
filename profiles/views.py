@@ -126,7 +126,7 @@ def profile_edit_contact(request):
 
 
 def profile_edit_cryptos(request):
-    template = "profiles/profile_edit_contact.html"
+    template = "profiles/profile_edit_cryptos.html"
 
     if request.method == "POST":
         # contact_id = request.POST.get("contact_id")

@@ -8,21 +8,22 @@
 <div class="col-md-8 col-lg-9 order-md-1">
     <div class="row">
         <div class="media-body">
-            <p class="font-size-20 font-weight-medium d-inline-block mb-1">Tus métodos de contacto</p>
-            <small id="" class="form-text text-muted">
-                Edita la forma en que prefieres que te contacten, incluye un link o un número y un mensaje (opcional).
+            <p class="font-size-20 font-weight-medium d-inline-block mb-1">Tus criptomonedas aceptadas</p>
+            <small class="form-text text-muted">
+                Las personas que encuentren tus cursos y eventos van a ver tus criptos preferidas.
+                Puedes incluir la dirección (opcional).
             </small>
             <hr>
         </div>
     </div>
 
         <div class="row">
-            <form method="post" id = "contact_method_form">
+            <form method="post" id = "crypto_method_form">
                 {% csrf_token %}
 {#                TODO submit form backend#}
-                <div id="contact_method_wrapper">
-                {% if contact_methods %}
-                    {% for c in contact_methods %}
+                <div id="crypto_method_wrapper">
+                {% if accepted_cryptos %}
+                    {% for c in accepted_cryptos %}
                         <div id ="div_{{ forloop.counter }}">
                           <div class="input-group mb-3">
                             <div class="input-group-prepend">
@@ -33,12 +34,12 @@
                               <button data-counter="{{ forloop.counter }}" type="button" class="btn btn-success input-group-text save">
                                   <i class="fa fa-check"></i></button>
                             </div>
-                            <input id="contact_id_{{ forloop.counter }}" type="hidden" value="{{ c.id }}" class="hidden">
-                            <input type="text" class="form-control" id="contact_name_{{ forloop.counter }}" value="{{ c.name }}" placeholder="Facebook, Telegram ...">
-                            <input type="text" class="form-control" id="contact_url_{{ forloop.counter }}" value="{{ c.url_link }}" placeholder="url / mail / número">
+                            <input id="crypto_id_{{ forloop.counter }}" type="hidden" value="{{ c.id }}" class="hidden">
+                            <input type="text" class="form-control" id="crypto_name_{{ forloop.counter }}" value="{{ c.name }}" placeholder="Nombre">
+                            <input type="text" class="form-control" id="crypto_code_{{ forloop.counter }}" value="{{ c.url_link }}" placeholder="Código">
                           </div>
-                          <textarea type="text" class="form-control" id="contact_text_{{ forloop.counter }}"
-                                    placeholder="Envíame un mensaje, estoy conectado en las tardes">{{ c.description }}</textarea>
+                          <input type="text" class="form-control" id="crypto_address_{{ forloop.counter }}"
+                                    placeholder="Dirección de tu billetera (copia y pégala aquí)">
                             <hr>
                         </div>
                     {% endfor %}
@@ -46,8 +47,8 @@
                 </div>
             </form>
         </div>
-        <button id="new_contact_method" class="btn btn-success text-uppercase">
-                Sumar Nuevo Método de Contacto
+        <button id="new_crypto_method" class="btn btn-success text-uppercase">
+                Sumar Nueva Criptomoneda Preferida
         </button>
 </div>
 {% endblock profile_content %}
@@ -58,31 +59,31 @@
     $( document ).ready(function() {
         $(".hidden").hide()
 
-        let counter = {{ contact_methods|length }}  // para coordinar con el forloop counter
+        let counter = {{ accepted_cryptos|length }}  // para coordinar con el forloop counter
 
-        $("#contact_method_wrapper").on("click", ".delete", function(){
+        $("#crypto_method_wrapper").on("click", ".delete", function(){
             console.log("Item Counter");
             let item_counter = $(this).data("counter");
             console.log(item_counter);
             let item_div = $("#div_"+item_counter);
             item_div.hide();
-            let contact_id = $("#contact_id_"+item_counter).val();
-            console.log("Contact ID");
-            console.log(contact_id);
-            if(contact_id==="0") {
+            let crypto_id = $("#crypto_id_"+item_counter).val();
+            console.log("crypto ID");
+            console.log(crypto_id);
+            if(crypto_id==="0") {
                 console.log("Item no existe en el backend");
             } else {
                 console.log("BORRAR item");
                 data = {
                     "csrfmiddlewaretoken": $('input[name=csrfmiddlewaretoken]').val(),
-                    "contact_id": contact_id,
-                    "contact_name": 0,
-                    "contact_url": 0,
-                    "contact_text": 0,
+                    "crypto_id": crypto_id,
+                    "crypto_name": 0,
+                    "crypto_code": 0,
+                    "crypto_address": 0,
                 };
                 console.log(data);
                 $.ajax({
-                    url: "{% url 'profile_edit_contact' %}",
+                    url: "{% url 'profile_edit_cryptos' %}",
                     method: "post",
                     data: data,
                     success: function(response){
@@ -96,7 +97,7 @@
             }
         });
 
-        $("#contact_method_wrapper").on("click", ".save", function(){
+        $("#crypto_method_wrapper").on("click", ".save", function(){
             let span_icon = $(this).find(".fa");
 
             span_icon.removeClass("fa-check");
@@ -105,30 +106,30 @@
             console.log("Item Counter");
             let item_counter = $(this).data("counter");
             console.log(item_counter);
-            let contact_id = $("#contact_id_"+item_counter).val();
-            let contact_name = $("#contact_name_"+item_counter).val();
-            let contact_url = $("#contact_url_"+item_counter).val();
-            let contact_text = $("#contact_text_"+item_counter).val();
-            console.log("contact_id");
-            console.log(contact_id);
-            console.log("contact_name");
-            console.log(contact_name);
-            console.log("contact_url");
-            console.log(contact_url);
-            console.log("contact_text");
-            console.log(contact_text);
+            let crypto_id = $("#crypto_id_"+item_counter).val();
+            let crypto_name = $("#crypto_name_"+item_counter).val();
+            let crypto_url = $("#crypto_url_"+item_counter).val();
+            let crypto_text = $("#crypto_text_"+item_counter).val();
+            console.log("crypto_id");
+            console.log(crypto_id);
+            console.log("crypto_name");
+            console.log(crypto_name);
+            console.log("crypto_url");
+            console.log(crypto_url);
+            console.log("crypto_text");
+            console.log(crypto_text);
 
             console.log("GUARDAR item");
             data = {
                 "csrfmiddlewaretoken": $('input[name=csrfmiddlewaretoken]').val(),
-                "contact_id": contact_id,
-                "contact_name": contact_name,
-                "contact_url": contact_url,
-                "contact_text": contact_text,
+                "crypto_id": crypto_id,
+                "crypto_name": crypto_name,
+                "crypto_url": crypto_url,
+                "crypto_address": crypto_address,
             };
             console.log(data);
             $.ajax({
-                    url: "{% url 'profile_edit_contact' %}",
+                    url: "{% url 'profile_edit_cryptos' %}",
                     method: "post",
                     data: data,
                     success: function(response){
@@ -143,10 +144,10 @@
                 });
         })
 
-        $("#new_contact_method").on("click", function(){
+        $("#new_crypto_method").on("click", function(){
             counter += 1;
             console.log(counter);
-            $("#contact_method_wrapper").append(
+            $("#crypto_method_wrapper").append(
                 '<div id ="div_number">'.replace("number", counter) +
                 '<div class="input-group mb-3">' +
                 '<div class="input-group-prepend">' +
@@ -155,14 +156,14 @@
                 '<div class="input-group-prepend">' +
                 '<button data-counter="number"'.replace("number", counter) +
                 'type="button" class="btn btn-success input-group-text save"><i class="fa fa-check"></i></button> </div>' +
-                '<input id="contact_id_number"'.replace("number", counter) +
+                '<input id="crypto_id_number"'.replace("number", counter) +
                 'type="hidden" value="0" class="hidden">' +
-                '<input type="text" class="form-control" id="contact_name_number"'.replace("number", counter) +
-                'placeholder="Facebook, Telegram ...">' +
-                '<input type="text" class="form-control" id="contact_url_number"'.replace("number", counter) +
-                'placeholder="url / mail / número"></div>' +
-                '<textarea type="text" class="form-control" id="contact_text_number"'.replace("number", counter) +
-                'placeholder="Envíame un mensaje, estoy conectado en las tardes"></textarea><hr></div>'
+                '<input type="text" class="form-control" id="crypto_name_number"'.replace("number", counter) +
+                'placeholder="Nombre">' +
+                '<input type="text" class="form-control" id="crypto_url_number"'.replace("number", counter) +
+                'placeholder="Código"></div>' +
+                '<input type="text" class="form-control" id="crypto_address_number"'.replace("number", counter) +
+                'placeholder="Dirección de tu billetera (copia y pégala aquí)"></textarea><hr></div>'
             );
             console.log("counter: " + counter)
         });

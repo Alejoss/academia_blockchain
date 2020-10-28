@@ -19,6 +19,7 @@ class AcceptedCrypto(models.Model):
     user = models.ManyToManyField(User)
     name = models.CharField(max_length=50, blank=True)
     code = models.CharField(max_length=10, blank=True)
+    address = models.CharField(max_length=250, blank=True)
 
     def __str__(self):
         return self.name
