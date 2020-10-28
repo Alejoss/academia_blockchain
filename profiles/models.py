@@ -25,7 +25,7 @@ class AcceptedCrypto(models.Model):
 
 
 class ContactMethod(models.Model):
-    user = models.ManyToManyField(User)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     name = models.CharField(max_length=50, blank=True)
     description = models.CharField(max_length=250, blank=True)
     url_link = models.CharField(max_length=250, blank=True)

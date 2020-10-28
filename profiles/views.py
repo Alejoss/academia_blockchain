@@ -75,9 +75,12 @@ def profile_data(request):
         if len(cryptos_string) > 2:
             cryptos_string = cryptos_string[:-2]
 
+        contact_methods = ContactMethod.objects.filter(user=request.user, deleted=False)
+        print("contact_methods:%s" % contact_methods)
+
         context = {"profile_index_active": "active", "underline_pdata": "text-underline",
                    "profile": profile, "accepted_cryptos": accepted_cryptos,
-                   "cryptos_string": cryptos_string}
+                   "cryptos_string": cryptos_string, "contact_methods": contact_methods}
         return render(request, template, context)
 
 
@@ -89,11 +92,6 @@ def profile_edit_contact(request):
         contact_name = request.POST.get("contact_name")
         contact_url = request.POST.get("contact_url")
         contact_description = request.POST.get("contact_text")
-
-        print("contact_id: %s" % contact_id)
-        print("contact_name: %s" % contact_name)
-        print("contact_url: %s" % contact_url)
-        print("contact_description: %s" % contact_description)
 
         if int(contact_id) > 0:  # ContactMethod existente
             try:
@@ -112,11 +110,11 @@ def profile_edit_contact(request):
         else:  # Crear nuevo ContactMethod
             if len(contact_name) > 1:
                 new_obj = ContactMethod.objects.create(
+                    user=request.user,
                     name=contact_name,
                     url_link=contact_url,
                     description=contact_description
                 )
-                new_obj.user.add(request.user)
                 return HttpResponse("New Contact Method created")
 
         return HttpResponse("SUCESSS")
@@ -128,7 +126,44 @@ def profile_edit_contact(request):
 
 
 def profile_edit_cryptos(request):
-    pass
+    template = "profiles/profile_edit_contact.html"
+
+    if request.method == "POST":
+        # contact_id = request.POST.get("contact_id")
+        # contact_name = request.POST.get("contact_name")
+        # contact_url = request.POST.get("contact_url")
+        # contact_description = request.POST.get("contact_text")
+        #
+        # if int(contact_id) > 0:  # ContactMethod existente
+        #     try:
+        #         obj = ContactMethod.objects.get(id=contact_id)
+        #     except Exception as e:
+        #         return HttpResponse("Contact Method not found", status=404)
+        #     if contact_name == "0":
+        #         # Delete ContactMethod
+        #         obj.deleted = True
+        #         obj.save()
+        #     else:
+        #         obj.name = contact_name
+        #         obj.url_link = contact_url
+        #         obj.description = contact_description
+        #         obj.save()
+        # else:  # Crear nuevo ContactMethod
+        #     if len(contact_name) > 1:
+        #         new_obj = ContactMethod.objects.create(
+        #             name=contact_name,
+        #             url_link=contact_url,
+        #             description=contact_description
+        #         )
+        #         new_obj.user.add(request.user)
+        #         return HttpResponse("New Contact Method created")
+
+        return HttpResponse("SUCESSS")
+    else:
+        accepted_cryptos = AcceptedCrypto.objects.filter(user=request.user)
+        print("accepted_cryptos: %s" % accepted_cryptos)
+        context = {"accepted_cryptos": accepted_cryptos}
+        return render(request, template, context)
 
 
 def profile_security(request):
