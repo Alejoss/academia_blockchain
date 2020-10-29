@@ -26,11 +26,13 @@
                         <div id ="div_{{ forloop.counter }}">
                           <div class="input-group mb-3">
                             <div class="input-group-prepend">
-                              <button data-counter="{{ forloop.counter }}" type="button" class="btn btn-danger input-group-text delete">
+                              <button data-counter="{{ forloop.counter }}" type="button" class="btn btn-danger input-group-text delete"
+                                      data-toggle="tooltip" data-placement="left" data-original-title="Eliminar">
                                   <i class="fa fa-times"></i></button>
                             </div>
                             <div class="input-group-prepend">
-                              <button data-counter="{{ forloop.counter }}" type="button" class="btn btn-success input-group-text save">
+                              <button data-counter="{{ forloop.counter }}" type="button" class="btn btn-success input-group-text save"
+                                      data-toggle="tooltip" data-placement="right" data-original-title="Guardar">
                                   <i class="fa fa-check"></i></button>
                             </div>
                             <input id="contact_id_{{ forloop.counter }}" type="hidden" value="{{ c.id }}" class="hidden">

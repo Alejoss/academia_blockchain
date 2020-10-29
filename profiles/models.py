@@ -15,14 +15,19 @@ class Profile(models.Model):
         return [crypto for crypto in AcceptedCrypto.objects.filter(user=self.user)]
 
 
-class AcceptedCrypto(models.Model):
-    user = models.ManyToManyField(User)
-    name = models.CharField(max_length=50, blank=True)
+class CryptoCurrency(models.Model):
+    name = models.CharField(max_length=50, blank=True, unique=True)
     code = models.CharField(max_length=10, blank=True)
-    address = models.CharField(max_length=250, blank=True)
 
     def __str__(self):
         return self.name
+
+
+class AcceptedCrypto(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+    crypto = models.ForeignKey(CryptoCurrency, on_delete=models.CASCADE, null=True)
+    address = models.CharField(max_length=250, blank=True)
+    deleted = models.BooleanField(default=False)
 
 
 class ContactMethod(models.Model):

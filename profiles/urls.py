@@ -13,7 +13,6 @@ urlpatterns = [
 
     path('profile_edit_contact/', views.profile_edit_contact, name="profile_edit_contact"),
     path('profile_edit_cryptos/', views.profile_edit_cryptos, name="profile_edit_cryptos"),
-
     path('content/', views.content, name="content"),  # Proximamente
 
     # manejo de cuentas

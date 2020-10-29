@@ -6,7 +6,7 @@ from django.contrib.auth.views import LoginView
 from django.http import HttpResponse
 
 from profiles.utils import AcademiaUserCreationForm, AcademiaLoginForm
-from profiles.models import Profile, AcceptedCrypto, ContactMethod
+from profiles.models import Profile, AcceptedCrypto, ContactMethod, CryptoCurrency
 from courses.models import Event
 
 
@@ -71,9 +71,11 @@ def profile_data(request):
         accepted_cryptos = profile.cryptos_list()
         cryptos_string = ""
         for c in accepted_cryptos:
-            cryptos_string += (c.code + ", ")
+            cryptos_string += (c.crypto.code + ", ")  # arma string para el frontend
         if len(cryptos_string) > 2:
             cryptos_string = cryptos_string[:-2]
+
+        print("cryptos_string:%s" % cryptos_string)
 
         contact_methods = ContactMethod.objects.filter(user=request.user, deleted=False)
         print("contact_methods:%s" % contact_methods)
@@ -129,34 +131,52 @@ def profile_edit_cryptos(request):
     template = "profiles/profile_edit_cryptos.html"
 
     if request.method == "POST":
-        # contact_id = request.POST.get("contact_id")
-        # contact_name = request.POST.get("contact_name")
-        # contact_url = request.POST.get("contact_url")
-        # contact_description = request.POST.get("contact_text")
-        #
-        # if int(contact_id) > 0:  # ContactMethod existente
-        #     try:
-        #         obj = ContactMethod.objects.get(id=contact_id)
-        #     except Exception as e:
-        #         return HttpResponse("Contact Method not found", status=404)
-        #     if contact_name == "0":
-        #         # Delete ContactMethod
-        #         obj.deleted = True
-        #         obj.save()
-        #     else:
-        #         obj.name = contact_name
-        #         obj.url_link = contact_url
-        #         obj.description = contact_description
-        #         obj.save()
-        # else:  # Crear nuevo ContactMethod
-        #     if len(contact_name) > 1:
-        #         new_obj = ContactMethod.objects.create(
-        #             name=contact_name,
-        #             url_link=contact_url,
-        #             description=contact_description
-        #         )
-        #         new_obj.user.add(request.user)
-        #         return HttpResponse("New Contact Method created")
+        crypto_id = request.POST.get("crypto_id")
+        crypto_name = request.POST.get("crypto_name")
+        crypto_code = request.POST.get("crypto_code")
+        crypto_address = request.POST.get("crypto_address")
+
+        print("crypto_id: %s" % crypto_id)
+        print("crypto_name: %s" % crypto_name)
+        print("crypto_code: %s" % crypto_code)
+        print("crypto_address: %s" % crypto_address)
+
+        if int(crypto_id) > 0:  # AcceptedCrypto existente
+            try:
+                obj = AcceptedCrypto.objects.get(id=crypto_id)
+            except Exception as e:
+                return HttpResponse("Accepted Crypto not found", status=404)
+            if crypto_name == "0":
+                # Remove Accepted Crypto
+                obj.deleted = True
+                obj.save()
+            else:
+                if CryptoCurrency.objects.filter(name=crypto_name).exists():
+                    crypto_obj = CryptoCurrency.objects.get(name=crypto_name)
+                    obj.crypto = crypto_obj
+                else:
+                    # Crear una nueva criptomoneda
+                    new_crypto = CryptoCurrency.objects.create(name=crypto_name,
+                                                               code=crypto_code)
+                    obj.crypto = new_crypto
+                obj.address = crypto_address
+                obj.save()
+
+        else:  # Crear nuevo AcceptedCrypto
+            if len(crypto_name) > 1:
+                if CryptoCurrency.objects.filter(name=crypto_name).exists():
+                    crypto_obj = CryptoCurrency.objects.get(name=crypto_name)
+                else:
+                    # Crear una nueva criptomoneda
+                    crypto_obj = CryptoCurrency.objects.create(name=crypto_name,
+                                                               code=crypto_code)
+
+                AcceptedCrypto.objects.create(
+                    user=request.user,
+                    crypto=crypto_obj,
+                    address=crypto_address
+                )
+                return HttpResponse("New Contact Method created")
 
         return HttpResponse("SUCESSS")
     else:

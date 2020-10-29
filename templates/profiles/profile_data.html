@@ -22,7 +22,8 @@
                 <strong>
                     Intereses:
                 </strong>
-               {{ profile.interests }}</span>
+               {{ profile.interests }}
+            </span>
             <p>
                 {{ profile.profile_description }}
             </p>
@@ -30,9 +31,7 @@
             <span class="text-muted font-size-15 mb-1 d-block">
                 <p class="text-muted">
                    <strong>Criptos preferidas</strong>:
-                    {% for crypto in accepted_cryptos %}
-                        {{ crypto.code }}
-                    {% endfor %}
+                    {{ cryptos_string }}
                 </p>
 
                 <strong>Métodos de Contacto</strong>:
