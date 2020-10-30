@@ -10,7 +10,7 @@
 
         <div class="media media-avator-view flex-column flex-sm-row">
         <a class="media-img mb-5 mb-sm-0 mr-md-5 mr-lg-6 rounded-sm shadow-sm" href="">
-            <img class="rounded-sm" src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2F4.bp.blogspot.com%2F-IQIrbJmVx4M%2FUCv-ZlNFbYI%2FAAAAAAAAJsg%2FtSq8wwZ-aF0%2Fs1600%2FProfessionalPortfolioAmandaStone12.jpg&f=1&nofb=1" alt="avator-img1.jpg">
+            <img id="profile_picture" class="rounded-sm" src="{{ profile.profile_picture.url }}">
         </a>
           <div class="media-body">
 {#          TODO revisar si existe el username #}
@@ -68,22 +68,27 @@
           <div class="col-sm-6 col-xs-12">
             <div class="form-group form-group-icon">
               <i class="fa fa-user"></i>
-              <input name="username" type="text" class="form-control border-info" placeholder="{{ user.username }}">
+              <input name="username" type="text" class="form-control border-info" placeholder="Nombre de Usuario"
+              value="{{ user.username }}">
             </div>
             <div class="form-group form-group-icon">
               <i class="fa fa-user"></i>
-              <input name="first_name" type="text" class="form-control border-info" placeholder="{{ user.first_name }}">
+              <input name="first_name" type="text" class="form-control border-info" placeholder="Nombre"
+              value="{{ user.first_name }}">
             </div>
             <div class="form-group form-group-icon">
               <i class="fa fa-user"></i>
-              <input name="last_name" type="text" class="form-control border-info" placeholder="{{ user.last_name }}">
+              <input name="last_name" type="text" class="form-control border-info" placeholder="Apellido"
+              value="{{ user.last_name }}">
             </div>
           </div>
 
           <div class="col-sm-6 col-xs-12">
            <div class="form-group form-group-icon">
               <i class="fa fa-smile-o"></i>
-               <textarea name="interests" type="text" class="form-control border-info" placeholder="{{ profile.interests }}"></textarea>
+               <textarea name="interests" type="text" class="form-control border-info" placeholder="Tus Intereses">
+                   {{ profile.interests }}
+               </textarea>
                <small id="" class="form-text text-muted">
                     ¿Qué te apasiona? Separa tus intereses con comas.
                 </small>
@@ -92,8 +97,9 @@
 
           <div class="col-12">
             <div class="form-group form-group-icon">
-
-              <textarea name="profile_description" class="form-control border-info" placeholder="{{ profile.profile_description }}" rows="8"></textarea>
+              <textarea name="profile_description" class="form-control border-info" rows="8">
+                  {{ profile.description }}
+              </textarea>
             </div>
               <small id="" class="form-text text-muted">
                   ¿A qué te dedicas?
@@ -113,6 +119,34 @@
     </div>
 </div>
 
+{#    MODAL EDITAR IMAGEN DE PERFIL#}
+
+<div class="modal fade mb-8" id="EditProfilePicModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" style="display: none;" aria-hidden="true">
+<div class="modal-dialog" role="document">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title">Editar Imagen de Perfil</h5>
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">×</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <p>
+        <form id ="upload_picture_form" method="post" action="{% url 'profile_edit_picture' %}" enctype="multipart/form-data">
+        {% csrf_token %}
+            {{ profile_picture_form.as_p }}
+            <label for="exampleFormControlFile1">Sube tu nueva imagen de perfil. Max 250 MB.
+                Te recomendamos dimensiones iguales. Por ej: 500px alto / 500px ancho </label>
+        </form>
+      </p>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+      <button id="save_picture" type="button" class="btn btn-primary">Guardar Cambios</button>
+    </div>
+  </div>
+</div>
+</div>
 {% endblock profile_content %}
 
 
@@ -128,6 +162,15 @@
         });
         $("#edit_contact").on("click", function(){
            window.location.href = "{% url 'profile_edit_contact' %}";
+        });
+
+        $("#profile_picture").on("click", function(e){
+            e.preventDefault();
+            $("#EditProfilePicModal").modal("show")
+        });
+        $("#save_picture").on("click", function(e){
+           e.preventDefault();
+           $("#upload_picture_form").submit();
         });
     });
     </script>

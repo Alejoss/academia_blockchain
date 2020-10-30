@@ -1,13 +1,15 @@
 from http import HTTPStatus
 
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from django.contrib.auth.views import LoginView
+from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 
 from profiles.utils import AcademiaUserCreationForm, AcademiaLoginForm
 from profiles.models import Profile, AcceptedCrypto, ContactMethod, CryptoCurrency
 from courses.models import Event
+from profiles.forms import ProfilePictureForm
 
 
 # Manejo de cuentas
@@ -45,6 +47,7 @@ def content(request):
     return render(request, template, context)
 
 
+@login_required
 def profile_data(request):
     if request.method == "POST":
         username = request.POST.get("username")
@@ -53,17 +56,19 @@ def profile_data(request):
         interests = request.POST.get("interests")
         profile_description = request.POST.get("profile_description")
 
-        profile = Profile.objects.get(user=request.user)
+        print("username:%s" % username)
+
         request.user.username = username
         request.user.first_name = first_name
         request.user.last_name = last_name
         request.user.save()
 
+        profile = Profile.objects.get(user=request.user)
         profile.interests = interests
         profile.profile_description = profile_description
         profile.save()
 
-        return HttpResponse("printed!")
+        return redirect("profile_data")
 
     else:
         template = "profiles/profile_data.html"
@@ -80,12 +85,16 @@ def profile_data(request):
         contact_methods = ContactMethod.objects.filter(user=request.user, deleted=False)
         print("contact_methods:%s" % contact_methods)
 
+        profile_picture_form = ProfilePictureForm()
+
         context = {"profile_index_active": "active", "underline_pdata": "text-underline",
                    "profile": profile, "accepted_cryptos": accepted_cryptos,
-                   "cryptos_string": cryptos_string, "contact_methods": contact_methods}
+                   "cryptos_string": cryptos_string, "contact_methods": contact_methods,
+                   "profile_picture_form": profile_picture_form}
         return render(request, template, context)
 
 
+@login_required
 def profile_edit_contact(request):
     template = "profiles/profile_edit_contact.html"
 
@@ -127,6 +136,22 @@ def profile_edit_contact(request):
         return render(request, template, context)
 
 
+@login_required
+def profile_edit_picture(request):
+    if request.method == "POST":
+        print("EDITAR IMAGEN")
+        user_profile = Profile.objects.get(user=request.user)
+        print("user_profile: %s" % user_profile)
+        print("user.username: %s" % user_profile)
+        form = ProfilePictureForm(request.POST, request.FILES, instance=user_profile)
+        if form.is_valid():
+            form.save()
+        return redirect("profile_data")
+    else:
+        return HttpResponse(status=400)
+
+
+@login_required
 def profile_edit_cryptos(request):
     template = "profiles/profile_edit_cryptos.html"
 
@@ -186,12 +211,14 @@ def profile_edit_cryptos(request):
         return render(request, template, context)
 
 
+@login_required
 def profile_security(request):
     template = "profiles/profile_security.html"
     context = {"profile_index_active": "active", "underline_psecurity": "text-underline"}
     return render(request, template, context)
 
 
+@login_required
 def profile_events(request):
     template = "profiles/profile_events.html"
     events = Event.objects.filter(owner=request.user)
@@ -200,18 +227,21 @@ def profile_events(request):
     return render(request, template, context)
 
 
+@login_required
 def profile_accreditation(request):
     template = "profiles/profile_accreditations.html"
     context = {"profile_index_active": "active", "underline_paccreditation": "text-underline"}
     return render(request, template, context)
 
 
+@login_required
 def profile_certificates(request):
     template = "profiles/profile_certificates.html"
     context = {"profile_index_active": "active", "underline_pcertificates": "text-underline"}
     return render(request, template, context)
 
 
+@login_required
 def profile_content(request):
     template = "profiles/profile_content.html"
     context = {"profile_index_active": "active", "underline_pcontent": "text-underline"}

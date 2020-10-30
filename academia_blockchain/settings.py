@@ -134,6 +134,7 @@ STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
 
 
 # Other config
+LOGIN_URL = "login"
 LOGIN_REDIRECT_URL = "event_index"
 LOGOUT_REDIRECT_URL = "event_index"
 
