@@ -13,7 +13,7 @@ class Profile(models.Model):
         return self.user.username
 
     def cryptos_list(self):
-        return [crypto for crypto in AcceptedCrypto.objects.filter(user=self.user)]
+        return [crypto for crypto in AcceptedCrypto.objects.filter(user=self.user, deleted=False)]
 
 
 class CryptoCurrency(models.Model):

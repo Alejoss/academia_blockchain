@@ -111,8 +111,6 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/3.0/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
-
 TIME_ZONE = 'UTC'
 
 USE_I18N = True
@@ -137,5 +135,6 @@ STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
 LOGIN_URL = "login"
 LOGIN_REDIRECT_URL = "event_index"
 LOGOUT_REDIRECT_URL = "event_index"
+LANGUAGE_CODE = "es-ES"
 
 django_heroku.settings(locals())

@@ -10,7 +10,11 @@
 
         <div class="media media-avator-view flex-column flex-sm-row">
         <a class="media-img mb-5 mb-sm-0 mr-md-5 mr-lg-6 rounded-sm shadow-sm" href="">
-            <img id="profile_picture" class="rounded-sm" src="{{ profile.profile_picture.url }}">
+            {% if profile.profile_picture %}
+                <img id="profile_picture" class="rounded-sm" src="{{ profile.profile_picture.url }}">
+            {% else %}
+                <img id="profile_picture" class="rounded-sm" src="https://picsum.photos/200">
+            {% endif %}
         </a>
           <div class="media-body">
 {#          TODO revisar si existe el username #}
@@ -67,9 +71,9 @@
         <div class="row">
           <div class="col-sm-6 col-xs-12">
             <div class="form-group form-group-icon">
-              <i class="fa fa-user"></i>
-              <input name="username" type="text" class="form-control border-info" placeholder="Nombre de Usuario"
-              value="{{ user.username }}">
+              <i class="fa fa-at"></i>
+              <input name="email" type="text" class="form-control border-info" placeholder="Email"
+              value="{{ user.email }}">
             </div>
             <div class="form-group form-group-icon">
               <i class="fa fa-user"></i>
@@ -86,8 +90,7 @@
           <div class="col-sm-6 col-xs-12">
            <div class="form-group form-group-icon">
               <i class="fa fa-smile-o"></i>
-               <textarea name="interests" type="text" class="form-control border-info" placeholder="Tus Intereses">
-                   {{ profile.interests }}
+               <textarea name="interests" type="text" class="form-control border-info" placeholder="Tus Intereses">{{ profile.interests }}
                </textarea>
                <small id="" class="form-text text-muted">
                     ¿Qué te apasiona? Separa tus intereses con comas.
@@ -97,8 +100,7 @@
 
           <div class="col-12">
             <div class="form-group form-group-icon">
-              <textarea name="profile_description" class="form-control border-info" rows="8">
-                  {{ profile.description }}
+              <textarea name="profile_description" class="form-control border-info" rows="8">{{ profile.profile_description }}
               </textarea>
             </div>
               <small id="" class="form-text text-muted">

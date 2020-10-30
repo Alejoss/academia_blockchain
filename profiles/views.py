@@ -4,12 +4,12 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from django.contrib.auth.views import LoginView
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth import login
 from django.http import HttpResponse
 
-from profiles.utils import AcademiaUserCreationForm, AcademiaLoginForm
+from profiles.utils import AcademiaUserCreationForm, AcademiaLoginForm, ProfilePictureForm
 from profiles.models import Profile, AcceptedCrypto, ContactMethod, CryptoCurrency
 from courses.models import Event
-from profiles.forms import ProfilePictureForm
 
 
 # Manejo de cuentas
@@ -27,6 +27,17 @@ def register_profile(request):
 
             # Crear perfil de usuario
             new_profile = Profile.objects.create(user=new_user)
+
+            # Crear Accepted Cryptos por default
+            bitcoin, created = CryptoCurrency.objects.get_or_create(name="Bitcoin", code="BTC")
+            ether, created = CryptoCurrency.objects.get_or_create(name="Ether", code="ETH")
+            monero, created = CryptoCurrency.objects.get_or_create(name="Monero", code="XMR")
+
+            AcceptedCrypto.objects.create(user=new_user, crypto=bitcoin)
+            AcceptedCrypto.objects.create(user=new_user, crypto=ether)
+
+            login(request, new_user)
+
             template = "profiles/profile_data.html"
             context = {'new_profile': new_profile}
             return render(request, template, context)
@@ -50,15 +61,15 @@ def content(request):
 @login_required
 def profile_data(request):
     if request.method == "POST":
-        username = request.POST.get("username")
+        email = request.POST.get("email")
         first_name = request.POST.get("first_name")
         last_name = request.POST.get("last_name")
         interests = request.POST.get("interests")
         profile_description = request.POST.get("profile_description")
 
-        print("username:%s" % username)
+        print("email:%s" % email)
 
-        request.user.username = username
+        request.user.email = email
         request.user.first_name = first_name
         request.user.last_name = last_name
         request.user.save()
@@ -205,7 +216,7 @@ def profile_edit_cryptos(request):
 
         return HttpResponse("SUCESSS")
     else:
-        accepted_cryptos = AcceptedCrypto.objects.filter(user=request.user)
+        accepted_cryptos = AcceptedCrypto.objects.filter(user=request.user, deleted=False)
         print("accepted_cryptos: %s" % accepted_cryptos)
         context = {"accepted_cryptos": accepted_cryptos}
         return render(request, template, context)
