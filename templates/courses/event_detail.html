@@ -170,7 +170,7 @@
     <script>
         $( document ).ready(function() {
             $("#edit_event").on("click", function(){
-                window.location.href = "{% url 'profile_edit_cryptos' %}";
+                window.location.href = "{% url 'edit_event' event.id %}";
             });
         });
     </script>

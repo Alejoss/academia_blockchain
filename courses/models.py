@@ -44,6 +44,9 @@ class ConnectionPlatform(models.Model):
     url_link = models.URLField(blank=True)
     deleted = models.BooleanField(default=False)
 
+    def __str__(self):
+        return self.name
+
 
 class Certificate(models.Model):
     date_created = models.DateTimeField(auto_now_add=True)
