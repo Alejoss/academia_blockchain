@@ -19,7 +19,6 @@
         <div class="row">
             <form method="post" id = "contact_method_form">
                 {% csrf_token %}
-{#                TODO submit form backend#}
                 <div id="contact_method_wrapper">
                 {% if contact_methods %}
                     {% for c in contact_methods %}

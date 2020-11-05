@@ -1,5 +1,10 @@
+from datetime import datetime
 from django.db import models
 from django.contrib.auth.models import User
+
+
+def upload_profile_picture(instance, filename):
+    return "profile_pictures/"+instance.user.username+"_"+datetime.today().strftime('%h-%d-%y')+".jpeg"
 
 
 class Profile(models.Model):
@@ -7,7 +12,7 @@ class Profile(models.Model):
     interests = models.CharField(max_length=250, blank=True)
     profile_description = models.TextField(max_length=2500, blank=True)
     is_teacher = models.BooleanField(default=False)
-    profile_picture = models.ImageField(upload_to="profile_pictures/", null=True, blank=True)
+    profile_picture = models.ImageField(upload_to=upload_profile_picture, null=True, blank=True)
 
     def __str__(self):
         return self.user.username

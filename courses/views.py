@@ -30,11 +30,16 @@ def event_detail(request, event_id):
     template = "courses/event_detail.html"
     event = get_object_or_404(Event, id=event_id)
 
-    contact_methods = ContactMethod.objects.filter(user=event.owner)
-    accepted_cryptos = AcceptedCrypto.objects.filter(user=event.owner)
+    contact_methods = ContactMethod.objects.filter(user=event.owner, deleted=False)
+    accepted_cryptos = AcceptedCrypto.objects.filter(user=event.owner, deleted=False)
 
     context = {"event": event, "contact_methods": contact_methods, "accepted_cryptos": accepted_cryptos}
     return render(request, template, context)
+
+
+def edit_event(request, event_id):
+    # TODO editar event
+    pass
 
 
 def event_recorded_online(request):
@@ -71,11 +76,11 @@ def event_create(request):
         description = request.POST.get("description")
         platform_name = request.POST.get("platform_name")
         other_platform = request.POST.get("other_platform")
-        date_start = datetime.strptime(request.POST.get("date_start"), "%d/%m/%Y")
-        date_end = datetime.strptime(request.POST.get("date_end"), "%d/%m/%Y")
-        time_day = datetime.strptime(request.POST.get("time_day"), "%I:%M %p")
+        date_start = request.POST.get("date_start")
+        date_end = request.POST.get("date_end")
+        time_day = request.POST.get("time_day")
         time_zone = request.POST.get("time_zone")
-        record_date = datetime.strptime(request.POST.get("record_date"), "%d/%m/%Y")
+        record_date = request.POST.get("record_date")
         schedule_description = request.POST.get("schedule_description")
 
         # Event Type
@@ -101,20 +106,37 @@ def event_create(request):
             print(e)
 
         # Date & Time
-        time_zone_obj = pytz.timezone("Etc/"+time_zone)  # pytz format
-        date_start = date_start.replace(tzinfo=time_zone_obj)
-        date_end = date_end.replace(tzinfo=time_zone_obj)
-        record_date = record_date.replace(tzinfo=time_zone_obj)
+        time_zone_obj = pytz.timezone("Etc/" + time_zone)  # pytz format
+        if len(date_start) > 0:
+            date_start = datetime.strptime(date_start, "%d/%m/%Y")
+            date_start = date_start.replace(tzinfo=time_zone_obj)
+        else:
+            date_start = None
+        if len(date_end) > 0:
+            date_end = datetime.strptime(date_end, "%d/%m/%Y")
+            date_end = date_end.replace(tzinfo=time_zone_obj)
+        else:
+            date_end = None
+        if len(time_day) > 0:
+            time_day = datetime.strptime(time_day, "%I:%M %p")
+        else:
+            time_day = None
+        if len(record_date) > 0:
+            record_date = datetime.strptime(record_date, "%d/%m/%Y")
+            record_date = record_date.replace(tzinfo=time_zone_obj)
+        else:
+            record_date = None
 
         print("date_start: %s" % date_start)
         print("date_end: %s" % date_end)
         print("time_day: %s" % time_day)
         print("time_zone: %s" % time_zone)
+        print("record_date: %s" % record_date)
 
         created_event = Event.objects.create(
             event_type=event_type,
             is_recorded=is_recorded,
-            is_reccurrent=event_recurrent,
+            is_recurrent=event_recurrent,
             owner=request.user,
             title=title,
             description=description,
@@ -126,6 +148,12 @@ def event_create(request):
             schedule_description=schedule_description
         )
 
+        # Guardar imagen
+        # event_picture = request.FILES['event_picture']
+        # print("event_picture: %s" % event_picture)
+        # created_event.image = event_picture
+        # created_event.image.save()
+
         print("event_type_description: %s" % event_type_description)
         print("title: %s" % title)
         print("description: %s" % description)
@@ -133,6 +161,8 @@ def event_create(request):
         print("other_platform: %s" % other_platform)
 
         return HttpResponse("Printed!!")
+
+        # TODO editar evento
 
 
 """

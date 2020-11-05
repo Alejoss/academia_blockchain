@@ -42,7 +42,7 @@
                 <ul class="text-muted">
                     {% for c in contact_methods %}
                     <li>
-                        <a class="text-muted" target="_blank" href="{{ c.url_link }}">{{ c.name }}</a>: {{ c.description }}
+                        {{ c.name }} - <a class="text-muted" target="_blank" href="{{ c.url_link }}">{{ c.url_link }}</a>: {{ c.description }}
                     </li>
                     {% endfor %}
                 </ul>
@@ -67,7 +67,6 @@
 
     <form method="post" action="{% url 'profile_data' %}" id="edit_form">
         {% csrf_token %}
-        {#                TODO submit form backend#}
         <div class="row">
           <div class="col-sm-6 col-xs-12">
             <div class="form-group form-group-icon">
@@ -137,7 +136,7 @@
         <form id ="upload_picture_form" method="post" action="{% url 'profile_edit_picture' %}" enctype="multipart/form-data">
         {% csrf_token %}
             {{ profile_picture_form.as_p }}
-            <label for="exampleFormControlFile1">Sube tu nueva imagen de perfil. Max 250 MB.
+            <label for="exampleFormControlFile1">Sube tu nueva imagen de perfil. Max 2Mb.
                 Te recomendamos dimensiones iguales. Por ej: 500px alto / 500px ancho </label>
         </form>
       </p>

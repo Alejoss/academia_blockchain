@@ -1,7 +1,12 @@
+from datetime import datetime
 from django.db import models
 from django.contrib.auth.models import User
 
 from profiles.models import AcceptedCrypto, Profile
+
+
+def upload_event_picture(instance, filename):
+    return "event_pictures/"+instance.user.username+"_"+datetime.today().strftime('%h-%d-%y')+".jpeg"
 
 
 class Event(models.Model):
@@ -13,6 +18,7 @@ class Event(models.Model):
     is_recurrent = models.BooleanField(default=False, null=True)
     is_recorded = models.BooleanField(default=False, null=True)
     event_type = models.CharField(max_length=50, choices=EVENT_TYPES, blank=True)
+    image = models.ImageField(upload_to=upload_event_picture, null=True, blank=True)
 
     owner = models.ForeignKey(User, null=True, on_delete=models.CASCADE)
     title = models.CharField(max_length=150, blank=True)
@@ -37,3 +43,9 @@ class ConnectionPlatform(models.Model):
     name = models.CharField(max_length=150, blank=True)
     url_link = models.URLField(blank=True)
     deleted = models.BooleanField(default=False)
+
+
+class Certificate(models.Model):
+    date_created = models.DateTimeField(auto_now_add=True)
+    event = models.ForeignKey(Event, null=True, on_delete=models.CASCADE)
+    user_awarded = models.ForeignKey(User, null=True, on_delete=models.CASCADE)

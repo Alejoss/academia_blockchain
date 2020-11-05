@@ -25,10 +25,17 @@
 {#                        TODO MODAL que salga cuando aplastas en el precio y que calcule los precios con las criptos preferidas#}
 					</div>
 
+
                     {% if event.event_type == "COURSE" %}
                         <div class="card-body border-top-5 border-info position-relative">
                     {% else %}
                         <div class="card-body border-top-5 border-success position-relative">
+                    {% endif %}
+
+                    {% if event.owner == user %}
+                        <div class="text-right">
+                            <button id="edit_event" type="button" class="btn btn-primary"><i class="fa fa-edit"></i> Editar</button>
+                        </div>
                     {% endif %}
 						<h3 class="card-title text-dark">{{ event.title }}</h3>
 						<p class="">{{ event.description|safe }}</p>
@@ -158,3 +165,13 @@
 </section>
 
 {% endblock content %}
+
+{% block extra_js %}
+    <script>
+        $( document ).ready(function() {
+            $("#edit_event").on("click", function(){
+                window.location.href = "{% url 'profile_edit_cryptos' %}";
+            });
+        });
+    </script>
+{% endblock extra_js %}
