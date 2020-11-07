@@ -5,7 +5,8 @@ from http import HTTPStatus
 from datetime import datetime
 
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
+from django.contrib.auth import get_user
 from django.http import HttpResponse
 
 from courses.models import Event, ConnectionPlatform
@@ -29,6 +30,7 @@ def event_index(request):
 def event_detail(request, event_id):
     template = "courses/event_detail.html"
     event = get_object_or_404(Event, id=event_id)
+    print("event.date_start.hour:%s" % event.date_start.hour)
 
     contact_methods = ContactMethod.objects.filter(user=event.owner, deleted=False)
     accepted_cryptos = AcceptedCrypto.objects.filter(user=event.owner, deleted=False)
@@ -55,6 +57,7 @@ def event_singular_online(request):
     return render(request, template, context)
 
 
+@login_required
 def event_create(request):
     # TODO este form y el de edit podria utilizar el mismo codigo y django forms
     if request.method == "GET":
@@ -115,6 +118,7 @@ def event_create(request):
             date_end = None
         if len(time_day) > 0:
             time_day = datetime.strptime(time_day, "%I:%M %p")
+            date_start.replace(hour=time_day.hour, minute=time_day.minute)
         else:
             time_day = None
         if len(record_date) > 0:
@@ -156,9 +160,10 @@ def event_create(request):
         print("platform_name: %s" % platform_name)
         print("other_platform: %s" % other_platform)
 
-        return HttpResponse("Printed!!")
+        return redirect("event_detail", event_id=created_event.id)
 
 
+@login_required
 def edit_event(request, event_id):
     if request.method == "GET":
         template = "courses/event_edit.html"
@@ -183,6 +188,8 @@ def edit_event(request, event_id):
         time_zone = request.POST.get("time_zone")
         record_date = request.POST.get("record_date")
         schedule_description = request.POST.get("schedule_description")
+
+        print("time_day: %s" % time_day)
 
         # Event Type
         if event_type_description == "pre_recorded":
@@ -220,33 +227,30 @@ def edit_event(request, event_id):
             date_end = None
         if len(time_day) > 0:
             time_day = datetime.strptime(time_day, "%I:%M %p")
-        else:
-            time_day = None
+            print("time_day.hour: %s" % time_day.hour)
+            date_start = date_start.replace(hour=time_day.hour, minute=time_day.minute)
+            print("date_start.hour: %s" % date_start.hour)
         if len(record_date) > 0:
             record_date = datetime.strptime(record_date, "%d/%m/%Y")
             record_date = record_date.replace(tzinfo=time_zone_obj)
         else:
             record_date = None
 
-        print("date_start: %s" % date_start)
-        print("date_end: %s" % date_end)
-        print("time_day: %s" % time_day)
-        print("time_zone: %s" % time_zone)
-        print("record_date: %s" % record_date)
-
-        event.event_type = event_type,
-        event.is_recorded = is_recorded,
-        event.is_recurrent = event_recurrent,
-        event.owner = request.user,
-        event.title = title,
-        event.description = description,
-        event.platform = platform_obj,
-        event.other_platform = other_platform,
-        event.date_start = date_start,
-        event.date_end = date_end,
-        event.date_recorded = record_date,
+        event.event_type = event_type
+        event.is_recorded = is_recorded
+        event.is_recurrent = event_recurrent
+        event.owner = request.user
+        event.title = title
+        event.description = description
+        event.platform = platform_obj
+        event.other_platform = other_platform
+        event.date_start = date_start
+        event.date_end = date_end
+        event.date_recorded = record_date
         event.schedule_description = schedule_description
         event.save()
+
+        print("event.date_start.hour:%s" % event.date_start.hour)
 
         # Guardar imagen
         # event_picture = request.FILES['event_picture']
@@ -254,13 +258,7 @@ def edit_event(request, event_id):
         # created_event.image = event_picture
         # created_event.image.save()
 
-        print("event_type_description: %s" % event_type_description)
-        print("title: %s" % title)
-        print("description: %s" % description)
-        print("platform_name: %s" % platform_name)
-        print("other_platform: %s" % other_platform)
-
-        return HttpResponse("Printed!!")
+        return redirect("event_detail", event_id=event.id)
 
 
 """

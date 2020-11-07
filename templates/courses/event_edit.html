@@ -16,7 +16,7 @@
           </div>
     <div class="mb-4 mb-sm-0">
         <hr>
-        <form method="post" id="event_create_form" role="form" action="{% url 'event_create' %}">
+        <form method="post" id="event_create_form" role="form" action="{% url 'edit_event' event.id %}">
             {% csrf_token %}
             <div class="form-group">
                 <label for="Tipo">
@@ -106,7 +106,7 @@
                     Fecha de Inicio
                 </label>
                 <input data-provide="datepicker" type="text" class="form-control" data-date-format="dd/mm/yyyy"
-                       id="date_start" name="date_start"/>
+                       id="date_start" name="date_start" value="{{ event.date_start|date:"d/m/Y" }}"/>
             </div>
 
             <div class="form-group date" id="input_date_end">
@@ -114,14 +114,15 @@
                     Fecha Final
                 </label>
                 <input data-provide="datepicker" type="text" class="form-control" id="date_end" name="date_end"
-                    data-date-format="dd/mm/yyyy"/>
+                    data-date-format="dd/mm/yyyy" value="{{ event.date_end|date:"d/m/Y" }}">
             </div>
 
             <div class="form-group" id ="input_time_day">
                 <label for="time_day">
                     Hora
                 </label>
-                <input type="text" class="form-control timepicker" id="time_day" name="time_day"/>
+                <input type="text" class="form-control timepicker" id="time_day" name="time_day"
+                        value="{{ event.date_end|date:"f A" }}"/>
             </div>
 
             <div class="form-group">
@@ -158,7 +159,7 @@
             </div>
 
             <button type="submit" class="btn btn-primary" id="submit_form">
-                Crear
+                Guardar Cambios
             </button>
         </form>
 
@@ -181,7 +182,6 @@
 
 <script>
     $( document ).ready(function() {
-
         function isPreRecorded(){
             // Es un video grabado.
             $("#input_date_start").hide();
@@ -246,7 +246,7 @@
             timeFormat: 'h:mm p',
             interval: 30,
             minTime: '6',
-            defaultTime: '12',
+            defaultTime: '{{ event.date_start|date:"H" }}',
             dynamic: false,
             dropdown: true,
             scrollbar: true
