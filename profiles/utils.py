@@ -5,7 +5,6 @@ from django import forms
 from profiles.models import Profile
 
 
-# TODO mover aca el form + editar mensaje de error
 class AcademiaUserCreationForm(UserCreationForm):
     # Cambia el idioma del form de django como sea necesario
 

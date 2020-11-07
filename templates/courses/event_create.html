@@ -15,7 +15,6 @@
             <h3 class="text-white font-weight-bold mb-0 ml-2">Crea, Comparte</h3>
           </div>
     <div class="mb-4 mb-sm-0">
-{#    TODO esconder y mostrar campos dependiendo del tipo de evento#}
         <hr>
         <form method="post" id="event_create_form" role="form" action="{% url 'event_create' %}">
             {% csrf_token %}
@@ -167,7 +166,6 @@
     </div>
     </div>
     </section>
-
 {% endblock content %}
 
 {% block extra_js %}
@@ -207,7 +205,7 @@
                 $("#input_date_end").hide();
                 $("#input_time_day").hide();
                 $("#event_recurrent").hide();
-                $('#input_record_date').show()
+                $('#input_record_date').show();
             });
 
             $('#radio_event_single').on("click", function(){
@@ -215,7 +213,7 @@
                 $("#input_date_end").show();
                 $("#input_time_day").show();
                 $("#event_recurrent").show();
-                $('#input_record_date').hide()
+                $('#input_record_date').hide();
             });
 
             $('#radio_live_course').on("click", function(){
@@ -223,7 +221,7 @@
                 $("#input_date_end").show();
                 $("#input_time_day").show();
                 $("#event_recurrent").hide();
-                $('#input_record_date').hide()
+                $('#input_record_date').hide();
             });
         });
     </script>
