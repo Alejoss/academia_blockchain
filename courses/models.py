@@ -29,6 +29,7 @@ class Event(models.Model):
 
     date_created = models.DateTimeField(auto_now_add=True)
     date_start = models.DateTimeField(null=True, blank=True)
+
     date_end = models.DateTimeField(null=True, blank=True)
     date_recorded = models.DateTimeField(null=True, blank=True)
     schedule_description = models.CharField(max_length=1000, blank=True)  # da flexibilidad

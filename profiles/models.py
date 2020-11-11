@@ -11,6 +11,7 @@ class Profile(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     interests = models.CharField(max_length=250, blank=True)
     profile_description = models.TextField(max_length=2500, blank=True)
+    timezone = models.CharField(max_length=30, blank=True)
     is_teacher = models.BooleanField(default=False)
     profile_picture = models.ImageField(upload_to=upload_profile_picture, null=True, blank=True)
 

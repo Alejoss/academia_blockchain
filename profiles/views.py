@@ -64,10 +64,11 @@ def profile_data(request):
         email = request.POST.get("email")
         first_name = request.POST.get("first_name")
         last_name = request.POST.get("last_name")
+        time_zone = request.POST.get("time_zone")
         interests = request.POST.get("interests")
         profile_description = request.POST.get("profile_description")
 
-        print("email:%s" % email)
+        print("time_zone:%s" % time_zone)
 
         request.user.email = email
         request.user.first_name = first_name
@@ -75,6 +76,7 @@ def profile_data(request):
         request.user.save()
 
         profile = Profile.objects.get(user=request.user)
+        profile.timezone = time_zone
         profile.interests = interests
         profile.profile_description = profile_description
         profile.save()

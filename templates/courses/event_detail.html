@@ -94,7 +94,7 @@
                                         <p class="text-muted font-weight-bold">hasta el {{ event.date_end|date:"SHORT_DATE_FORMAT" }}</p>
                                     {% endif %}
                                     <p class="text-muted font-weight-bold">
-                                        A las {{ event.date_start|date:"h:i A" }}
+                                        A las {{ event_time|date:"h:i A" }}
                                     </p>
                                     {% if event.schedule_description %}
                                         <p class="text-muted font-weight-bold">
