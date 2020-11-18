@@ -10,7 +10,7 @@
 		<div class="row">
 			<div class="col-lg-9 col-md-8">
 				<div class="card shadow-none bg-transparent">
-					<img class="card-img-top" src="https://www.tornadobitcoin.com/wp-content/uploads/2020/01/Untitled-design.png" alt="Event Image">
+					<img class="card-img-top" src="{{ event.image.url }}" alt="Event Image">
 					<div class="card-img-overlay">
                         {% if event.event_type == "COURSE" %}
                             <span class="badge badge-info badge-rounded-circle">
@@ -25,7 +25,6 @@
                         </span>
 {#                        TODO MODAL que salga cuando aplastas en el precio y que calcule los precios con las criptos preferidas#}
 					</div>
-
 
                     {% if event.event_type == "COURSE" %}
                         <div class="card-body border-top-5 border-info position-relative">

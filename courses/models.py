@@ -6,7 +6,7 @@ from profiles.models import AcceptedCrypto, Profile
 
 
 def upload_event_picture(instance, filename):
-    return "event_pictures/"+instance.user.username+"_"+datetime.today().strftime('%h-%d-%y')+".jpeg"
+    return "event_pictures/"+instance.title+"_"+datetime.today().strftime('%h-%d-%y')+".jpeg"
 
 
 class Event(models.Model):
@@ -50,6 +50,7 @@ class ConnectionPlatform(models.Model):
 
 
 class Certificate(models.Model):
+    # TODO implementar certificados
     date_created = models.DateTimeField(auto_now_add=True)
     event = models.ForeignKey(Event, null=True, on_delete=models.CASCADE)
     user_awarded = models.ForeignKey(User, null=True, on_delete=models.CASCADE)

@@ -16,7 +16,8 @@
           </div>
     <div class="mb-4 mb-sm-0">
         <hr>
-        <form method="post" id="event_create_form" role="form" action="{% url 'edit_event' event.id %}">
+        <form method="post" id="event_create_form" role="form" action="{% url 'edit_event' event.id %}"
+            enctype="multipart/form-data">
             {% csrf_token %}
             <div class="form-group">
                 <label for="Tipo">

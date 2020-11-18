@@ -146,11 +146,6 @@ def event_create(request):
         else:
             record_date = None
 
-        print("date_start: %s" % date_start)
-        print("date_end: %s" % date_end)
-        print("time_day: %s" % time_day)
-        print("record_date: %s" % record_date)
-
         created_event = Event.objects.create(
             event_type=event_type,
             is_recorded=is_recorded,
@@ -167,16 +162,9 @@ def event_create(request):
         )
 
         # Guardar imagen
-        # event_picture = request.FILES['event_picture']
-        # print("event_picture: %s" % event_picture)
-        # created_event.image = event_picture
-        # created_event.image.save()
-
-        print("event_type_description: %s" % event_type_description)
-        print("title: %s" % title)
-        print("description: %s" % description)
-        print("platform_name: %s" % platform_name)
-        print("other_platform: %s" % other_platform)
+        event_picture = request.FILES['event_picture']
+        print("event_picture: %s" % event_picture.name)
+        created_event.image.save(event_picture.name, event_picture)
 
         return redirect("event_detail", event_id=created_event.id)
 
@@ -203,7 +191,6 @@ def edit_event(request, event_id):
         date_start = request.POST.get("date_start")
         date_end = request.POST.get("date_end")
         time_day = request.POST.get("time_day")
-        time_zone = request.POST.get("time_zone")
         record_date = request.POST.get("record_date")
         schedule_description = request.POST.get("schedule_description")
 
@@ -232,7 +219,6 @@ def edit_event(request, event_id):
             print(e)
 
         # Date & Time
-        time_zone = "Etc/" + time_zone  # pytz format
         if len(date_start) > 0:
             date_start = datetime.strptime(date_start, "%d/%m/%Y")
         else:
@@ -259,7 +245,6 @@ def edit_event(request, event_id):
         event.description = description
         event.platform = platform_obj
         event.other_platform = other_platform
-        event.time_zone = time_zone
         event.date_start = date_start
         event.date_end = date_end
         event.date_recorded = record_date
@@ -271,10 +256,9 @@ def edit_event(request, event_id):
         print("is_aware(event.date_start:%s)" % is_aware(event.date_start))
 
         # Guardar imagen
-        # event_picture = request.FILES['event_picture']
-        # print("event_picture: %s" % event_picture)
-        # created_event.image = event_picture
-        # created_event.image.save()
+        event_picture = request.FILES['event_picture']
+        print("event_picture: %s" % event_picture.name)
+        event.image.save(event_picture.name, event_picture)
 
         return redirect("event_detail", event_id=event.id)
 
