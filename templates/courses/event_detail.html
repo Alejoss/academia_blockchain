@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load tz %}
 
 {% block content %}
 <!-- ====================================
@@ -76,7 +77,6 @@
                     {% endif %}
 						<h3 class="text-capitalize text-white font-weight-bold py-2 pl-3 mb-0">Información</h3>
 					</div>
-{#                    TODO plantar informacion del evento#}
 					<div class="border border-top-0 rounded-bottom">
 						<div class="media p-3 border-bottom">
 							<div class="icon-rounded-circle-medium mr-3 bg-warning">
@@ -93,9 +93,20 @@
                                     {% if event.date_end %}
                                         <p class="text-muted font-weight-bold">hasta el {{ event.date_end|date:"SHORT_DATE_FORMAT" }}</p>
                                     {% endif %}
-                                    <p class="text-muted font-weight-bold">
-                                        A las {{ event_time|date:"h:i A" }}
-                                    </p>
+
+                                    {% if logged_user_profile.timezlocaone %}
+                                        {% timezone logged_user_profile.timezone  %}
+                                        <p class="text-muted font-weight-bold">
+                                            {{ event.date_start|date:"h:i A" }} ({{ logged_user_profile.timezone }}
+                                        </p>
+                                        {% endtimezone %}
+                                    {% else %}
+                                        <p class="text-muted font-weight-bold">
+                                         {{ event.date_start|date:"h:i A" }} ({{ owner_profile.timezone }})
+                                        </p>
+                                    {% endif %}
+
+
                                     {% if event.schedule_description %}
                                         <p class="text-muted font-weight-bold">
                                             * {{ event.schedule_description }}

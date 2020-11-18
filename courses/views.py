@@ -11,7 +11,8 @@ from django.contrib.auth import get_user
 from django.http import HttpResponse
 
 from courses.models import Event, ConnectionPlatform
-from profiles.models import ContactMethod, AcceptedCrypto
+from profiles.models import ContactMethod, AcceptedCrypto, Profile
+from profiles.utils import academia_blockchain_timezones
 
 """
 HTML RENDERS
@@ -34,17 +35,32 @@ def event_detail(request, event_id):
     print("event.date_start.hour:%s" % event.date_start.hour)
     print("event.date_start.tzinfo:%s" % event.date_start.tzinfo)
     print("is_aware(event.date_start:%s)" % is_aware(event.date_start))
-    if event.time_zone:
-        event_time = event.date_start.astimezone(pytz.timezone(event.time_zone))
-    else:
-        event_time = event.date_start
-    print("event_time: %s" % event_time)
 
     contact_methods = ContactMethod.objects.filter(user=event.owner, deleted=False)
     accepted_cryptos = AcceptedCrypto.objects.filter(user=event.owner, deleted=False)
+    owner_profile = Profile.objects.get(user=event.owner)
+
+    academia_blockchain_timezones()
+
+    event_user_timezone = None
+    logged_user_profile = None
+    if request.user.is_authenticated:
+        logged_user_profile = Profile.objects.get(user=request.user)
+        try:
+            print("event.date_start: %s" % event.date_start)
+            print("event.date_start.hour: %s" % event.date_start.hour)
+            print("event.date_start.tzinfo: %s" % event.date_start.tzinfo)
+            user_timezone = pytz.timezone("America/Guayaquil")
+            print("user_timezone: %s" % user_timezone)
+            event_user_timezone = event.date_start.astimezone(user_timezone)
+            print("event_user_timezone: %s" % event_user_timezone)
+            print("event_user_timezone.hour: %s" % event_user_timezone.hour)
+        except Exception as e:
+            print("ERROR: %s" % e)
 
     context = {"event": event, "contact_methods": contact_methods, "accepted_cryptos": accepted_cryptos,
-               "event_time": event_time}
+               "owner_profile": owner_profile, "event_user_timezone": event_user_timezone,
+               "logged_user_profile": logged_user_profile}
     return render(request, template, context)
 
 

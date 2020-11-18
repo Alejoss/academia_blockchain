@@ -7,7 +7,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login
 from django.http import HttpResponse
 
-from profiles.utils import AcademiaUserCreationForm, AcademiaLoginForm, ProfilePictureForm
+from profiles.utils import AcademiaUserCreationForm, AcademiaLoginForm, ProfilePictureForm, academia_blockchain_timezones
 from profiles.models import Profile, AcceptedCrypto, ContactMethod, CryptoCurrency
 from courses.models import Event
 
@@ -99,11 +99,12 @@ def profile_data(request):
         print("contact_methods:%s" % contact_methods)
 
         profile_picture_form = ProfilePictureForm()
+        academiab_timezones = academia_blockchain_timezones()
 
         context = {"profile_index_active": "active", "underline_pdata": "text-underline",
                    "profile": profile, "accepted_cryptos": accepted_cryptos,
                    "cryptos_string": cryptos_string, "contact_methods": contact_methods,
-                   "profile_picture_form": profile_picture_form}
+                   "profile_picture_form": profile_picture_form, "academiab_timezones": academiab_timezones}
         return render(request, template, context)
 
 

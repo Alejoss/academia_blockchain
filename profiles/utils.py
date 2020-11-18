@@ -1,3 +1,5 @@
+import pytz
+
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, UsernameField
 from django.contrib.auth.models import User
 from django import forms
@@ -46,3 +48,12 @@ class ProfilePictureForm(forms.ModelForm):
             'profile_picture': "Imagen de Perfil"
         }
 
+
+def academia_blockchain_timezones():
+    tz_list = []
+    for tz in pytz.all_timezones:
+        if tz.startswith("America"):
+            tz_list.append(tz)
+        elif tz.startswith("Europe"):
+            tz_list.append(tz)
+    return tz_list

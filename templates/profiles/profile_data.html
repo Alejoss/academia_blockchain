@@ -95,16 +95,10 @@
           <div class="col-sm-6 col-xs-12">
             <div class="form-group" id="input_time_zone">
                 <select class="custom-select my-1 mr-sm-2 border-info" id="time_zone_select" name="time_zone">
-                  <option id="GMT+2" value="GMT+2" selected>GMT + 2</option>
-                  <option value="GMT+1">GMT + 1</option>
-                  <option value="GMT+3">GMT - 3</option>
-                  <option value="GMT+4">GMT - 4</option>
-                  <option value="GMT+5">GMT - 5</option>
-                  <option value="GMT+6">GMT - 6</option>
-                  <option value="GMT+7">GMT - 7</option>
-                  <option value="GMT+8">GMT - 8</option>
-                  <option value="GMT+9">GMT - 9</option>
-                  <option value="GMT">GMT + 0</option>
+{#                TODO no esta seleccionando la opcion que es#}
+                  {% for tz in academiab_timezones %}
+                      <option id="{{ tz }}" value="{{ tz }}">{{ tz }}</option>
+                  {% endfor %}
                 </select>
           </div>
 
@@ -185,6 +179,21 @@
         $("#edit_contact").on("click", function(){
            window.location.href = "{% url 'profile_edit_contact' %}";
         });
+
+        // timezone en form
+        let user_timezone = "{{ profile.timezone }}";
+        console.log(user_timezone);
+        if(user_timezone.length > 1){
+            let selected_default = $('#GMT2');
+            console.log(selected_default);
+            selected_default.removeAttr("selected");
+            console.log(user_timezone);
+            let timezone_option_id = user_timezone.replace("+", "");
+            timezone_option_id = timezone_option_id.replace("-", "");
+            console.log(timezone_option_id);
+
+            $("#"+timezone_option_id).prop("selected", true);
+        }
 
         $("#profile_picture").on("click", function(e){
             e.preventDefault();
