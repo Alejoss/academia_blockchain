@@ -32,13 +32,11 @@ def event_index(request):
 def event_detail(request, event_id):
     template = "courses/event_detail.html"
     event = get_object_or_404(Event, id=event_id)
-    print("event.date_start.hour:%s" % event.date_start.hour)
-    print("event.date_start.tzinfo:%s" % event.date_start.tzinfo)
-    print("is_aware(event.date_start:%s)" % is_aware(event.date_start))
 
     contact_methods = ContactMethod.objects.filter(user=event.owner, deleted=False)
     accepted_cryptos = AcceptedCrypto.objects.filter(user=event.owner, deleted=False)
     owner_profile = Profile.objects.get(user=event.owner)
+    print("accepted_cryptos: %s" % accepted_cryptos)
 
     academia_blockchain_timezones()
 
@@ -47,14 +45,8 @@ def event_detail(request, event_id):
     if request.user.is_authenticated:
         logged_user_profile = Profile.objects.get(user=request.user)
         try:
-            print("event.date_start: %s" % event.date_start)
-            print("event.date_start.hour: %s" % event.date_start.hour)
-            print("event.date_start.tzinfo: %s" % event.date_start.tzinfo)
             user_timezone = pytz.timezone("America/Guayaquil")
-            print("user_timezone: %s" % user_timezone)
             event_user_timezone = event.date_start.astimezone(user_timezone)
-            print("event_user_timezone: %s" % event_user_timezone)
-            print("event_user_timezone.hour: %s" % event_user_timezone.hour)
         except Exception as e:
             print("ERROR: %s" % e)
 

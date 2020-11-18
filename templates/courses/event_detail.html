@@ -8,9 +8,14 @@
 <section class="py-8 pt-md-10">
 	<div class="container">
 		<div class="row">
-			<div class="col-lg-9 col-md-8">
+			<div class="col-lg-8 col-md-7">
 				<div class="card shadow-none bg-transparent">
-					<img class="card-img-top" src="{{ event.image.url }}" alt="Event Image">
+{#                TODO disenar una imagen default para los eventos sin imagen#}
+                    {% if event.image %}
+					    <img class="card-img-top" src="{{ event.image.url }}" alt="Event Image">
+                    {% else %}
+                        <img class="card-img-top" src="https://picsum.photos/500" alt="Event Image">
+                    {% endif %}
 					<div class="card-img-overlay">
                         {% if event.event_type == "COURSE" %}
                             <span class="badge badge-info badge-rounded-circle">
@@ -18,7 +23,9 @@
                             <span class="badge badge-success badge-rounded-circle">
                         {% endif %}
                             {% if event.reference_price == 0.0 %}
-                                $ 0 !
+                            <span data-toggle="tooltip" data-placement="top" title="" data-original-title="GRATIS!">
+                                <i class="fa fa-smile-o text-white" aria-hidden="true"></i>
+                            </span>
                             {% else %}
                                 $ {{ event.reference_price }}
                             {% endif %}
@@ -67,7 +74,7 @@
 				</div>
 			</div>
 
-			<div class="col-lg-3 col-md-4">
+			<div class="col-lg-4 col-md-5">
 				<div class="pb-4 mb-2">
                     {% if event.event_type == "COURSE" %}
                         <div class="section-title bg-info rounded-top">
@@ -117,11 +124,30 @@
 
 						<div class="media p-3 border-bottom">
 							<div class="icon-rounded-circle-medium mr-3 bg-warning">
+								<i class="fa fa-money text-white" aria-hidden="true"></i>
+							</div>
+							<div class="media-body">
+								<h4 class="text-uppercase text-secondary mt-0 font-weight-bold">
+									Criptos Preferidas
+								</h4>
+                                <p class="text-muted font-weight-bold">
+                                    $ {{ event.reference_price }}
+                                </p>
+								<p class="text-muted font-weight-bold">
+                                    {% for c in accepted_cryptos %}
+                                        {{ c.crypto.code }}
+                                    {% endfor %}
+                                </p>
+							</div>
+						</div>
+
+						<div class="media p-3 border-bottom">
+							<div class="icon-rounded-circle-medium mr-3 bg-warning">
 								<i class="fa fa-external-link-square text-white" aria-hidden="true"></i>
 							</div>
 							<div class="media-body">
 								<h4 class="text-uppercase text-secondary mt-0 font-weight-bold">
-									Plataforma
+									Aplicación
 								</h4>
                                 <p class="text-muted font-weight-bold">
                                     {{ event.platform.name }}
@@ -131,22 +157,6 @@
                                         + {{ event.other_platform }}
                                     </p>
                                 {% endif %}
-							</div>
-						</div>
-
-						<div class="media p-3 border-bottom">
-							<div class="icon-rounded-circle-medium mr-3 bg-warning">
-								<i class="fa fa-money text-white" aria-hidden="true"></i>
-							</div>
-							<div class="media-body">
-								<h4 class="text-uppercase text-secondary mt-0 font-weight-bold">
-									Criptos Preferidas
-								</h4>
-								<p class="text-muted font-weight-bold">
-                                    {% for crypto in accepted_cryptos %}
-                                        {{ crypto.code }}
-                                    {% endfor %}
-                                </p>
 							</div>
 						</div>
 
