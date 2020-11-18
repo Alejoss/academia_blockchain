@@ -1,4 +1,7 @@
 from datetime import datetime
+
+from django.core.validators import URLValidator
+from django.core.exceptions import ValidationError
 from django.db import models
 from django.contrib.auth.models import User
 
@@ -46,6 +49,17 @@ class ContactMethod(models.Model):
     description = models.CharField(max_length=250, blank=True)
     url_link = models.CharField(max_length=250, blank=True)
     deleted = models.BooleanField(default=False)
+
+    def has_contact_url(self):
+        try:
+            print("self.url_link: %s" % self.url_link)
+            x = URLValidator()
+            x(self.url_link)
+            print("TRUE")
+            return True
+        except ValidationError:
+            print("FALSE")
+            return False
 
     def __str__(self):
         return self.name

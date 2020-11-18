@@ -54,3 +54,4 @@ class Certificate(models.Model):
     date_created = models.DateTimeField(auto_now_add=True)
     event = models.ForeignKey(Event, null=True, on_delete=models.CASCADE)
     user_awarded = models.ForeignKey(User, null=True, on_delete=models.CASCADE)
+

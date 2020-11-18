@@ -53,13 +53,18 @@
                         <div class="list-group">
                         {% if user.is_authenticated %}
                             {% for contact_method in contact_methods %}
-                                <a class="list-group-item list-group-item-action list-group-item-light"
-                                   {% if contact_method.url_link %}
-                                       href="{{ contact_method.url_link }}"
-                                   {% endif %} target="_blank">
-                                    <span class="badge badge-primary badge-pill">{{ contact_method.name }}</span>
-                                    {{ contact_method.description }}
-                                </a>
+                                {% if contact_method.has_contact_url %}
+                                    <a class="list-group-item list-group-item-action list-group-item-light"
+                                       href="{{ contact_method.url_link }}" target="_blank">
+                                        <span class="badge badge-primary badge-pill">{{ contact_method.name }}</span>
+                                        {{ contact_method.description }}
+                                    </a>
+                                {% else %}
+                                    <p class="list-group-item list-group-item-action list-group-item-light">
+                                        <span class="badge badge-primary badge-pill">{{ contact_method.name }}</span>
+                                        {{ contact_method.description }} | {{ contact_method.url_link }}
+                                    </p>
+                                {% endif %}
                             {% endfor %}
                         {% endif %}
                         </div>

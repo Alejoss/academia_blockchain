@@ -15,6 +15,18 @@
             <h3 class="text-white font-weight-bold mb-0 ml-2">Editar {{ event.title }}</h3>
           </div>
     <div class="mb-4 mb-sm-0">
+            <p>
+                Recuerda que en tu <a href="{% url 'profile_data' %}">perfil</a> puedes definir tus criptos preferidas y
+                los métodos con los que la gente puede contactarte.
+                {% if user_contact_methods %}
+                    Por ahora son:
+                    {% for c in user_contact_methods %}
+                        "{{ c.name }}"
+                    {% endfor %}
+                {% else %}
+                    <strong>Por ahora no tienes métodos de contacto guardados, es importante que compartas una forma para contactarte!</strong>
+                {% endif %}
+            </p>
         <hr>
         <form method="post" id="event_create_form" role="form" action="{% url 'edit_event' event.id %}"
             enctype="multipart/form-data">
@@ -147,11 +159,6 @@
         </form>
 
         <hr>
-
-        <p>
-            *Recuerda que en tu <a href="">perfil</a> puedes definir los métodos con los que la gente puede contactarte.
-            Por ahora son Telegram, Whatsapp, y Gmail.
-        </p>
     </div>
     </div>
     </div>

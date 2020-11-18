@@ -154,9 +154,10 @@ def event_create(request):
         )
 
         # Guardar imagen
-        event_picture = request.FILES['event_picture']
-        print("event_picture: %s" % event_picture.name)
-        created_event.image.save(event_picture.name, event_picture)
+        if "event_picture" in request.FILES:
+            event_picture = request.FILES['event_picture']
+            print("event_picture: %s" % event_picture.name)
+            created_event.image.save(event_picture.name, event_picture)
 
         return redirect("event_detail", event_id=created_event.id)
 
@@ -167,8 +168,9 @@ def edit_event(request, event_id):
         template = "courses/event_edit.html"
         event = get_object_or_404(Event, id=event_id)
         platforms = ConnectionPlatform.objects.filter(deleted=False)
+        user_contact_methods = ContactMethod.objects.filter(user=event.owner)
 
-        context = {"event": event, "platforms": platforms}
+        context = {"event": event, "platforms": platforms, "user_contact_methods": user_contact_methods}
         return render(request, template, context)
 
     elif request.method == "POST":
@@ -248,9 +250,10 @@ def edit_event(request, event_id):
         print("is_aware(event.date_start:%s)" % is_aware(event.date_start))
 
         # Guardar imagen
-        event_picture = request.FILES['event_picture']
-        print("event_picture: %s" % event_picture.name)
-        event.image.save(event_picture.name, event_picture)
+        if "event_picture" in request.FILES:
+            event_picture = request.FILES['event_picture']
+            print("event_picture: %s" % event_picture.name)
+            event.image.save(event_picture.name, event_picture)
 
         return redirect("event_detail", event_id=event.id)
 

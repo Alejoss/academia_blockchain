@@ -139,10 +139,18 @@
 
         <hr>
 
-        <p>
-            *Recuerda que en tu <a href="">perfil</a> puedes definir los métodos con los que la gente puede contactarte.
-            Por ahora son Telegram, Whatsapp, y Gmail.
-        </p>
+            <p>
+                *Recuerda que en tu <a href="{% url 'profile_data' %}">perfil</a> puedes definir tus criptos preferidas y
+                los métodos con los que la gente puede contactarte.
+                {% if user_contact_methods %}
+                    Por ahora son:
+                    {% for c in user_contact_methods %}
+                        "{{ c.name }}"
+                    {% endfor %}
+                {% else %}
+                    <strong>Por ahora no tienes métodos de contacto guardados, es importante que compartas una forma para contactarte!</strong>
+                {% endif %}
+            </p>
     </div>
     </div>
     </div>
