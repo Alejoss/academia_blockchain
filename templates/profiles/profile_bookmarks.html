@@ -1,0 +1,90 @@
+{% extends 'profiles/profile_base.html' %}
+
+{% block profile_content %}
+    <div class="col-md-8 col-lg-9 order-md-1">
+        <div class="row">
+            <div class="media media-avator-view flex-column flex-sm-row">
+              <div class="media-body">
+              <p>
+                  Puedes guardar los cursos y eventos que te interesan dando click en "Me Interesa" dentro de la página del curso o evento.
+                  En esta página podrás solicitar un certificado al organizador.
+              </p>
+                  <div class="text-white rounded bg-warning text-uppercase font-weight-medium px-6 py-3 mb-3">Tus Cursos y Eventos Guardados</div>
+                {% for b in bookmarked_events %}
+                 <div class="media media-list-view mb-5">
+                    <div class="media-body">
+                    <h3 class="mb-3 mb-lg-2 mb-xl-3">
+                        {% if b.event.event_type == "COURSE" %}
+                            <a class="text-info text-capitalize font-weight-bold" href="{% url 'event_detail' b.event.id %}">
+                            {{ b.event.title }}</a>
+                        {% elif b.event.event_type == "EVENT" %}
+                            <a class="text-success text-capitalize font-weight-bold" href="{% url 'event_detail' b.event.id %}">
+                            {{ b.event.title }}</a>
+                        {% endif %}
+                    </h3>
+                    <p>
+                        {% if b.event.event_type == "COURSE" %}
+                            {% if b.event.is_recorded %}
+                                <small class="text-muted">
+                                    <i class="fa fa-play-circle mr-2" aria-hidden="true"></i>Curso Grabado
+                                </small>
+                            {% else %}
+                                <small class="text-muted">
+                                    <i class="fa fa-video-camera mr-2" aria-hidden="true"></i>Curso en Línea
+                                </small>
+                            {% endif %}
+                        {% elif b.event.event_type == "EVENT" %}
+                            {% if b.event.is_recurrent %}
+                                <small class="text-muted">
+                                    <i class="fa fa-calendar mr-2" aria-hidden="true"></i>Evento Recurrente
+                                </small>
+                            {% else %}
+                                <small class="text-muted">
+                                    <i class="fa fa-tag mr-2" aria-hidden="true"></i>Evento
+                                </small>
+                            {% endif %}
+                        {% endif %}
+                        {% if b.event.is_recorded %}
+                                {% if b.event.is_recorded %}
+                                    <small class="text-muted">
+                                        | {{ b.event.date_recorded|date:"SHORT_DATE_FORMAT" }}
+                                        <i class="fa fa-clock-o mr-2" aria-hidden="true"></i>
+                                    </small>
+                                {% endif %}
+                            {% elif b.event.is_recurrent %}
+                                {% if b.event.schedule_description %}
+                                    <small class="text-muted">
+                                        | {{ b.event.schedule_description }}
+                                        <i class="fa fa-clock-o mr-2" aria-hidden="true"></i>
+                                    </small>
+                                {% endif %}
+                            {% else %}
+                                {% if b.event.date_start %}
+                                    <small class="text-muted">
+                                    | {{ b.event.date_start|date:"SHORT_DATE_FORMAT" }}
+                                    </small>
+                                {% endif %}
+                                {% if b.event.date_end %}
+                                    <small class="text-muted">
+                                    - {{ b.event.date_end|date:"SHORT_DATE_FORMAT" }}
+                                    <i class="fa fa-clock-o mr-2" aria-hidden="true"></i>
+                                    </small>
+                                {% endif %}
+                        {% endif %}
+                    </p>
+                    <ul class="list-unstyled d-flex text-muted mb-2">
+                        <li class="mr-3">
+                            <button id="edit_event" type="button" class="btn btn-success"><i class="fa fa-certificate"></i> Solicitar Certificado</button>
+                        </li>
+                        <li class="mr-3">
+                            <button id="edit_event" type="button" class="btn btn-danger"><i class="fa fa-times-circle"></i> Eliminar</button>
+                        </li>
+                    </ul>
+                    </div>
+                  </div>
+                 {% endfor %}
+              </div>
+            </div>
+        </div>
+    </div>
+{% endblock profile_content %}

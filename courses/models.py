@@ -55,3 +55,11 @@ class Certificate(models.Model):
     event = models.ForeignKey(Event, null=True, on_delete=models.CASCADE)
     user_awarded = models.ForeignKey(User, null=True, on_delete=models.CASCADE)
 
+
+class Bookmark(models.Model):
+    event = models.ForeignKey(Event, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    date = models.DateTimeField(auto_now_add=True, null=True, blank=True)
+
+    def __str__(self):
+        return self.event.title + " - " + self.user.username

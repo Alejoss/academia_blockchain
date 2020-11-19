@@ -17,22 +17,22 @@
             <div class="card-body border border-top-0 rounded-bottom">
                 <ul class="list-unstyled mb-0">
                     <li class="mb-2">
-                        <a class="text-muted font-weight-medium d-block border rounded py-2 pl-3 {{ underline_pdata }}" href="{% url 'profile_data' %}">Datos de Perfil</a>
+                        <a class="text-muted font-weight-medium d-block border rounded py-2 pl-3 {{ underline_data }}" href="{% url 'profile_data' %}">Datos de Perfil</a>
                     </li>
                     <li class="my-2">
-                        <a class="text-muted font-weight-medium d-block border rounded py-2 pl-3 {{ underline_psecurity }} " href="{% url 'profile_security' %}">Seguridad</a>
+                        <a class="text-muted font-weight-medium d-block border rounded py-2 pl-3 {{ underline_events }}" href="{% url 'profile_events' %}">Cursos y Eventos</a>
                     </li>
                     <li class="my-2">
-                        <a class="text-muted font-weight-medium d-block border rounded py-2 pl-3 {{ underline_pevents }}" href="{% url 'profile_events' %}">Cursos y Eventos</a>
-                    </li>
-{#                    <li class="my-2">#}
-{#                        <a class="text-muted font-weight-medium d-block border rounded py-2 pl-3 {{ underline_paccreditation }}" href="{% url 'profile_accreditation' %}">Acreditaciones</a>#}
-{#                    </li>#}
-                    <li class="mt-2">
-                        <a class="text-muted font-weight-medium d-block border rounded py-2 pl-3 {{ underline_pcertificates }}" href="{% url 'profile_certificates' %}">Certificados</a>
+                        <a class="text-muted font-weight-medium d-block border rounded py-2 pl-3 {{ underline_bookmarks }}" href="{% url 'profile_bookmarks' %}">Favoritos </a>
                     </li>
                     <li class="mt-2">
-                        <a class="text-muted font-weight-medium d-block border rounded py-2 pl-3 {{ underline_pcontent }}" href="{% url 'profile_content' %}">Contenido Descentralizado</a>
+                        <a class="text-muted font-weight-medium d-block border rounded py-2 pl-3 {{ underline_certificates }}" href="{% url 'profile_certificates' %}">Certificados</a>
+                    </li>
+                    <li class="mt-2">
+                        <a class="text-muted font-weight-medium d-block border rounded py-2 pl-3 {{ underline_content }}" href="{% url 'profile_content' %}">Contenido Descentralizado</a>
+                    </li>
+                    <li class="my-2">
+                        <a class="text-muted font-weight-medium d-block border rounded py-2 pl-3 {{ underline_security }} " href="{% url 'profile_security' %}">Seguridad</a>
                     </li>
                 </ul>
             </div>

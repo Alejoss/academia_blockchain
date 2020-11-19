@@ -9,7 +9,7 @@ from django.http import HttpResponse
 
 from profiles.utils import AcademiaUserCreationForm, AcademiaLoginForm, ProfilePictureForm, academia_blockchain_timezones
 from profiles.models import Profile, AcceptedCrypto, ContactMethod, CryptoCurrency
-from courses.models import Event
+from courses.models import Event, Bookmark
 
 
 # Manejo de cuentas
@@ -101,7 +101,7 @@ def profile_data(request):
         profile_picture_form = ProfilePictureForm()
         academiab_timezones = academia_blockchain_timezones()
 
-        context = {"profile_index_active": "active", "underline_pdata": "text-underline",
+        context = {"profile_index_active": "active", "underline_data": "text-underline",
                    "profile": profile, "accepted_cryptos": accepted_cryptos,
                    "cryptos_string": cryptos_string, "contact_methods": contact_methods,
                    "profile_picture_form": profile_picture_form, "academiab_timezones": academiab_timezones}
@@ -226,39 +226,42 @@ def profile_edit_cryptos(request):
 
 
 @login_required
-def profile_security(request):
-    template = "profiles/profile_security.html"
-    context = {"profile_index_active": "active", "underline_psecurity": "text-underline"}
-    return render(request, template, context)
-
-
-@login_required
 def profile_events(request):
     template = "profiles/profile_events.html"
     events = Event.objects.filter(owner=request.user)
-    context = {"profile_index_active": "active", "underline_pevents": "text-underline",
+    context = {"profile_index_active": "active", "underline_events": "text-underline",
                "events": events}
-    return render(request, template, context)
-
-
-@login_required
-def profile_accreditation(request):
-    template = "profiles/profile_accreditations.html"
-    context = {"profile_index_active": "active", "underline_paccreditation": "text-underline"}
     return render(request, template, context)
 
 
 @login_required
 def profile_certificates(request):
     template = "profiles/profile_certificates.html"
-    context = {"profile_index_active": "active", "underline_pcertificates": "text-underline"}
+    context = {"profile_index_active": "active", "underline_certificates": "text-underline"}
+    return render(request, template, context)
+
+
+@login_required
+def profile_bookmarks(request):
+    template = "profiles/profile_bookmarks.html"
+    bookmarked_events = Bookmark.objects.filter(user=request.user)
+
+    context = {"profile_index_active": "active", "underline_bookmarks": "text-underline",
+               "bookmarked_events": bookmarked_events}
     return render(request, template, context)
 
 
 @login_required
 def profile_content(request):
     template = "profiles/profile_content.html"
-    context = {"profile_index_active": "active", "underline_pcontent": "text-underline"}
+    context = {"profile_index_active": "active", "underline_content": "text-underline"}
+    return render(request, template, context)
+
+
+@login_required
+def profile_security(request):
+    template = "profiles/profile_security.html"
+    context = {"profile_index_active": "active", "underline_security": "text-underline"}
     return render(request, template, context)
 
 
