@@ -44,9 +44,15 @@
                             <button id="edit_event" type="button" class="btn btn-primary"><i class="fa fa-edit"></i> Editar</button>
                         </div>
                     {% else %}
-                        <div class="text-right">
-                            <button id="edit_event" type="button" class="btn btn-info"><i class="fa fa-star"></i> Me Interesa - Guardar</button>
-                        </div>
+                        {% if event_is_bookmarked %}
+                            <div class="text-right">
+                                <button id="remove_bookmark" type="button" class="btn btn-warning"><i class="fa fa-star-o"></i> Ya no me interesa</button>
+                            </div>
+                        {% else %}
+                            <div class="text-right">
+                                <button id="event_bookmark" type="button" class="btn btn-info"><i class="fa fa-star"></i> Me Interesa - Guardar</button>
+                            </div>
+                        {% endif %}
                     {% endif %}
 						<h3 class="card-title text-dark">{{ event.title }}</h3>
 						<p class="">{{ event.description|safe }}</p>
@@ -200,6 +206,27 @@
         $( document ).ready(function() {
             $("#edit_event").on("click", function(){
                 window.location.href = "{% url 'edit_event' event.id %}";
+            });
+            $("#event_bookmark").on("click", function(e){
+                e.preventDefault();
+
+                if ("{{ user.is_authenticated }}" === "True"){
+                    data = {
+                        "event_id": {{ event.id }},
+                    }
+                    $.ajax({
+                        method: "post",
+                        url: "{% url 'event_bookmark' event.id %}",
+                        data: data
+                    });
+                    $.ajax({
+                        method: "post",
+                        url: "{% url 'remove_bookmark' event.id %}",
+                        data: data
+                    })
+                } else {
+                    window.location.href = "{% url 'login' %}";
+                }
             });
         });
     </script>

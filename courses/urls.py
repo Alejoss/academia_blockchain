@@ -5,6 +5,8 @@ urlpatterns = [
     path('', views.event_index, name="event_index"),
     path('event_detail/<int:event_id>', views.event_detail, name="event_detail"),
     path('edit_event/<int:event_id>', views.edit_event, name="edit_event"),
+    path('event_bookmark/<int:event_id>', views.event_bookmark, name="event_bookmark"),
+    path('remove_bookmark/<int:event_id>', views.remove_bookmark, name="remove_bookmark"),
     path('create/', views.event_create, name="event_create"),
 
     # api
