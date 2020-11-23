@@ -57,3 +57,14 @@ def academia_blockchain_timezones():
         elif tz.startswith("Europe"):
             tz_list.append(tz)
     return tz_list
+
+
+def get_cryptos_string(profile):
+    c_list = profile.cryptos_list()
+    cryptos_string = ""
+    for c in c_list:
+        cryptos_string += (c.crypto.code + ", ")  # arma string para el frontend
+    if len(cryptos_string) > 2:
+        cryptos_string = cryptos_string[:-2]
+
+    return cryptos_string

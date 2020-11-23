@@ -1,13 +1,13 @@
 from http import HTTPStatus
 
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.models import User
 from django.contrib.auth.views import LoginView
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login
 from django.http import HttpResponse
 
-from profiles.utils import AcademiaUserCreationForm, AcademiaLoginForm, ProfilePictureForm, academia_blockchain_timezones
+from profiles.utils import AcademiaUserCreationForm, AcademiaLoginForm, ProfilePictureForm, get_cryptos_string
 from profiles.models import Profile, AcceptedCrypto, ContactMethod, CryptoCurrency
 from courses.models import Event, Bookmark
 
@@ -35,6 +35,7 @@ def register_profile(request):
 
             AcceptedCrypto.objects.create(user=new_user, crypto=bitcoin)
             AcceptedCrypto.objects.create(user=new_user, crypto=ether)
+            AcceptedCrypto.objects.create(user=new_user, crypto=monero)
 
             login(request, new_user)
 
@@ -86,12 +87,7 @@ def profile_data(request):
     else:
         template = "profiles/profile_data.html"
         profile, created = Profile.objects.get_or_create(user=request.user)  # loggear si created
-        accepted_cryptos = profile.cryptos_list()
-        cryptos_string = ""
-        for c in accepted_cryptos:
-            cryptos_string += (c.crypto.code + ", ")  # arma string para el frontend
-        if len(cryptos_string) > 2:
-            cryptos_string = cryptos_string[:-2]
+        cryptos_string = get_cryptos_string(profile)
 
         print("cryptos_string:%s" % cryptos_string)
 
@@ -99,13 +95,26 @@ def profile_data(request):
         print("contact_methods:%s" % contact_methods)
 
         profile_picture_form = ProfilePictureForm()
-        academiab_timezones = academia_blockchain_timezones()
 
         context = {"profile_index_active": "active", "underline_data": "text-underline",
-                   "profile": profile, "accepted_cryptos": accepted_cryptos,
+                   "profile": profile,
                    "cryptos_string": cryptos_string, "contact_methods": contact_methods,
-                   "profile_picture_form": profile_picture_form, "academiab_timezones": academiab_timezones}
+                   "profile_picture_form": profile_picture_form}
         return render(request, template, context)
+
+
+@login_required
+def user_profile(request, profile_id):
+    template = "profiles/user_profile.html"
+    profile = get_object_or_404(Profile, user__id=profile_id)
+
+    contact_methods = ContactMethod.objects.filter(user=profile.user, deleted=False)
+    cryptos_string = get_cryptos_string(profile)
+    events = Event.objects.filter(owner=profile.user)
+
+    context = {"profile": profile, "events": events, "contact_methods": contact_methods,
+               "cryptos_string": cryptos_string}
+    return render(request, template, context)
 
 
 @login_required
@@ -244,7 +253,7 @@ def profile_certificates(request):
 @login_required
 def profile_bookmarks(request):
     template = "profiles/profile_bookmarks.html"
-    bookmarked_events = Bookmark.objects.filter(user=request.user)
+    bookmarked_events = Bookmark.objects.filter(user=request.user, deleted=False)
 
     context = {"profile_index_active": "active", "underline_bookmarks": "text-underline",
                "bookmarked_events": bookmarked_events}

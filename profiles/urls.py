@@ -5,6 +5,7 @@ from profiles import views
 
 urlpatterns = [
     path('profile_data/', views.profile_data, name="profile_data"),
+    path('user_profile/<int:profile_id>', views.user_profile, name="user_profile"),
     path('profile_security/', views.profile_security, name="profile_security"),
     path('profile_events/', views.profile_events, name="profile_events"),
     path('profile_certificates/', views.profile_certificates, name="profile_certificates"),

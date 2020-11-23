@@ -77,6 +77,9 @@
 
                     <ul class="list-unstyled d-flex text-muted mb-2">
                         <li class="mr-3">
+                            <i class="fa fa-user-circle-o mr-2" aria-hidden="true"></i> {{ event.owner.username }}
+                        </li>
+                        <li class="mr-3">
                             {% if event.event_type == "COURSE" %}
                                 {% if event.is_recorded %}
                                     <i class="fa fa-play-circle mr-2" aria-hidden="true"></i>Curso Grabado

@@ -37,7 +37,6 @@ def event_detail(request, event_id):
     contact_methods = ContactMethod.objects.filter(user=event.owner, deleted=False)
     accepted_cryptos = AcceptedCrypto.objects.filter(user=event.owner, deleted=False)
     owner_profile = Profile.objects.get(user=event.owner)
-    print("accepted_cryptos: %s" % accepted_cryptos)
 
     academia_blockchain_timezones()
 
@@ -51,11 +50,22 @@ def event_detail(request, event_id):
             event_user_timezone = event.date_start.astimezone(user_timezone)
         except Exception as e:
             print("ERROR: %s" % e)
-        event_is_bookmarked = Bookmark.objects.filter(event=event, user=request.user)
+        event_is_bookmarked = Bookmark.objects.filter(event=event, user=request.user, deleted=False).exists()
+
+    is_event_owner = (event.owner == request.user)
+    print("is_event_owner: %s" % is_event_owner)
+    event_bookmarks = Bookmark.objects.none()
+    if is_event_owner:
+        event_bookmarks = Bookmark.objects.filter(event=event, deleted=False)
+        # TODO no esta mostrando los bookmarks correctamente
+
+    print("event_is_bookmarked: %s" % event_is_bookmarked)
+    print("event_bookmarks: %s" % event_bookmarks)
 
     context = {"event": event, "contact_methods": contact_methods, "accepted_cryptos": accepted_cryptos,
                "owner_profile": owner_profile, "event_user_timezone": event_user_timezone,
-               "logged_user_profile": logged_user_profile, "event_is_bookmarked": event_is_bookmarked}
+               "logged_user_profile": logged_user_profile, "event_is_bookmarked": event_is_bookmarked,
+               "is_event_owner": is_event_owner, "event_bookmarks": event_bookmarks}
     return render(request, template, context)
 
 
@@ -355,6 +365,8 @@ def edit_event(request, event_id):
             event.image.save(event_picture.name, event_picture)
 
         return redirect("event_detail", event_id=event.id)
+
+
 """
 API CALLS
 """
@@ -383,6 +395,7 @@ def event_bookmark(request, event_id):
 @login_required
 @csrf_exempt
 def remove_bookmark(request, event_id):
+    print("event_id: %s" % event_id)
     if request.is_ajax() and request.method == "POST":
         event = get_object_or_404(Event, id=event_id)
         if Bookmark.objects.filter(event=event, user=request.user, deleted=False).exists():
@@ -391,8 +404,8 @@ def remove_bookmark(request, event_id):
             bookmark.save()
             return HttpResponse(status=200)
         else:
+            print("BOOKMARK NO EXISTE")
             return HttpResponse(status=404)
 
     else:
         return HttpResponse(status=403)
-

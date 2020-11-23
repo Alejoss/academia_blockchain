@@ -1,7 +1,7 @@
 {% extends 'profiles/profile_base.html' %}
 
 {% block profile_content %}
-
+{#TODO pagina de perfil de otro, toma id del perfil en la url#}
 <!-- ====================================
 ———	BLOG GRID LEFT SIDEBAR
 ===================================== -->
@@ -42,6 +42,7 @@
                 <ul class="text-muted">
                     {% for c in contact_methods %}
                     <li>
+{#                    TODO si no es link no poner anchor tag#}
                         {{ c.name }} - <a class="text-muted" target="_blank" href="{{ c.url_link }}">{{ c.url_link }}</a>: {{ c.description }}
                     </li>
                     {% endfor %}

@@ -1,5 +1,4 @@
 {% extends 'base.html' %}
-{% load tz %}
 
 {% block content %}
 <!-- ====================================
@@ -7,6 +6,48 @@
 ===================================== -->
 <section class="py-8 pt-md-10">
 	<div class="container">
+        {% if is_event_owner %}
+            <h3 class="card-title text-dark">Tu <strong>{{ event.title }}:</strong></h3>
+            <div class="accordion mb-8" id="accordionExample">
+
+                {% if event_bookmarks %}
+                <div class="card">
+                  <div class="card-header" id="headingOne">
+                    <h5 class="mb-0">
+                      <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#bookmarked" aria-expanded="false" aria-controls="collapseOne">
+                        Hay {{ event_bookmarks.count }} usuarios que han demostrado su interés en tu curso.
+                      </button>
+                    </h5>
+                  </div>
+                  <div id="bookmarked" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample" style="">
+                    <div class="card-body">
+                        {% for b in event_bookmarks %}
+                            <a href="{% url 'user_profile' b.user.id %}">{{ b.user.username }}</a>
+                        {% endfor %}
+                    </div>
+                  </div>
+                </div>
+                {% endif %}
+
+                <div class="card">
+                  <div class="card-header list-group-item-success" id="headingOne">
+                    <h5 class="mb-0">
+                      <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#asked_certificate" aria-expanded="false" aria-controls="collapseOne">
+                        Hay X usuarios que han solicitado un certificado de tu curso.
+                      </button>
+                    </h5>
+                  </div>
+                  <div id="asked_certificate" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample" style="">
+                    <div class="card-body">
+                      lista de usuarios que han solicitado un certificado.
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+
+        {% endif %}
+        <hr>
 		<div class="row">
 			<div class="col-lg-8 col-md-7">
 				<div class="card shadow-none bg-transparent">
@@ -115,18 +156,10 @@
                                         <p class="text-muted font-weight-bold">hasta el {{ event.date_end|date:"SHORT_DATE_FORMAT" }}</p>
                                     {% endif %}
 
-                                    {% if logged_user_profile.timezlocaone %}
-                                        {% timezone logged_user_profile.timezone  %}
-                                        <p class="text-muted font-weight-bold">
-                                            {{ event.date_start|date:"h:i A" }} ({{ logged_user_profile.timezone }}
-                                        </p>
-                                        {% endtimezone %}
-                                    {% else %}
-                                        <p class="text-muted font-weight-bold">
-                                         {{ event.date_start|date:"h:i A" }} ({{ owner_profile.timezone }})
-                                        </p>
-                                    {% endif %}
-
+                                    <p class="text-muted font-weight-bold">
+                                     {{ event.date_start|date:"h:i A" }} ({{ owner_profile.timezone }})
+                                    </p>
+{#                                    TODO mostrar un extra con la hora en el timezone del usuario#}
 
                                     {% if event.schedule_description %}
                                         <p class="text-muted font-weight-bold">
@@ -209,7 +242,6 @@
             });
             $("#event_bookmark").on("click", function(e){
                 e.preventDefault();
-
                 if ("{{ user.is_authenticated }}" === "True"){
                     data = {
                         "event_id": {{ event.id }},
@@ -217,17 +249,34 @@
                     $.ajax({
                         method: "post",
                         url: "{% url 'event_bookmark' event.id %}",
-                        data: data
+                        data: data,
+                        success: function(response){
+                            location.reload();
+                        },
+                        error: function(response){
+                            console.log(response);
+                        }
                     });
-                    $.ajax({
-                        method: "post",
-                        url: "{% url 'remove_bookmark' event.id %}",
-                        data: data
-                    })
                 } else {
                     window.location.href = "{% url 'login' %}";
                 }
             });
+            $("#remove_bookmark").on("click", function(e){
+                data = {
+                        "event_id": {{ event.id }},
+                    }
+                $.ajax({
+                        method: "post",
+                        url: "{% url 'remove_bookmark' event.id %}",
+                        data: data,
+                        success: function(response){
+                            location.reload();
+                        },
+                        error: function(response){
+                            console.log(response);
+                        }
+                    });
+            })
         });
     </script>
 {% endblock extra_js %}

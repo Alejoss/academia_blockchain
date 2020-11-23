@@ -77,7 +77,8 @@
                             <button id="edit_event" type="button" class="btn btn-success"><i class="fa fa-certificate"></i> Solicitar Certificado</button>
                         </li>
                         <li class="mr-3">
-                            <button id="edit_event" type="button" class="btn btn-danger"><i class="fa fa-times-circle"></i> Eliminar</button>
+                            <button id="edit_event" type="button" data-id="{{ b.event.id }}" class="btn btn-danger delete_bookmark">
+                                <i class="fa fa-times-circle"></i> Eliminar</button>
                         </li>
                     </ul>
                     </div>
@@ -88,3 +89,28 @@
         </div>
     </div>
 {% endblock profile_content %}
+
+
+{% block extra_js %}
+    <script>
+        $(document).ready(function() {
+            $(".delete_bookmark").on("click", function(e){
+                data = {
+                        "event_id": $(this).data("id")
+                    }
+                console.log(data);
+                $.ajax({
+                        method: "post",
+                        url: "{% url 'remove_bookmark' 0 %}".replace("0", data["event_id"]),
+                        data: data,
+                        success: function(response){
+                            location.reload();
+                        },
+                        error: function(response){
+                            console.log(response);
+                        }
+                    });
+            })
+        })
+    </script>
+{% endblock extra_js %}
