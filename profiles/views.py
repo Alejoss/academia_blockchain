@@ -9,7 +9,7 @@ from django.http import HttpResponse
 
 from profiles.utils import AcademiaUserCreationForm, AcademiaLoginForm, ProfilePictureForm, get_cryptos_string
 from profiles.models import Profile, AcceptedCrypto, ContactMethod, CryptoCurrency
-from courses.models import Event, Bookmark
+from courses.models import Event, Bookmark, CertificateRequest
 
 
 # Manejo de cuentas
@@ -253,10 +253,18 @@ def profile_certificates(request):
 @login_required
 def profile_bookmarks(request):
     template = "profiles/profile_bookmarks.html"
+    bookmarks = []
     bookmarked_events = Bookmark.objects.filter(user=request.user, deleted=False)
+    for b in bookmarked_events:
+        certificate_request = None
+        if CertificateRequest.objects.filter(user=request.user, event=b.event):
+            certificate_request = CertificateRequest.objects.get(user=request.user, event=b.event)
+        bookmarks.append([b, certificate_request])
+
+    print("bookmarks:%s" % bookmarks)
 
     context = {"profile_index_active": "active", "underline_bookmarks": "text-underline",
-               "bookmarked_events": bookmarked_events}
+               "bookmarks": bookmarks}
     return render(request, template, context)
 
 

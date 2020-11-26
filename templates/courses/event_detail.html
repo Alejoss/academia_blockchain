@@ -98,7 +98,7 @@
 						<h3 class="card-title text-dark">{{ event.title }}</h3>
 						<p class="">{{ event.description|safe }}</p>
 
-						<h3 class="card-title text-warning">Contacta a {{ event.owner.username }}:</h3>
+						<h3 class="card-title text-warning">Contacta a <a href="{% url 'user_profile' event.owner.id %}">{{ event.owner.username }}:</a></h3>
 
                     {% if user.is_authenticated %}
                         <div class="list-group">

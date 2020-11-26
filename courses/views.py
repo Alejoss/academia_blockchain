@@ -11,7 +11,7 @@ from django.utils.timezone import is_aware
 from django.contrib.auth import get_user
 from django.http import HttpResponse
 
-from courses.models import Event, ConnectionPlatform, Bookmark
+from courses.models import Event, ConnectionPlatform, Bookmark, CertificateRequest
 from profiles.models import ContactMethod, AcceptedCrypto, Profile
 from profiles.utils import academia_blockchain_timezones
 
@@ -46,6 +46,7 @@ def event_detail(request, event_id):
     if request.user.is_authenticated:
         logged_user_profile = Profile.objects.get(user=request.user)
         try:
+            # TODO mostrar los tiempos del evento en la hora del visitante
             user_timezone = pytz.timezone("America/Guayaquil")
             event_user_timezone = event.date_start.astimezone(user_timezone)
         except Exception as e:
@@ -57,10 +58,6 @@ def event_detail(request, event_id):
     event_bookmarks = Bookmark.objects.none()
     if is_event_owner:
         event_bookmarks = Bookmark.objects.filter(event=event, deleted=False)
-        # TODO no esta mostrando los bookmarks correctamente
-
-    print("event_is_bookmarked: %s" % event_is_bookmarked)
-    print("event_bookmarks: %s" % event_bookmarks)
 
     context = {"event": event, "contact_methods": contact_methods, "accepted_cryptos": accepted_cryptos,
                "owner_profile": owner_profile, "event_user_timezone": event_user_timezone,
@@ -370,7 +367,7 @@ def edit_event(request, event_id):
 """
 API CALLS
 """
-
+# TODO manejar cookie en el front, remover csrf_exempt
 
 @login_required
 @csrf_exempt
@@ -409,3 +406,42 @@ def remove_bookmark(request, event_id):
 
     else:
         return HttpResponse(status=403)
+
+
+@login_required
+@csrf_exempt
+def request_certificate(request, event_id):
+    print("event_id: %s" % event_id)
+    if request.is_ajax() and request.method == "POST":
+        event = get_object_or_404(Event, id=event_id)
+        if CertificateRequest.objects.filter(event=event, user=request.user, deleted=False).exists():
+            return HttpResponse(status=200)
+        else:
+            if CertificateRequest.objects.filter(event=event, user=request.user, deleted=True).exists():
+                certificate_request = CertificateRequest.objects.get(event=event, user=request.user, deleted=True)
+                certificate_request.deleted = False
+                certificate_request.save()
+            else:
+                CertificateRequest.objects.create(event=event, user=request.user)
+            return HttpResponse(status=201)
+    else:
+        return HttpResponse(status=403)
+
+
+@login_required
+@csrf_exempt
+def cancel_certificate_request(request, event_id):
+    print("event_id: %s" % event_id)
+    if request.is_ajax() and request.method == "POST":
+        event = get_object_or_404(Event, id=event_id)
+        if CertificateRequest.objects.filter(event=event, user=request.user, deleted=False).exists():
+            certificate_request = CertificateRequest.objects.get(event=event, user=request.user, deleted=False)
+            print("certificate_request: %s" % certificate_request)
+            certificate_request.deleted = True
+            certificate_request.save()
+            return HttpResponse(status=201)
+        else:
+            return HttpResponse(status=404)
+    else:
+        return HttpResponse(status=403)
+

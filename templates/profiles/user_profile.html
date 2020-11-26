@@ -5,7 +5,7 @@
 	<div class="container">
             <div class="row">
                 <div class="media media-avator-view flex-column flex-sm-row">
-                <div class="media-img mb-5 mb-sm-0 mr-md-5 mr-lg-6 rounded-sm shadow-sm" href="">
+                <div class="media-img mb-5 mb-sm-0 mr-md-5 mr-lg-6 rounded-sm shadow-sm">
                     {% if profile.profile_picture %}
                         <img id="profile_picture" class="rounded-sm" src="{{ profile.profile_picture.url }}">
                     {% else %}
@@ -13,10 +13,9 @@
                     {% endif %}
                 </div>
                   <div class="media-body">
-        {#          TODO revisar si existe el username #}
-                    <p class="font-size-20 font-weight-medium d-inline-block mb-1">{{ user.username }}</p>
+                    <p class="font-size-20 font-weight-medium d-inline-block mb-1">{{ profile.user.username }}</p>
                       <br>
-                    <p class="font-size-15 text-muted font-weight-medium d-inline-block mb-1">{{ user.get_full_name }}</p>
+                    <p class="font-size-15 text-muted font-weight-medium d-inline-block mb-1">{{ profile.user.get_full_name }}</p>
 
                     <span class="text-muted font-size-15 mb-1 d-block">
                         <strong>
@@ -27,7 +26,6 @@
                     <p>
                         {{ profile.profile_description }}
                     </p>
-        {#            TODO los tipos de letra son distintos #}
                     <span class="text-muted font-size-15 mb-1 d-block">
                         <p class="text-muted">
                            <strong>Criptos preferidas</strong>:
@@ -83,8 +81,7 @@
                         {% elif event.event_type == "EVENT" %}
                             {% if event.is_recurrent %}
                                 <i class="fa fa-calendar mr-2" aria-hidden="true"></i>Evento Recurrente
-                            {% else %}
-                                <i class="fa fa-tag mr-2" aria-hidden="true"></i>Evento
+                            {% else %}<i class="fa fa-tag mr-2" aria-hidden="true"></i>Evento
                             {% endif %}
                         {% endif %}
                     </li>
@@ -121,7 +118,6 @@
                 <p>
                     <strong>Certificados: </strong>
                     <br>
-
                 </p>
             </div>
         </div>

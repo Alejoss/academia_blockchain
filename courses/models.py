@@ -55,7 +55,7 @@ class Certificate(models.Model):
     # TODO implementar certificados
     date_created = models.DateTimeField(auto_now_add=True)
     event = models.ForeignKey(Event, null=True, on_delete=models.CASCADE)
-    user_awarded = models.ForeignKey(User, null=True, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, null=True, on_delete=models.CASCADE)
 
 
 class Bookmark(models.Model):
@@ -66,3 +66,11 @@ class Bookmark(models.Model):
 
     def __str__(self):
         return self.event.title + " - " + self.user.username
+
+
+class CertificateRequest(models.Model):
+    event = models.ForeignKey(Event, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    date = models.DateTimeField(auto_now_add=True, null=True, blank=True)
+    rejected = models.BooleanField(default=False, null=True, blank=True)
+    deleted = models.BooleanField(default=False, null=True, blank=True)
