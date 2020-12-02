@@ -3,100 +3,84 @@
 {% block profile_content %}
 
     <div class="col-md-8 col-lg-9 order-md-1">
-				<div class="row">
+        <div class="row">
+            <div class="media media-avator-view flex-column flex-sm-row">
+                <div class="media-body">
+                    <p>
+                      Aquí puedes encontrar los certificados a los cursos / eventos que has asistido. Recuerda que para recibir un
+                        certificado debes solicitarlo, puedes hacerlo en la página de "Favoritos". El creador del curso / evento
+                        debe aceptar tu solicitud.
+                    </p>
+                    <div class="text-white rounded bg-warning text-uppercase font-weight-medium px-6 py-3 mb-3">Tus Certificados</div>
+                    <hr>
 
-                    <div class="media media-avator-view flex-column flex-sm-row">
-                      <div class="media-body">
-                          <div class="text-white rounded bg-warning text-uppercase font-weight-medium px-6 py-3 mb-3">Tus Certificados</div>
-
-                         <div class="media media-list-view mb-5">
+                    {% for c in certificates %}
+                        <div class="media media-list-view mb-5">
                             <a class="media-img" href="">
-                                <img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fimagens.mdig.com.br%2Fnatureza%2Fpinho_bonsai_Yamaki_02.jpg&f=1&nofb=1" alt="Image">
+                                {% if c.event.image %}
+                                    <img src="{{ c.event.image.url }}" alt="">
+                                {% endif %}
                             </a>
 
                             <div class="media-body">
-                                <h3 class="mb-3 mb-lg-2 mb-xl-3">
-                                    <a class="text-dark text-capitalize font-weight-bold" href="">
-                                        Experto en Bonsais</a>
+                                <h3>
+                                    <a class="text-warning" href="{% url 'event_detail' c.event.id %}">{{ c.event.title }}</a>
                                 </h3>
 
-                                <ul class="list-unstyled d-flex text-muted mb-2">
+                                <ul class="list-unstyled d-flex text-muted mb-3">
                                     <li class="mr-3">
-                                        <i class="fa fa-vcard-o mr-2" aria-hidden="true"></i>Belen Bonsai Institute
+                                        {% if c.event.event_type == "COURSE" %}
+                                            {% if c.event.is_recorded %}
+                                                <i class="fa fa-play-circle mr-2" aria-hidden="true"></i>Curso Grabado
+                                            {% else %}
+                                                <i class="fa fa-video-camera mr-2" aria-hidden="true"></i>Curso en Línea
+                                            {% endif %}
+                                        {% elif c.event.event_type == "EVENT" %}
+                                            {% if c.event.is_recurrent %}
+                                                <i class="fa fa-calendar mr-2" aria-hidden="true"></i>Evento Recurrente
+                                            {% else %}
+                                                <i class="fa fa-tag mr-2" aria-hidden="true"></i>Evento
+                                            {% endif %}
+                                        {% endif %}
+                                    </li>
+                                    <li>
+                                        {% if c.event.is_recorded %}
+                                            {% if c.event.is_recorded %}
+                                                <i class="fa fa-clock-o mr-2" aria-hidden="true"></i>
+                                                {{ c.event.date_recorded|date:"SHORT_DATE_FORMAT" }}
+                                            {% endif %}
+                                        {% elif c.event.is_recurrent %}
+                                            {% if c.event.schedule_description %}
+                                                <i class="fa fa-clock-o mr-2" aria-hidden="true"></i>
+                                                {{ c.event.schedule_description }}
+                                            {% endif %}
+                                        {% else %}
+                                            {% if c.event.date_start %}
+                                                <i class="fa fa-clock-o mr-2" aria-hidden="true"></i>
+                                                {{ c.event.date_start|date:"SHORT_DATE_FORMAT" }}
+                                            {% endif %}
+                                            {% if c.event.date_end %}
+                                                - {{ c.event.date_end|date:"SHORT_DATE_FORMAT" }}
+                                            {% endif %}
+                                        {% endif %}
                                     </li>
                                 </ul>
 
-                                <p class="text-justify mb-lg-2">They must explain to you how all this mistaken idea of denouncing pleasure and
-                                    praising pain was born and I will give you a com plete account of the system, and expound the actual teachings of
-                                    the great explorer of the truth, the master-builder of human happiness. No one rejects, dislikes, or avoids
-                                    pleasure itself.</p>
+                                <p class="text-justify mb-lg-2">{{ c.event.description|truncatewords:100|safe }}</p>
 
                                 <div class="">
-                                    <a class="btn btn-link text-hover-success text-underline pl-0" href="">
-                                        <i class="fa fa-angle-double-right mr-1" aria-hidden="true"></i> Leer más
-                                    </a>
-                                    <a class="btn btn-link text-hover-success text-underline pl-0" href="">
-                                        <i class="fa fa-certificate mr-1" aria-hidden="true"></i> Ver Certificado
+                                    <a href="" class="btn btn-sm btn-white text-uppercase mb-1 mr-2 btn-hover-success">
+                                        <i class="fa fa-certificate mr-2" aria-hidden="true"></i>Ver Certificado
                                     </a>
                                 </div>
                             </div>
                         </div>
 
-{#                          <div class="text-white rounded bg-secondary text-uppercase font-weight-medium px-6 py-3 mb-3">Aplicaciones pendientes</div>#}
-{#                          <ul class="list-unstyled list-item-border-bottom">#}
-{#                            <li class="mb-4 pb-4">#}
-{#                              <div class="media">#}
-{#                                  <div class = "col-3">#}
-{#                                    <a class="mr-2" href="blog-single-left-sidebar.html">#}
-{#                                      <img class="rounded-lg w-100 border-warning border-2 d-block" data-src="assets/img/blog/blog-sm-img5.jpg"#}
-{#                                        src="https://httpsamc-a.akamaihd.net/3864268799001/3864268799001_4779366770001_1602-CocinaItalianaT2-RobertoSalvatore2.jpg?pubId=3864268799001&videoId=4048532764001">#}
-{#                                    </a>#}
-{#                                  </div>#}
-{#                                <div class="media-body">#}
-{#                                  <h5 class="line-hight-16 mb-1">#}
-{#                                    <p class="font-base font-size-14">#}
-{#                                          Cheff de Comida Italiana#}
-{#                                      </p>#}
-{#                                    <p class="font-base font-size-14" href="blog-single-left-sidebar.html">#}
-{#                                      <i class="fa fa-vcard-o mr-2" aria-hidden="true"></i> Giancomo Bruno</p>#}
-{#                                  </h5>#}
-{#                                    <button type="button" class="btn btn-danger text-uppercase">Retirar Aplicacion</button>#}
-{#                                </div>#}
-{#                              </div>#}
-{#                            </li>#}
-{#                          </ul>#}
-{##}
-{##}
-{#                          <div class="text-white rounded bg-secondary text-uppercase font-weight-medium px-6 py-3 mb-3">Aplicaciones pasadas</div>#}
-{#                          <ul class="list-unstyled list-item-border-bottom">#}
-{#                            <li class="mb-4 pb-4">#}
-{#                              <div class="media">#}
-{#                                  <div class = "col-3">#}
-{#                                    <a class="mr-2" href="blog-single-left-sidebar.html">#}
-{#                                      <img class="rounded-lg w-100 border-warning border-2 d-block" data-src="assets/img/blog/blog-sm-img5.jpg"#}
-{#                                        src="https://pbs.twimg.com/media/D3Vu0riUUAAYEav.jpg">#}
-{#                                    </a>#}
-{#                                  </div>#}
-{#                                <div class="media-body">#}
-{#                                  <h5 class="line-hight-16 mb-1">#}
-{#                                    <p class="font-base font-size-14">#}
-{#                                          Conocedor de Historia Mexicana#}
-{#                                      </p>#}
-{#                                    <p class="font-base font-size-14" href="blog-single-left-sidebar.html">#}
-{#                                      <i class="fa fa-vcard-o mr-2" aria-hidden="true"></i> Angel Mora</p>#}
-{#                                  </h5>#}
-{#                                    <button type="button" class="btn btn-success text-uppercase">Aplicar Nuevamente</button>#}
-{#                                    <button type="button" class="btn btn-danger text-uppercase">Eliminar</button>#}
-{#                                </div>#}
-{#                              </div>#}
-{#                            </li>#}
-{#                          </ul>#}
+                    {% endfor %}
 
-                      </div>
-
-                    </div>
-				</div>
-			</div>
-
+                </div>
+            </div>
+        </div>
+    </div>
 
 {% endblock profile_content %}

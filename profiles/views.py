@@ -7,9 +7,10 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login
 from django.http import HttpResponse
 
-from profiles.utils import AcademiaUserCreationForm, AcademiaLoginForm, ProfilePictureForm, get_cryptos_string
+from profiles.utils import AcademiaUserCreationForm, AcademiaLoginForm, ProfilePictureForm, \
+    get_cryptos_string, academia_blockchain_timezones
 from profiles.models import Profile, AcceptedCrypto, ContactMethod, CryptoCurrency
-from courses.models import Event, Bookmark, CertificateRequest
+from courses.models import Event, Bookmark, CertificateRequest, Certificate
 
 
 # Manejo de cuentas
@@ -97,7 +98,7 @@ def profile_data(request):
         profile_picture_form = ProfilePictureForm()
 
         context = {"profile_index_active": "active", "underline_data": "text-underline",
-                   "profile": profile,
+                   "profile": profile, "academia_blockchain_timezones": academia_blockchain_timezones,
                    "cryptos_string": cryptos_string, "contact_methods": contact_methods,
                    "profile_picture_form": profile_picture_form}
         return render(request, template, context)
@@ -238,15 +239,31 @@ def profile_edit_cryptos(request):
 def profile_events(request):
     template = "profiles/profile_events.html"
     events = Event.objects.filter(owner=request.user)
+    certificate_requests = CertificateRequest.objects.filter(event__owner=request.user, deleted=False,
+                                                             accepted=False)
     context = {"profile_index_active": "active", "underline_events": "text-underline",
-               "events": events}
+               "events": events, "certificate_requests": certificate_requests}
     return render(request, template, context)
 
 
 @login_required
 def profile_certificates(request):
     template = "profiles/profile_certificates.html"
-    context = {"profile_index_active": "active", "underline_certificates": "text-underline"}
+    certificates = Certificate.objects.filter(user=request.user)
+    context = {"profile_index_active": "active", "underline_certificates": "text-underline",
+               "certificates": certificates}
+    return render(request, template, context)
+
+
+@login_required
+def profile_cert_requests(request):
+    template = "profiles/profile_cert_requests.html"
+    cert_requests = CertificateRequest.objects.filter(event__owner=request.user, accepted__isnull=True,
+                                                      deleted=False).order_by("event")
+    cert_requests_rejected = CertificateRequest.objects.filter(event__owner=request.user, accepted=False,
+                                                               deleted=False).order_by("event")
+    print("cert_requests: %s" % cert_requests)
+    context = {"cert_requests": cert_requests, "cert_requests_rejected": cert_requests_rejected}
     return render(request, template, context)
 
 
@@ -257,7 +274,8 @@ def profile_bookmarks(request):
     bookmarked_events = Bookmark.objects.filter(user=request.user, deleted=False)
     for b in bookmarked_events:
         certificate_request = None
-        if CertificateRequest.objects.filter(user=request.user, event=b.event):
+        if CertificateRequest.objects.filter(user=request.user, event=b.event).exists():
+            # TODO que mostrar si el request fue rechazado, si ya existe el certificado
             certificate_request = CertificateRequest.objects.get(user=request.user, event=b.event)
         bookmarks.append([b, certificate_request])
 
@@ -293,7 +311,3 @@ def api_create_profile(request):
         return render(request, template, {"user": user})
     else:
         return HttpResponse(status=HTTPStatus.FORBIDDEN)
-
-
-def complete_account(request):  # TODO implement % complete profile?
-    pass

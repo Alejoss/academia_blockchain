@@ -7,6 +7,32 @@
             <div class="media media-avator-view flex-column flex-sm-row">
               <div class="media-body">
 
+                {% if certificate_requests %}
+                    <div class="card">
+                      <div class="card-header list-group-item-success certificate_requests">
+                        <h5 class="mb-0">
+                          <button class="btn btn-link cert_requests" type="button">
+                              {% if certificate_requests.count == 1 %}
+                                  Hay {{ certificate_requests.count }} usuario que ha solicitado un certificado de tu curso / evento.
+                              {% else %}
+                                  Hay {{ certificate_requests.count }} usuarios que han solicitado certificados de tu cursos / eventos.
+                              {% endif %}
+                          </button>
+                        </h5>
+                      </div>
+                    </div>
+                {% else %}
+                    <div class="card">
+                      <div class="card-header list-group-item-info">
+                        <h5 class="mb-0">
+                          <button class="btn btn-link cert_requests certificate_requests" type="button">
+                            <i class="fa fa-certificate"></i> No tienes nuevas solicitudes de certificados en tus cursos.
+                          </button>
+                        </h5>
+                      </div>
+                    </div>
+                {% endif %}
+
                   <div class="col-12">
                     <div class="text-sm-center mt-6">
 {#                                TODO solo usuarios con email confirmado pueden crear un curso#}
@@ -84,3 +110,15 @@
     </div>
 
 {% endblock profile_content %}
+
+
+{% block extra_js %}
+    <script>
+    $( document ).ready(function() {
+        $(".certificate_requests").on("click", function(e){
+           e.preventDefault();
+           window.location.href = "{% url 'profile_cert_requests' %}";
+        });
+    })
+    </script>
+{% endblock extra_js %}

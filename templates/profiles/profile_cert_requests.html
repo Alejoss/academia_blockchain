@@ -1,0 +1,103 @@
+{% extends 'profiles/profile_base.html' %}
+
+{% block profile_content %}
+    <div class="col-md-8 col-lg-9 order-md-1">
+        <div class="row">
+            <div class="media media-avator-view flex-column flex-sm-row">
+              <div class="media-body">
+                  <p>
+                    Puedes aceptar o rechazar los pedidos de certificados de tus cursos y eventos.
+                  </p>
+                  <div class="text-white rounded bg-warning text-uppercase
+                  font-weight-medium px-6 py-3 mb-3">Pedidos de Certificado</div>
+                  <hr>
+                  {% for c in cert_requests %}
+                      <div class="media media-list-view mb-5">
+                        <div class="media-body">
+                          <h3 class="mb-3 mb-lg-2 mb-xl-3 text-muted">
+                            {{ c.event.title }}
+                            {% if c.event.event_type == "COURSE" %}
+                                {% if c.event.is_recorded %}
+                                    <small class="text-muted">
+                                        <i class="fa fa-play-circle mr-2" aria-hidden="true"></i>
+                                    </small>
+                                {% else %}
+                                    <small class="text-muted">
+                                        <i class="fa fa-video-camera mr-2" aria-hidden="true"></i>
+                                    </small>
+                                {% endif %}
+                            {% elif c.event.event_type == "EVENT" %}
+                                {% if c.event.is_recurrent %}
+                                    <small class="text-muted">
+                                        <i class="fa fa-calendar mr-2" aria-hidden="true"></i>
+                                    </small>
+                                {% else %}
+                                    <small class="text-muted">
+                                        <i class="fa fa-tag mr-2" aria-hidden="true"></i>
+                                    </small>
+                                {% endif %}
+                            {% endif %}
+                          <a target="_blank" class="text-info text-capitalize font-weight-bold" href="">
+                            {{ c.user.username }} <i class="fa fa-user-circle-o mr-2" aria-hidden="true"></i>
+                          </a>
+                          </h3>
+                        <ul class="list-unstyled d-flex text-muted mb-2">
+                            <li class="mr-3">
+                                <button type="button" data-id="{{ c.id }}" class="btn btn-success accept_certificate">
+                                <i class="fa fa-certificate"></i> Aceptar</button>
+                            </li>
+                            <li class="mr-3">
+                                <button type="button" data-id="{{ c.id }}" class="btn btn-danger reject_certificate">
+                                <i class="fa fa-times"></i> Rechazar</button>
+                            </li>
+                        </ul>
+                        </div>
+                      </div>
+                  {% endfor %}
+              </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock profile_content %}
+
+{% block extra_js %}
+    <script>
+        $(document).ready(function() {
+            $(".accept_certificate").on("click", function(e){
+                data = {
+                        "cert_request_id": $(this).data("id")
+                    }
+                console.log(data);
+                $.ajax({
+                        method: "post",
+                        url: "{% url 'accept_certificate' 0 %}".replace("0", data["cert_request_id"]),
+                        data: data,
+                        success: function(response){
+                            location.reload();
+                        },
+                        error: function(response){
+                            console.log(response);
+                        }
+                    });
+            });
+            $(".reject_certificate").on("click", function(e){
+                data = {
+                        "cert_request_id": $(this).data("id")
+                    }
+                console.log(data);
+                $.ajax({
+                        method: "post",
+                        url: "{% url 'reject_certificate' 0 %}".replace("0", data["cert_request_id"]),
+                        data: data,
+                        success: function(response){
+                            location.reload();
+                        },
+                        error: function(response){
+                            console.log(response);
+                        }
+                    });
+            });
+        })
+    </script>
+{% endblock extra_js %}

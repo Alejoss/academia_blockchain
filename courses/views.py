@@ -11,7 +11,7 @@ from django.utils.timezone import is_aware
 from django.contrib.auth import get_user
 from django.http import HttpResponse
 
-from courses.models import Event, ConnectionPlatform, Bookmark, CertificateRequest
+from courses.models import Event, ConnectionPlatform, Bookmark, CertificateRequest, Certificate
 from profiles.models import ContactMethod, AcceptedCrypto, Profile
 from profiles.utils import academia_blockchain_timezones
 
@@ -54,15 +54,17 @@ def event_detail(request, event_id):
         event_is_bookmarked = Bookmark.objects.filter(event=event, user=request.user, deleted=False).exists()
 
     is_event_owner = (event.owner == request.user)
-    print("is_event_owner: %s" % is_event_owner)
     event_bookmarks = Bookmark.objects.none()
+    certificate_requests = CertificateRequest.objects.none()
     if is_event_owner:
         event_bookmarks = Bookmark.objects.filter(event=event, deleted=False)
+        certificate_requests = CertificateRequest.objects.filter(event=event, deleted=False)
 
     context = {"event": event, "contact_methods": contact_methods, "accepted_cryptos": accepted_cryptos,
                "owner_profile": owner_profile, "event_user_timezone": event_user_timezone,
                "logged_user_profile": logged_user_profile, "event_is_bookmarked": event_is_bookmarked,
-               "is_event_owner": is_event_owner, "event_bookmarks": event_bookmarks}
+               "is_event_owner": is_event_owner, "event_bookmarks": event_bookmarks,
+               "certificate_requests": certificate_requests}
     return render(request, template, context)
 
 
@@ -367,6 +369,8 @@ def edit_event(request, event_id):
 """
 API CALLS
 """
+
+
 # TODO manejar cookie en el front, remover csrf_exempt
 
 @login_required
@@ -392,7 +396,6 @@ def event_bookmark(request, event_id):
 @login_required
 @csrf_exempt
 def remove_bookmark(request, event_id):
-    print("event_id: %s" % event_id)
     if request.is_ajax() and request.method == "POST":
         event = get_object_or_404(Event, id=event_id)
         if Bookmark.objects.filter(event=event, user=request.user, deleted=False).exists():
@@ -401,7 +404,6 @@ def remove_bookmark(request, event_id):
             bookmark.save()
             return HttpResponse(status=200)
         else:
-            print("BOOKMARK NO EXISTE")
             return HttpResponse(status=404)
 
     else:
@@ -411,7 +413,6 @@ def remove_bookmark(request, event_id):
 @login_required
 @csrf_exempt
 def request_certificate(request, event_id):
-    print("event_id: %s" % event_id)
     if request.is_ajax() and request.method == "POST":
         event = get_object_or_404(Event, id=event_id)
         if CertificateRequest.objects.filter(event=event, user=request.user, deleted=False).exists():
@@ -430,18 +431,50 @@ def request_certificate(request, event_id):
 
 @login_required
 @csrf_exempt
-def cancel_certificate_request(request, event_id):
-    print("event_id: %s" % event_id)
+def cancel_cert_request(request, event_id):
     if request.is_ajax() and request.method == "POST":
         event = get_object_or_404(Event, id=event_id)
         if CertificateRequest.objects.filter(event=event, user=request.user, deleted=False).exists():
             certificate_request = CertificateRequest.objects.get(event=event, user=request.user, deleted=False)
-            print("certificate_request: %s" % certificate_request)
             certificate_request.deleted = True
             certificate_request.save()
             return HttpResponse(status=201)
         else:
             return HttpResponse(status=404)
     else:
-        return HttpResponse(status=403)
+        return HttpResponse(status=400)
 
+
+@login_required
+@csrf_exempt
+def accept_certificate(request, cert_request_id):
+    if request.is_ajax() and request.method == "POST":
+        certificate_request = get_object_or_404(CertificateRequest, id=cert_request_id)
+        if request.user == certificate_request.event.owner:
+            if Certificate.objects.filter(event=certificate_request.event, user=certificate_request.user).exists():
+                pass
+            else:
+                Certificate.objects.create(event=certificate_request.event, user=certificate_request.user)
+            certificate_request.accepted = True
+            certificate_request.save()
+            return HttpResponse(status=201)
+        else:
+            return HttpResponse(status=403)
+    else:
+        return HttpResponse(status=400)
+
+
+def reject_certificate(request, cert_request_id):
+    if request.is_ajax() and request.method == "POST":
+        certificate_request = get_object_or_404(CertificateRequest, id=cert_request_id)
+        if request.user == certificate_request.event.owner:
+            if Certificate.objects.filter(event=certificate_request.event, user=certificate_request.user).exists():
+                pass  # No puede rechazar si ya existe el certificado
+            else:
+                certificate_request.accepted = False
+                certificate_request.save()
+            return HttpResponse(status=201)
+        else:
+            return HttpResponse(status=403)
+    else:
+        return HttpResponse(status=400)

@@ -1,60 +1,58 @@
 {% extends 'profiles/profile_base.html' %}
 
 {% block profile_content %}
-{#TODO pagina de perfil de otro, toma id del perfil en la url#}
 <!-- ====================================
 ———	BLOG GRID LEFT SIDEBAR
 ===================================== -->
 <div class="col-md-8 col-lg-9 order-md-1">
     <div class="row">
-
         <div class="media media-avator-view flex-column flex-sm-row">
-        <a class="media-img mb-5 mb-sm-0 mr-md-5 mr-lg-6 rounded-sm shadow-sm" href="">
+            <a class="media-img mb-5 mb-sm-0 mr-md-5 mr-lg-6 rounded-sm shadow-sm" href="">
             {% if profile.profile_picture %}
                 <img id="profile_picture" class="rounded-sm" src="{{ profile.profile_picture.url }}">
             {% else %}
                 <img id="profile_picture" class="rounded-sm" src="https://picsum.photos/200">
             {% endif %}
-        </a>
-          <div class="media-body">
-{#          TODO revisar si existe el username #}
-            <p class="font-size-20 font-weight-medium d-inline-block mb-1">{{ user.username }}</p>
-              <br>
-            <p class="font-size-15 text-muted font-weight-medium d-inline-block mb-1">{{ user.get_full_name }}</p>
+            </a>
+            <div class="media-body">
+    {#          TODO revisar si existe el username #}
+                <p class="font-size-20 font-weight-medium d-inline-block mb-1">{{ user.username }}</p>
+                  <br>
+                <p class="font-size-15 text-muted font-weight-medium d-inline-block mb-1">{{ user.get_full_name }}</p>
 
-            <span class="text-muted font-size-15 mb-1 d-block">
-                <strong>
-                    Intereses:
-                </strong>
-               {{ profile.interests }}
-            </span>
-            <p>
-                {{ profile.profile_description }}
-            </p>
-{#            TODO los tipos de letra son distintos #}
-            <span class="text-muted font-size-15 mb-1 d-block">
-                <p class="text-muted">
-                   <strong>Criptos preferidas</strong>:
-                    {{ cryptos_string }}
+                <span class="text-muted font-size-15 mb-1 d-block">
+                    <strong>
+                        Intereses:
+                    </strong>
+                   {{ profile.interests }}
+                </span>
+                <p>
+                    {{ profile.profile_description }}
                 </p>
+    {#            TODO los tipos de letra son distintos #}
+                <span class="text-muted font-size-15 mb-1 d-block">
+                    <p class="text-muted">
+                       <strong>Criptos preferidas</strong>:
+                        {{ cryptos_string }}
+                    </p>
 
-                <strong>Métodos de Contacto</strong>:
-                <ul class="text-muted">
-                    {% for c in contact_methods %}
-                    <li>
-{#                    TODO si no es link no poner anchor tag#}
-                        {{ c.name }} - <a class="text-muted" target="_blank" href="{{ c.url_link }}">{{ c.url_link }}</a>: {{ c.description }}
-                    </li>
-                    {% endfor %}
-                </ul>
-            </span>
-            <span class="text-muted font-size-15 mb-1 d-block">
-                <strong>
-                    Zona Horaria:
-                </strong>
-                {{ profile.timezone }}
-            </span>
-          </div>
+                    <strong>Métodos de Contacto</strong>:
+                    <ul class="text-muted">
+                        {% for c in contact_methods %}
+                        <li>
+    {#                    TODO si no es link no poner anchor tag#}
+                            {{ c.name }} - <a class="text-muted" target="_blank" href="{{ c.url_link }}">{{ c.url_link }}</a>: {{ c.description }}
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </span>
+                <span class="text-muted font-size-15 mb-1 d-block">
+                    <strong>
+                        Zona Horaria:
+                    </strong>
+                    {{ profile.timezone }}
+                </span>
+           </div>
         </div>
 
     <div class="col-12">
@@ -96,11 +94,15 @@
           <div class="col-sm-6 col-xs-12">
             <div class="form-group" id="input_time_zone">
                 <select class="custom-select my-1 mr-sm-2 border-info" id="time_zone_select" name="time_zone">
-{#                TODO no esta seleccionando la opcion que es#}
-                  {% for tz in academiab_timezones %}
+                  {% for tz in academia_blockchain_timezones %}
                       <option id="{{ tz }}" value="{{ tz }}">{{ tz }}</option>
                   {% endfor %}
                 </select>
+                <small id="" class="form-text text-muted">
+                    {% if profile.timezone %}
+                        Ahora estás en "{{ profile.timezone }}".
+                    {% endif %}
+                </small>
           </div>
 
            <div class="form-group form-group-icon">
@@ -181,20 +183,12 @@
            window.location.href = "{% url 'profile_edit_contact' %}";
         });
 
-        // timezone en form
-        let user_timezone = "{{ profile.timezone }}";
-        console.log(user_timezone);
-        if(user_timezone.length > 1){
-            let selected_default = $('#GMT2');
-            console.log(selected_default);
-            selected_default.removeAttr("selected");
-            console.log(user_timezone);
-            let timezone_option_id = user_timezone.replace("+", "");
-            timezone_option_id = timezone_option_id.replace("-", "");
-            console.log(timezone_option_id);
-
-            $("#"+timezone_option_id).prop("selected", true);
-        }
+        // timezone en form. Selecciona el timezone del usuario
+        // TODO no funciona el select timezone en el form. Jquery no puede seleccionar ids con "/"
+        {#let user_timezone = "{{ profile.timezone }}";#}
+        {#console.log(user_timezone);#}
+        {#if(user_timezone.length > 1){#}
+        {#    $("#Europe/Madrid").prop("selected", true);#}
 
         $("#profile_picture").on("click", function(e){
             e.preventDefault();

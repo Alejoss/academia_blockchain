@@ -15,6 +15,7 @@ urlpatterns = [
     path('profile_edit_contact/', views.profile_edit_contact, name="profile_edit_contact"),
     path('profile_edit_cryptos/', views.profile_edit_cryptos, name="profile_edit_cryptos"),
     path('profile_bookmarks/', views.profile_bookmarks, name="profile_bookmarks"),
+    path('profile_cert_requests/', views.profile_cert_requests, name="profile_cert_requests"),
     path('content/', views.content, name="content"),  # Proximamente
 
     # manejo de cuentas

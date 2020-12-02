@@ -10,7 +10,9 @@
                   En esta página podrás solicitar un certificado al organizador.
               </p>
                  <div class="text-white rounded bg-warning text-uppercase font-weight-medium px-6 py-3 mb-3">Tus Cursos y Eventos Guardados</div>
+                 <hr>
                 {% for b in bookmarks %}
+{#                    [bookmark, certificate_request]#}
                  <div class="media media-list-view mb-5">
                     <div class="media-body">
                     <h3 class="mb-3 mb-lg-2 mb-xl-3">
@@ -23,6 +25,9 @@
                         {% endif %}
                     </h3>
                     <p>
+                        <small class="text-muted">
+                            {{ b.0.event.owner.username }}
+                        </small>
                         {% if b.0.event.event_type == "COURSE" %}
                             {% if b.0.event.is_recorded %}
                                 <small class="text-muted">
@@ -76,17 +81,27 @@
                         {% if b.1 %}  {# Ya solicito un certificado #}
                             {% if b.1.deleted %}
                                 <li class="mr-3">
-                                    <button id="request_certificate" type="button" data-id="{{ b.0.event.id }}" class="btn btn-success request_certificate">
+                                    <button type="button" data-id="{{ b.0.event.id }}" class="btn btn-success request_certificate">
                                         <i class="fa fa-certificate"></i> Volver a Solicitar Certificado</button>
                                 </li>
+                            {% elif b.1.accepted == True %}  {# Ya obtuvo un certificado #}
                                 <li class="mr-3">
-                                    <button id="edit_event" type="button" data-id="{{ b.0.event.id }}" class="btn btn-danger delete_bookmark">
-                                    <i class="fa fa-times-circle"></i> Eliminar</button>
+{#                                TODO ver certificado#}
+                                    <button type="button" data-id="{{ b.0.event.id }}" class="btn btn-info view_certificate">
+                                        <i class="fa fa-certificate"></i> Ver Certificado</button>
                                 </li>
-                            {% else %}
+                            {% elif b.1.accepted == None %} {# Todavia no decide el profesor #}
                                 <li class="mr-3">
-                                    <button id="request_certificate" type="button" data-id="{{ b.0.event.id }}" class="btn btn-danger cancel_certificate_request">
-                                        <i class="fa fa-times"></i> Cancelar Solicitud Certificado</button>
+                                    <button type="button" data-id="{{ b.0.event.id }}" class="btn btn-success cancel_cert_request">
+                                        <i class="fa fa-times"></i> Eliminar Solicitud de Certificado</button>
+                                </li>
+                            {% elif b.1.accepted == False %}
+                                <li class="mr-3">
+                                    <button type="button" data-id="{{ b.0.event.id }}" class="btn btn-disabled disabled">
+                                        <i class="fa fa-times"></i> Certificado Rechazado</button>
+                                    <small class="form-text text-muted">
+                                      Si tienes dudas por favor comunícate con el organizador del evento.
+                                    </small>
                                 </li>
                             {% endif %}
                         {% else %}
@@ -94,11 +109,11 @@
                             <button id="request_certificate" type="button" data-id="{{ b.0.event.id }}" class="btn btn-success request_certificate">
                                 <i class="fa fa-certificate"></i> Solicitar Certificado</button>
                         </li>
+                        {% endif %}
                         <li class="mr-3">
                             <button id="edit_event" type="button" data-id="{{ b.0.event.id }}" class="btn btn-danger delete_bookmark">
-                                <i class="fa fa-times-circle"></i> Eliminar</button>
+                                <i class="fa fa-times-circle"></i> Eliminar de Favoritos</button>
                         </li>
-                        {% endif %}
                     </ul>
                     </div>
                   </div>
@@ -148,14 +163,32 @@
                     });
             });
 
-            $(".cancel_certificate_request").on("click", function(e){
+            $(".cancel_cert_request").on("click", function(e){
                 data = {
                         "event_id": $(this).data("id")
                     }
                 console.log(data);
                 $.ajax({
                         method: "post",
-                        url: "{% url 'cancel_certificate_request' 0 %}".replace("0", data["event_id"]),
+                        url: "{% url 'cancel_cert_request' 0 %}".replace("0", data["event_id"]),
+                        data: data,
+                        success: function(response){
+                            location.reload();
+                        },
+                        error: function(response){
+                            console.log(response);
+                        }
+                    });
+            });
+
+            $(".view_certificate").on("click", function(e){
+                data = {
+                        "event_id": $(this).data("id")
+                    }
+                console.log(data);
+                $.ajax({
+                        method: "post",
+                        url: "",
                         data: data,
                         success: function(response){
                             location.reload();

@@ -14,7 +14,8 @@
                 <div class="card">
                   <div class="card-header" id="headingOne">
                     <h5 class="mb-0">
-                      <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#bookmarked" aria-expanded="false" aria-controls="collapseOne">
+                      <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#bookmarked"
+                              aria-expanded="false" aria-controls="collapseOne">
                         Hay {{ event_bookmarks.count }} usuarios que han demostrado su interés en tu curso.
                       </button>
                     </h5>
@@ -22,27 +23,24 @@
                   <div id="bookmarked" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample" style="">
                     <div class="card-body">
                         {% for b in event_bookmarks %}
-                            <a href="{% url 'user_profile' b.user.id %}">{{ b.user.username }}</a>
+                            <a target="_blank" href="{% url 'user_profile' b.user.id %}">{{ b.user.username }}</a>
                         {% endfor %}
                     </div>
                   </div>
                 </div>
                 {% endif %}
 
+                {% if certificate_requests %}
                 <div class="card">
-                  <div class="card-header list-group-item-success" id="headingOne">
+                  <div class="card-header list-group-item-success" id="certificate_requests">
                     <h5 class="mb-0">
-                      <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#asked_certificate" aria-expanded="false" aria-controls="collapseOne">
-                        Hay X usuarios que han solicitado un certificado de tu curso.
+                      <button class="btn btn-link" type="button">
+                        Hay {{ certificate_requests.count }} usuarios que han solicitado un certificado de tu curso.
                       </button>
                     </h5>
                   </div>
-                  <div id="asked_certificate" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample" style="">
-                    <div class="card-body">
-                      lista de usuarios que han solicitado un certificado.
-                    </div>
-                  </div>
                 </div>
+                {% endif %}
 
               </div>
 
@@ -237,7 +235,8 @@
 {% block extra_js %}
     <script>
         $( document ).ready(function() {
-            $("#edit_event").on("click", function(){
+            $("#edit_event").on("click", function(e){
+                e.preventDefault();
                 window.location.href = "{% url 'edit_event' event.id %}";
             });
             $("#event_bookmark").on("click", function(e){
@@ -276,6 +275,10 @@
                             console.log(response);
                         }
                     });
+            })
+            $("#certificate_requests").on("click", function(e){
+                e.preventDefault();
+                window.location.href = "{% url 'profile_cert_requests' %}";
             })
         });
     </script>
