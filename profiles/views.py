@@ -70,8 +70,6 @@ def profile_data(request):
         interests = request.POST.get("interests")
         profile_description = request.POST.get("profile_description")
 
-        print("time_zone:%s" % time_zone)
-
         request.user.email = email
         request.user.first_name = first_name
         request.user.last_name = last_name
@@ -90,15 +88,13 @@ def profile_data(request):
         profile, created = Profile.objects.get_or_create(user=request.user)  # loggear si created
         cryptos_string = get_cryptos_string(profile)
 
-        print("cryptos_string:%s" % cryptos_string)
-
         contact_methods = ContactMethod.objects.filter(user=request.user, deleted=False)
-        print("contact_methods:%s" % contact_methods)
+        print("academia_blockchain_timezones():%s" % academia_blockchain_timezones())
 
         profile_picture_form = ProfilePictureForm()
 
         context = {"profile_index_active": "active", "underline_data": "text-underline",
-                   "profile": profile, "academia_blockchain_timezones": academia_blockchain_timezones,
+                   "profile": profile, "academia_blockchain_timezones": academia_blockchain_timezones(),
                    "cryptos_string": cryptos_string, "contact_methods": contact_methods,
                    "profile_picture_form": profile_picture_form}
         return render(request, template, context)
