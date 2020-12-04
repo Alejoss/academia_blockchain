@@ -69,6 +69,7 @@
             let item_div = $("#div_"+item_counter);
             item_div.hide();
             let crypto_id = $("#crypto_id_"+item_counter).val();
+            let crypto_code = $("#crypto_code_"+item_counter).val();
             console.log("crypto ID");
             console.log(crypto_id);
             if(crypto_id==="0") {
@@ -78,8 +79,8 @@
                 data = {
                     "csrfmiddlewaretoken": $('input[name=csrfmiddlewaretoken]').val(),
                     "crypto_id": crypto_id,
+                    "crypto_code": crypto_code,
                     "crypto_name": 0,
-                    "crypto_code": 0,
                     "crypto_address": 0,
                 };
                 console.log(data);
@@ -109,23 +110,23 @@
             console.log(item_counter);
             let crypto_id = $("#crypto_id_"+item_counter).val();
             let crypto_name = $("#crypto_name_"+item_counter).val();
-            let crypto_url = $("#crypto_url_"+item_counter).val();
             let crypto_address = $("#crypto_address_"+item_counter).val();
+            let crypto_code = $("#crypto_code_"+item_counter).val();
             console.log("crypto_id");
             console.log(crypto_id);
             console.log("crypto_name");
             console.log(crypto_name);
-            console.log("crypto_url");
-            console.log(crypto_url);
             console.log("crypto_address");
             console.log(crypto_address);
+            console.log("crypto_code");
+            console.log(crypto_code);
 
             console.log("GUARDAR item");
             data = {
                 "csrfmiddlewaretoken": $('input[name=csrfmiddlewaretoken]').val(),
                 "crypto_id": crypto_id,
                 "crypto_name": crypto_name,
-                "crypto_url": crypto_url,
+                "crypto_code": crypto_code,
                 "crypto_address": crypto_address,
             };
             console.log(data);
@@ -161,7 +162,7 @@
                 'type="hidden" value="0" class="hidden">' +
                 '<input type="text" class="form-control" id="crypto_name_number"'.replace("number", counter) +
                 'placeholder="Nombre">' +
-                '<input type="text" class="form-control" id="crypto_url_number"'.replace("number", counter) +
+                '<input type="text" class="form-control" id="crypto_code_number"'.replace("number", counter) +
                 'placeholder="Código"></div>' +
                 '<input type="text" class="form-control" id="crypto_address_number"'.replace("number", counter) +
                 'placeholder="Dirección de tu billetera (copia y pégala aquí)"></textarea><hr></div>'
