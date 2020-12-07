@@ -29,9 +29,8 @@ HEROKU = False
 
 ALLOWED_HOSTS = ["*"]
 
-
+# TODO conexion con s3 amazon
 # Application definition
-
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
