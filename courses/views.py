@@ -140,11 +140,10 @@ def event_create(request):
             date_end = datetime.strptime(date_end, "%d/%m/%Y")
         else:
             date_end = None
-        if len(time_day) > 0:
+        if len(time_day) > 0 and date_start is not None:
             time_day = datetime.strptime(time_day, "%I:%M %p")
             date_start.replace(hour=time_day.hour, minute=time_day.minute)
-        else:
-            time_day = None
+
         if len(record_date) > 0:
             record_date = datetime.strptime(record_date, "%d/%m/%Y")
         else:
