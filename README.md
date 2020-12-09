@@ -1,5 +1,6 @@
 # academia_blockchain
 Proyecto de código abierto con el objetivo de descentralizar la academia, desde los certificados hasta las revistas científicas. 
+RECOMENDADO, DESCRIPCIÓN EN VIDEO DEL PROYECTO - https://www.youtube.com/watch?v=NIy0T7F-Dd8&feature=youtu.be
 
 ## Misión
 Crear una comunidad y una solución tecnológica que descentralice la forma en que compartimos y certificamos el conocimiento.
