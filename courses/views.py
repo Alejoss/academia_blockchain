@@ -257,10 +257,6 @@ def edit_event(request, event_id):
         event.schedule_description = schedule_description
         event.save()
 
-        print("event.date_start.hour:%s" % event.date_start.hour)
-        print("event.date_start.tzinfo:%s" % event.date_start.tzinfo)
-        print("is_aware(event.date_start:%s)" % is_aware(event.date_start))
-
         # Guardar imagen
         if "event_picture" in request.FILES:
             event_picture = request.FILES['event_picture']
