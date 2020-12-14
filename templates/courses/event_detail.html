@@ -47,7 +47,6 @@
 		<div class="row">
 			<div class="col-lg-8 col-md-7">
 				<div class="card shadow-none bg-transparent">
-{#                TODO disenar una imagen default para los eventos sin imagen#}
                     {% if event.image %}
 					    <img class="card-img-top" src="{{ event.image.url }}" alt="Event Image">
                     {% else %}
@@ -67,7 +66,6 @@
                                 $ {{ event.reference_price }}
                             {% endif %}
                         </span>
-{#                        TODO MODAL que salga cuando aplastas en el precio y que calcule los precios con las criptos preferidas#}
 					</div>
 
                     {% if event.event_type == "COURSE" %}
@@ -155,7 +153,6 @@
                                     <p class="text-muted font-weight-bold">
                                      {{ event.date_start|date:"h:i A" }} ({{ owner_profile.timezone }})
                                     </p>
-{#                                    TODO mostrar un extra con la hora en el timezone del usuario#}
 
                                     {% if event.schedule_description %}
                                         <p class="text-muted font-weight-bold">

@@ -46,7 +46,6 @@ def event_detail(request, event_id):
     if request.user.is_authenticated:
         logged_user_profile = Profile.objects.get(user=request.user)
         try:
-            # TODO mostrar los tiempos del evento en la hora del visitante
             user_timezone = pytz.timezone("America/Guayaquil")
             event_user_timezone = event.date_start.astimezone(user_timezone)
         except Exception as e:
@@ -88,7 +87,6 @@ def event_singular_online(request):
 
 @login_required
 def event_create(request):
-    # TODO este form y el de edit podria utilizar el mismo codigo y django forms
     if request.method == "GET":
         template = "courses/event_create.html"
         platforms = ConnectionPlatform.objects.filter(deleted=False)
@@ -173,7 +171,6 @@ def event_create(request):
         return redirect("event_detail", event_id=created_event.id)
 
 
-# TODO bleach.clean para proteger inputs maliciosos
 @login_required
 def edit_event(request, event_id):
     if request.method == "GET":
@@ -270,8 +267,6 @@ def edit_event(request, event_id):
 API CALLS
 """
 
-
-# TODO manejar cookie en el front, remover csrf_exempt
 
 @login_required
 @csrf_exempt

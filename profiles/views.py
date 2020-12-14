@@ -271,7 +271,6 @@ def profile_bookmarks(request):
     for b in bookmarked_events:
         certificate_request = None
         if CertificateRequest.objects.filter(user=request.user, event=b.event).exists():
-            # TODO que mostrar si el request fue rechazado, si ya existe el certificado
             certificate_request = CertificateRequest.objects.get(user=request.user, event=b.event)
         bookmarks.append([b, certificate_request])
 
@@ -303,7 +302,6 @@ def api_create_profile(request):
         email = request.POST.get("email")
         password = request.POST.get("password")
         user = User.objects.create_user(username, email, password)
-        # TODO send email to confirm account
         return render(request, template, {"user": user})
     else:
         return HttpResponse(status=HTTPStatus.FORBIDDEN)

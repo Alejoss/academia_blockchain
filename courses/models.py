@@ -34,10 +34,6 @@ class Event(models.Model):
     date_recorded = models.DateTimeField(null=True, blank=True)
     schedule_description = models.CharField(max_length=1000, blank=True)  # da flexibilidad
 
-    # TODO forma de eliminar eventos
-
-    # TODO instalar un sistema de tags. django-taggit probablemente
-
     def __str__(self):
         return self.title
 
