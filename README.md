@@ -6,6 +6,7 @@ RECOMENDADO, DESCRIPCIÓN EN VIDEO DEL PROYECTO - https://www.youtube.com/watch?
 Crear una comunidad y una solución tecnológica que descentralice la forma en que compartimos y certificamos el conocimiento.
 
 ## Roadmap
+
 - 1ra Etapa - 
 Plataforma web que liste cursos/eventos y conecte punto a punto maestros con estudiantes sin ser un intermediario, los pagos serían con criptomonedas y los cursos se realizan en la plataforma de preferencia del maestro.
 
@@ -32,6 +33,6 @@ Para correr el proyecto en tu computadora local vas a necesitar:
 * Python 3.8
 * Postgresql 
 
-Todo lo señalado en `requirements.txt`
+Todo lo señalado en `requirements.txt` . Por favor revisa el archivo entorno_desarrollo.md . 
 
 
