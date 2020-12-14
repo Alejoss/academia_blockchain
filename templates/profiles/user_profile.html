@@ -35,10 +35,15 @@
                         <strong>Métodos de Contacto</strong>:
                         <ul class="text-muted">
                             {% for c in contact_methods %}
-                            <li>
-        {#                    TODO si no es link no poner anchor tag#}
-                                {{ c.name }} - <a class="text-muted" target="_blank" href="{{ c.url_link }}">{{ c.url_link }}</a>: {{ c.description }}
-                            </li>
+                                {% if c.has_contact_url %}
+                                    <li>
+                                        {{ c.name }} | <a class="" target="_blank" href="{{ c.url_link }}">{{ c.url_link }}</a>: {{ c.description }}
+                                    </li>
+                                {% else %}
+                                    <li>
+                                        {{ c.name }} | <strong class="text-muted">{{ c.url_link }}</strong>: {{ c.description }}
+                                    </li>
+                                {% endif %}
                             {% endfor %}
                         </ul>
                     </span>
