@@ -156,11 +156,32 @@
                 <input type="file" name="event_picture" accept="image/*" id="id_event_picture">
             </div>
 
-            <button type="submit" class="btn btn-primary" id="submit_form">
+            <button type="submit" class="btn btn-warning" id="submit_form">
                 Guardar Cambios
             </button>
+            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#delete_event_modal">
+                Eliminar Evento
+            </button>
         </form>
-
+        <div class="modal fade mb-8" id="delete_event_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" style="display: none;" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title">Eliminar Evento</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <p>¿Estás seguro que quieres eliminar <strong>{{ event.title }}</strong>? Esta acción no puede revertirse.</p>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                  <button id="delete_event" type="button" class="btn btn-primary">Eliminar Evento</button>
+                </div>
+              </div>
+            </div>
+        </div>
         <hr>
     </div>
     </div>
@@ -261,6 +282,11 @@
         $('#radio_live_course').on("click", function(){
             // es un curso
             isLiveCourse();
+        });
+
+        $("#delete_event").on("click", function(){
+           // eliminar evento
+           window.location.href = "{% url 'event_delete' 0 %}".replace("0", "{{ event.id }}");
         });
     });
 </script>

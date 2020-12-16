@@ -33,6 +33,7 @@ class Event(models.Model):
     date_end = models.DateTimeField(null=True, blank=True)
     date_recorded = models.DateTimeField(null=True, blank=True)
     schedule_description = models.CharField(max_length=1000, blank=True)  # da flexibilidad
+    deleted = models.BooleanField(default=False, blank=True)
 
     def __str__(self):
         return self.title

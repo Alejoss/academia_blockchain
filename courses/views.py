@@ -22,7 +22,7 @@ HTML RENDERS
 
 def event_index(request):
     template = "courses/events.html"
-    events = Event.objects.all()
+    events = Event.objects.filter(deleted=False)
     print("events:%s" % events)
     for event in events:
         print(event.event_type)
@@ -169,6 +169,17 @@ def event_create(request):
             created_event.image.save(event_picture.name, event_picture)
 
         return redirect("event_detail", event_id=created_event.id)
+
+
+@login_required
+def event_delete(request, event_id):
+    deleted_event = get_object_or_404(Event, id=event_id)
+    if not request.user == deleted_event.owner:
+        return HttpResponse(status=403)
+
+    deleted_event.deleted = True
+    deleted_event.save()
+    return redirect("profile_events")
 
 
 @login_required

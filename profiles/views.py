@@ -234,7 +234,7 @@ def profile_edit_cryptos(request):
 @login_required
 def profile_events(request):
     template = "profiles/profile_events.html"
-    events = Event.objects.filter(owner=request.user)
+    events = Event.objects.filter(owner=request.user, deleted=False)
     certificate_requests = CertificateRequest.objects.filter(event__owner=request.user, deleted=False,
                                                              accepted__isnull=True)
     context = {"profile_index_active": "active", "underline_events": "text-underline",
