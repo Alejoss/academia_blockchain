@@ -10,8 +10,7 @@ Con el entorno virtual activadoinstalar todas las librerías listadas en el arch
 que algunos paquetes den problemas, específicamente el psycopg2 que es una conexión a postgres que necesita paquetes extra. Las soluciones son conocidas y fáciles
 de encontrar en stackoverflow. 
 
-Con las librerías instaladas esta listo el entorno. Utilizamos el potente framework de desarrollo web Django. La documentación de Django es extensa y muy bien
-detallada. Puedes correr el servidor local con "python manage.py runserver" y acceder al sitio en localhost:8000. 
+Con las librerías instaladas esta listo el entorno. Utilizamos el potente framework de desarrollo web Django. Necesitas correr las migraciones de la base de datos - `python manage.py migrate` - Para eso no es necesario instalar postgresql (sqlite3 es suficiente), postgres se utiliza en el servidor. La documentación de Django es extensa y muy bien detallada. Puedes correr el servidor local con "python manage.py runserver" y acceder al sitio en localhost:8000. 
 
 No es necesario conocer mucho de python para correr el proyecto. Si lo tuyo es el CSS o el JS, corres el servidor local y te dedicas a esa parte del código. 
 
