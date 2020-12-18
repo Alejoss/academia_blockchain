@@ -23,9 +23,6 @@ HTML RENDERS
 def event_index(request):
     template = "courses/events.html"
     events = Event.objects.filter(deleted=False)
-    print("events:%s" % events)
-    for event in events:
-        print(event.event_type)
     context = {"events": events, "event_index_active": "active"}
     return render(request, template, context)
 
@@ -49,7 +46,8 @@ def event_detail(request, event_id):
             user_timezone = pytz.timezone("America/Guayaquil")
             event_user_timezone = event.date_start.astimezone(user_timezone)
         except Exception as e:
-            print("ERROR: %s" % e)
+            pass
+
         event_is_bookmarked = Bookmark.objects.filter(event=event, user=request.user, deleted=False).exists()
 
     is_event_owner = (event.owner == request.user)
@@ -127,7 +125,7 @@ def event_create(request):
             platform_obj = ConnectionPlatform.objects.get(name=platform_name)
         except Exception as e:
             platform_obj = None
-            print(e)
+
 
         # Date & Time
         if len(date_start) > 0:
@@ -165,7 +163,6 @@ def event_create(request):
         # Guardar imagen
         if "event_picture" in request.FILES:
             event_picture = request.FILES['event_picture']
-            print("event_picture: %s" % event_picture.name)
             created_event.image.save(event_picture.name, event_picture)
 
         return redirect("event_detail", event_id=created_event.id)
@@ -208,8 +205,6 @@ def edit_event(request, event_id):
         record_date = request.POST.get("record_date")
         schedule_description = request.POST.get("schedule_description")
 
-        print("time_day: %s" % time_day)
-
         # Event Type
         if event_type_description == "pre_recorded":
             is_recorded = True
@@ -230,7 +225,6 @@ def edit_event(request, event_id):
             platform_obj = ConnectionPlatform.objects.get(name=platform_name)
         except Exception as e:
             platform_obj = None
-            print(e)
 
         # Date & Time
         if len(date_start) > 0:
@@ -243,9 +237,7 @@ def edit_event(request, event_id):
             date_end = None
         if len(time_day) > 0:
             time_day = datetime.strptime(time_day, "%I:%M %p")
-            print("time_day.hour: %s" % time_day.hour)
             date_start = date_start.replace(hour=time_day.hour, minute=time_day.minute)
-            print("date_start.hour: %s" % date_start.hour)
         if len(record_date) > 0:
             record_date = datetime.strptime(record_date, "%d/%m/%Y")
         else:
@@ -268,7 +260,6 @@ def edit_event(request, event_id):
         # Guardar imagen
         if "event_picture" in request.FILES:
             event_picture = request.FILES['event_picture']
-            print("event_picture: %s" % event_picture.name)
             event.image.save(event_picture.name, event_picture)
 
         return redirect("event_detail", event_id=event.id)
@@ -285,7 +276,6 @@ def event_bookmark(request, event_id):
     if request.is_ajax() and request.method == "POST":
         event = get_object_or_404(Event, id=event_id)
         if Bookmark.objects.filter(event=event, user=request.user, deleted=False).exists():
-            print("bookmark ya existe")
             return HttpResponse(status=200)
         else:
             if Bookmark.objects.filter(event=event, user=request.user, deleted=True).exists():

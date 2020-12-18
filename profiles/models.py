@@ -51,15 +51,11 @@ class ContactMethod(models.Model):
     deleted = models.BooleanField(default=False)
 
     def has_contact_url(self):
-        print("dafuq")
         try:
-            print("self.url_link: %s" % self.url_link)
             x = URLValidator()
             x(self.url_link)
-            print("TRUE")
             return True
         except ValidationError:
-            print("FALSE")
             return False
 
     def __str__(self):

@@ -145,6 +145,48 @@ if HEROKU:
     # EMAIL_USE_TLS = True
 
 
+# Logging
+LOGGING = {
+    'version': 1,
+    # Version of logging
+    'disable_existing_loggers': False,
+
+    'filters': {
+        # information regarding filters
+    },
+
+    'formatters': {
+        '<simple_format>': {
+            'format': '{levelname} {message}',
+            'style': '{',
+        }
+    },
+
+    'handlers': {
+        'file': {
+            'level': 'DEBUG',
+            'class': 'logging.FileHandler',
+            'filename': '/logs/log_file1.log',
+        },
+
+        'console': {
+            'level': 'DEBUG',
+            'class': 'logging.StreamHandler'
+        },
+    },
+
+    'loggers': {
+        'django': {
+            'handlers': ['file', 'console'],
+            'level': 'DEBUG',
+        },
+        'root': {
+            'handlers': ['file', 'console'],
+            'level': 'DEBUG',
+        }
+    }
+    }
+
 # Other config
 LOGIN_URL = "login"
 LOGIN_REDIRECT_URL = "event_index"
