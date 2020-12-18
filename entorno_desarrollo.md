@@ -4,9 +4,9 @@ Amig@s programadores que quieran apoyar al proyecto, esta es la manera de correr
 
 Instalar python 3.8 en tu computador. Instalar pip. Luego instalar virtualenv (es un entorno virtual de python que ayuda a encapsular las librerías y dependencias 
 para que no influyen a todo tu sistema, sino solamente al proyecto de academia blockchain). Una ves instalado virtualenv, activar el entorno virtual 
-(source bin/activate). 
+(`source bin/activate`). 
 
-Con el entorno virtual activadoinstalar todas las librerías listadas en el archivo requirements.txt con el comando pip install -r requirements.txt . Aquí, puede
+Con el entorno virtual activadoinstalar todas las librerías listadas en el archivo requirements.txt con el comando `pip install -r requirements.txt` . Aquí, puede
 que algunos paquetes den problemas, específicamente el psycopg2 que es una conexión a postgres que necesita paquetes extra. Las soluciones son conocidas y fáciles
 de encontrar en stackoverflow. 
 
