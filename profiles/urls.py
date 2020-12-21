@@ -22,7 +22,4 @@ urlpatterns = [
     path('register/', views.register_profile, name="profile_register"),
     path('login/', views.AcademiaLogin.as_view(), name="login"),
     path('logout/', auth_views.LogoutView.as_view(), name="logout"),
-
-    # api
-    path('login/', views.api_create_profile, name="create_profile"),
 ]

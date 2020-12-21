@@ -1,10 +1,13 @@
 import pytz
+import logging
 
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, UsernameField
 from django.contrib.auth.models import User
 from django import forms
 
 from profiles.models import Profile
+
+logger = logging.getLogger('app_logger')
 
 
 class AcademiaUserCreationForm(UserCreationForm):
@@ -61,6 +64,7 @@ def academia_blockchain_timezones():
 
 def get_cryptos_string(profile):
     c_list = profile.cryptos_list()
+    logger.info("c_list: %s" % c_list)
     cryptos_string = ""
     for c in c_list:
         cryptos_string += (c.crypto.code + ", ")  # arma string para el frontend

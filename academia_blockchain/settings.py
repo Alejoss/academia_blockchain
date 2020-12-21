@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 import os
 import django_heroku
 import dj_database_url
+import logging
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -72,7 +73,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'academia_blockchain.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
@@ -104,7 +104,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/3.0/topics/i18n/
 
@@ -115,7 +114,6 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
@@ -144,48 +142,13 @@ if HEROKU:
     # EMAIL_PORT = 587
     # EMAIL_USE_TLS = True
 
-
 # Logging
 LOGGING = {
-    'version': 1,
-    # Version of logging
-    'disable_existing_loggers': False,
-
-    'filters': {
-        # information regarding filters
-    },
-
-    'formatters': {
-        '<simple_format>': {
-            'format': '{levelname} {message}',
-            'style': '{',
-        }
-    },
-
-    'handlers': {
-        'file': {
-            'level': 'DEBUG',
-            'class': 'logging.FileHandler',
-            'filename': '/logs/log_file1.log',
-        },
-
-        'console': {
-            'level': 'DEBUG',
-            'class': 'logging.StreamHandler'
-        },
-    },
-
-    'loggers': {
-        'django': {
-            'handlers': ['file', 'console'],
-            'level': 'DEBUG',
-        },
-        'root': {
-            'handlers': ['file', 'console'],
-            'level': 'DEBUG',
-        }
-    }
-    }
+    "version": 1,
+    "loggers": {"app_logger": {"level": "DEBUG", "handlers": ["console"]}},
+    "handlers": {"console": {"class": "logging.StreamHandler", "formatter": "verbose"}},
+    "formatters": {"verbose": {"format": "[%(asctime)s] %(levelname)s [%(name)s.%(funcName)s:%(lineno)d] %(message)s"}}
+}
 
 # Other config
 LOGIN_URL = "login"
@@ -193,4 +156,5 @@ LOGIN_REDIRECT_URL = "event_index"
 LOGOUT_REDIRECT_URL = "event_index"
 LANGUAGE_CODE = "es-ES"
 
-django_heroku.settings(locals())
+if HEROKU:
+    django_heroku.settings(locals())
