@@ -131,3 +131,6 @@ dmypy.json
 
 # Extra
 .idea/
+
+# client
+node_modules
