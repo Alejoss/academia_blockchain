@@ -104,7 +104,8 @@ def profile_data(request):
     else:
         template = "profiles/profile_data.html"
         profile, created = Profile.objects.get_or_create(user=request.user)
-        logger.warning("created: %s" % created)
+        if created:
+            logger.warning("created: %s" % created)
         logger.info("profile: %s" % profile)
 
         cryptos_string = get_cryptos_string(profile)
