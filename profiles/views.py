@@ -246,6 +246,11 @@ def profile_certificates(request):
                "certificates": certificates}
     return render(request, template, context)
 
+@login_required
+def certificate_preview(request):
+    template = "profiles/certificate_preview.html"
+    context = {"certificate_data": ""}
+    return render(request, template, context)
 
 @login_required
 def profile_cert_requests(request):
