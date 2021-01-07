@@ -134,3 +134,4 @@ dmypy.json
 
 # client
 node_modules
+static/assets/build

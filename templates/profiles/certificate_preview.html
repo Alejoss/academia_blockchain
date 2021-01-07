@@ -1,21 +1,26 @@
 {% load static %}
 
-<html>
+<html lang="es">
   <head>
+    <meta charset="UTF-8">
+    <meta name="author" content="Academia Blockchain">
+    <meta name="description" content="Vista previa del certificado">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <link href="{% static 'assets/img/favicon.png' %}" rel="shortcut icon">
     <link href="{% static 'assets/plugins/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
     <link
       rel="stylesheet"
       type="text/css"
-      href="{% static 'assets/bundles/certificate_preview.bundle.css' %}"
+      href="{% static 'assets/build/certificate_preview.bundle.css' %}"
       media="screen"
     />
-    <title>Certificate Preview</title>
+    <title>Certificado</title>
   </head>
 
   <body class="d-flex align-items-center justify-content-center flex-column">
     <div id="certificate__wrapper" aria-label="Vista previa del certificado">
-      <div class="certificate__border">
+      <div class="certificate__border a4-landscape">
         <div class="certificate__container">
           <div class="certificate__logo-container">
             <img
@@ -31,11 +36,11 @@
           <div class="certificate__description">
             Descripción: este curso consiste en aprender cosas
           </div>
-          <div class="certificate__author-address fs-6">
+          <div class="certificate__author-address">
             Dirección del autor: 0x2c4b314b8de36728aba2bd2e8e1809162b763403
           </div>
-          <div class="certificate__date fs-6">Fecha: Jan-05-2021 07:44:21 PM + UTC</div>
-          <div class="certificate__tx-id fs-6">
+          <div class="certificate__date">Fecha: Jan-05-2021 07:44:21 PM + UTC</div>
+          <div class="certificate__tx-id">
             TX id: 0xbed43af4d271362da3b85a370f9226fcde9e78c2c98e2bfd74d6774c2261a3fa
           </div>
         </div>
@@ -57,6 +62,6 @@
     </div>
     <div id="error-message" class="fs-6 text-danger"></div>
 
-    <script type="text/javascript" src="{% static 'assets/bundles/certificate_preview.bundle.js' %}"></script>
+    <script type="text/javascript" src="{% static 'assets/build/certificate_preview.bundle.js' %}"></script>
   </body>
 </html>
