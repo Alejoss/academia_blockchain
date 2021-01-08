@@ -9,7 +9,6 @@ urlpatterns = [
     path('profile_security/', views.profile_security, name="profile_security"),
     path('profile_events/', views.profile_events, name="profile_events"),
     path('profile_certificates/', views.profile_certificates, name="profile_certificates"),
-    path('certificate_preview/', views.certificate_preview, name="certificate_preview"),
     path('profile_content/', views.profile_content, name="profile_content"),
 
     path('profile_edit_picture/', views.profile_edit_picture, name="profile_edit_picture"),

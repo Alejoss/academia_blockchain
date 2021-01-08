@@ -293,19 +293,6 @@ def profile_certificates(request):
                "certificates": certificates}
     return render(request, template, context)
 
-# TODO
-# The URL could be /certificate_preview/${transactionId}
-# Then, the backend searchs for the transaction in the blockchain and with that data 
-# create and send the certificate_data in the context. 
-# Suggestion: certificate_data fields could be: graduate, title, author, description, author-address, date and tx-id
-# Suggestion: maybe we could add a boolean such as isTxIdValid
-# to know if frontend should show a certificate or 404.
-# Finally, consume that values in frontend as variables.
-@login_required
-def certificate_preview(request):
-    template = "profiles/certificate_preview.html"
-    context = {"certificate_data": ""}
-    return render(request, template, context)
 
 @login_required
 def profile_cert_requests(request):
