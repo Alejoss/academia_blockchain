@@ -23,21 +23,6 @@ HTML RENDERS
 """
 
 
-# TODO
-# The URL could be /certificate_preview/${transactionId}
-# Then, the backend searchs for the transaction in the blockchain and with that data
-# create and send the certificate_data in the context.
-# Suggestion: certificate_data fields could be: graduate, title, author, description, author-address, date and tx-id
-# Suggestion: maybe we could add a boolean such as isTxIdValid
-# to know if frontend should show a certificate or 404.
-# Finally, consume that values in frontend as variables.
-def certificate_preview(request, cert_id):
-    certificate = get_object_or_404(Certificate, id=cert_id)
-    template = "courses/certificate_preview.html"
-    context = {"certificate": certificate}
-    return render(request, template, context)
-
-
 def event_index(request):
     template = "courses/events.html"
     events = Event.objects.filter(deleted=False)
@@ -329,6 +314,19 @@ def edit_event(request, event_id):
 
         return redirect("event_detail", event_id=event.id)
 
+# TODO
+# The URL could be /certificate_preview/${transactionId}
+# Then, the backend searchs for the transaction in the blockchain and with that data
+# create and send the certificate_data in the context.
+# Suggestion: certificate_data fields could be: graduate, title, author, description, author-address, date and tx-id
+# Suggestion: maybe we could add a boolean such as isTxIdValid
+# to know if frontend should show a certificate or 404.
+# Finally, consume that values in frontend as variables.
+def certificate_preview(request, cert_id):
+    certificate = get_object_or_404(Certificate, id=cert_id)
+    template = "courses/certificate_preview.html"
+    context = {"certificate": certificate}
+    return render(request, template, context)
 
 """
 API CALLS

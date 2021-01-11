@@ -79,15 +79,15 @@
                     {% endfor %}
 
                     {% if courses_certificates %}
-                        <div class="text-white rounded bg-warning text-uppercase font-weight-medium px-6 py-3 mb-3">Certificados Entregados</div>
+                        <div class="text-white rounded bg-info text-uppercase font-weight-medium px-6 py-3 mb-3">Certificados Entregados</div>
                         {% for c in courses_certificates %}
                             <div class="media media-list-view mb-5">
                                 <div class="media-body">
                                     <h3>
-                                        <a class="text-warning" href="{% url 'event_detail' c.event.id %}">{{ c.event.title }}</a>
+                                        <p>{{ c.date_created|date:"SHORT_DATE_FORMAT" }} - {{ c.event.title }} - {{ c.user.username }}</p>
                                     </h3>
-                                    <div class="profile_certificates-button-wrapper">
-                                        <button class="open_certificate btn btn-sm btn-white text-uppercase mb-1 mr-2 btn-hover-info"
+                                    <div class="text-sm-right profile_certificates-button-wrapper">
+                                        <button class="btn btn-sm btn-white text-uppercase mb-1 mr-2 btn-hover-info"
                                             onclick="location.href = '{% url 'certificate_preview' c.id %}' ">
                                             <i class="fa fa-certificate mr-2" aria-hidden="true"></i>Ver Certificado
                                         </button>
