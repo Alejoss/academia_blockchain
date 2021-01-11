@@ -289,8 +289,10 @@ def profile_certificates(request):
     certificates = Certificate.objects.filter(user=request.user)
     logger.info("certificates: %s" % certificates)
 
+    courses_certificates = Certificate.objects.filter(event__owner=request.user)  # certificates awarded by user
+
     context = {"profile_index_active": "active", "underline_certificates": "text-underline",
-               "certificates": certificates}
+               "certificates": certificates, "courses_certificates": courses_certificates}
     return render(request, template, context)
 
 
