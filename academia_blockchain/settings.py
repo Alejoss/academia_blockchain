@@ -26,7 +26,7 @@ SECRET_KEY = os.environ['ACADEMIA_BLOCKCHAIN_SKEY']
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-HEROKU = True
+HEROKU = False
 
 ALLOWED_HOSTS = ["*"]
 
@@ -57,8 +57,7 @@ ROOT_URLCONF = 'academia_blockchain.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'templates')]
-        ,
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

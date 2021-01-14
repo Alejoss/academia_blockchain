@@ -1,0 +1,5 @@
+
+{% autoescape off %}
+Hola {{ user.username }},
+Por favor confirma tu cuenta de Academia Blockchain dando click en el siguiente link: http://{{ domain }}{% url 'activate' uidb64=uid token=token %}
+{% endautoescape %}

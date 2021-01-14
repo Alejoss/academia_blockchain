@@ -2,14 +2,21 @@ from http import HTTPStatus
 import logging
 
 from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib.auth.tokens import PasswordResetTokenGenerator
 from django.contrib.auth.models import User
-from django.contrib.auth.views import LoginView
 from django.contrib.auth.decorators import login_required
+from django.contrib.sites.shortcuts import get_current_site
 from django.contrib.auth import login
 from django.http import HttpResponse
+from django.template.loader import render_to_string
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+from django.utils.encoding import force_bytes, force_text
+from django.core.mail import EmailMessage
+from django.contrib.auth.views import LoginView
 
 from profiles.utils import AcademiaUserCreationForm, AcademiaLoginForm, ProfilePictureForm, \
     get_cryptos_string, academia_blockchain_timezones
+
 from profiles.models import Profile, AcceptedCrypto, ContactMethod, CryptoCurrency
 from courses.models import Event, Bookmark, CertificateRequest, Certificate
 
@@ -49,6 +56,29 @@ def register_profile(request):
 
             login(request, new_user)
 
+            # Enviar email de confirmacion
+            activation_token = PasswordResetTokenGenerator().make_token(new_user)
+            logger.info("activation_token: %s" % activation_token)
+            mail_subject = 'Activa tu cuenta de Academia Blockchain'
+            current_site = get_current_site(request)
+            uid = urlsafe_base64_encode(force_bytes(new_user.pk))
+
+            message = render_to_string('profiles/email_confirm_account.html', {
+                'user': new_user,
+                'uid': uid,
+                'token': activation_token,
+                'domain': current_site
+            })
+            to_email = form.cleaned_data.get('email')
+            email = EmailMessage(
+                mail_subject, message, to=[to_email]
+            )
+            # email.send()
+
+            logger.debug("current_site: %s" % current_site)
+            logger.debug("uid: %s" % uid)
+            logger.debug("activation_token: %s" % activation_token)
+
             template = "profiles/profile_data.html"
             context = {'new_profile': new_profile}
             return render(request, template, context)
@@ -56,6 +86,26 @@ def register_profile(request):
             template = "profiles/register.html"
             context = {"form": form}
             return render(request, template, context)
+
+
+def activate_account(request, uidb64, token):
+    try:
+        uid = force_text(urlsafe_base64_decode(uidb64))
+        logger.debug("uid: %s" % uid)
+        user = User.objects.get(pk=uid)
+        check_token = PasswordResetTokenGenerator().check_token(user, token)
+        logger.debug("uid: %s" % uid)
+    except(TypeError, ValueError, OverflowError, User.DoesNotExist):
+        user = None
+        check_token = False
+    if user is not None and check_token:
+        user.is_active = True
+        user.save()
+        login(request, user)
+        # return redirect('home')
+        return HttpResponse('Thank you for your email confirmation. Now you can login your account.')
+    else:
+        return HttpResponse('Activation link is invalid!')
 
 
 class AcademiaLogin(LoginView):
