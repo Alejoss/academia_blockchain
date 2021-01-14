@@ -10,7 +10,7 @@ urlpatterns = [
     path('profile_events/', views.profile_events, name="profile_events"),
     path('profile_certificates/', views.profile_certificates, name="profile_certificates"),
     path('profile_content/', views.profile_content, name="profile_content"),
-    path('profile/<int:user>/<int:token>/', views.activate_account, name="activate_account"),
+    path('profile_activate/<str:uid>/<str:token>/', views.activate_account, name="activate_account"),
 
     path('profile_edit_picture/', views.profile_edit_picture, name="profile_edit_picture"),
     path('profile_edit_contact/', views.profile_edit_contact, name="profile_edit_contact"),

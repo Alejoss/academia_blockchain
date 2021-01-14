@@ -63,8 +63,10 @@ def register_profile(request):
             current_site = get_current_site(request)
             uid = urlsafe_base64_encode(force_bytes(new_user.pk))
 
+            logger.info("uid: %s" % uid)
+
             message = render_to_string('profiles/email_confirm_account.html', {
-                'user': new_user,
+                'username': new_user.username,
                 'uid': uid,
                 'token': activation_token,
                 'domain': current_site
@@ -88,19 +90,20 @@ def register_profile(request):
             return render(request, template, context)
 
 
-def activate_account(request, uidb64, token):
+def activate_account(request, uid, token):
     try:
-        uid = force_text(urlsafe_base64_decode(uidb64))
+        uid = force_text(urlsafe_base64_decode(uid))
         logger.debug("uid: %s" % uid)
         user = User.objects.get(pk=uid)
         check_token = PasswordResetTokenGenerator().check_token(user, token)
-        logger.debug("uid: %s" % uid)
+        logger.debug("check_token: %s" % check_token)
     except(TypeError, ValueError, OverflowError, User.DoesNotExist):
         user = None
         check_token = False
     if user is not None and check_token:
-        user.is_active = True
-        user.save()
+        profile = get_object_or_404(Profile, user=user)
+        profile.email_confirmed = True
+        profile.save()
         login(request, user)
         # return redirect('home')
         return HttpResponse('Thank you for your email confirmation. Now you can login your account.')

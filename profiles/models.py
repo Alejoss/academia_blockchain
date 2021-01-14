@@ -17,6 +17,7 @@ class Profile(models.Model):
     timezone = models.CharField(max_length=30, blank=True)
     is_teacher = models.BooleanField(default=False)
     profile_picture = models.ImageField(upload_to=upload_profile_picture, null=True, blank=True)
+    email_confirmed = models.BooleanField(default=False, blank=True)
 
     def __str__(self):
         return self.user.username
