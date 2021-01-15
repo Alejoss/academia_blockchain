@@ -11,7 +11,7 @@ from django.http import HttpResponse
 from django.template.loader import render_to_string
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.utils.encoding import force_bytes, force_text
-from django.core.mail import EmailMessage
+from django.core.mail import send_mail
 from django.contrib.auth.views import LoginView
 
 from profiles.utils import AcademiaUserCreationForm, AcademiaLoginForm, ProfilePictureForm, \
@@ -59,7 +59,6 @@ def register_profile(request):
             # Enviar email de confirmacion
             activation_token = PasswordResetTokenGenerator().make_token(new_user)
             logger.info("activation_token: %s" % activation_token)
-            mail_subject = 'Activa tu cuenta de Academia Blockchain'
             current_site = get_current_site(request)
             uid = urlsafe_base64_encode(force_bytes(new_user.pk))
 
@@ -71,11 +70,12 @@ def register_profile(request):
                 'token': activation_token,
                 'domain': current_site
             })
-            to_email = form.cleaned_data.get('email')
-            email = EmailMessage(
-                mail_subject, message, to=[to_email]
-            )
-            # email.send()
+            user_email = form.cleaned_data.get('email')
+            send_mail(subject="Activa tu cuenta",
+                      message=message,
+                      from_email="academiablockchain@no_reply.com",
+                      recipient_list=[user_email]
+                      )
 
             logger.debug("current_site: %s" % current_site)
             logger.debug("uid: %s" % uid)
