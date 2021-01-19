@@ -5,6 +5,8 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.views import LoginView, PasswordResetView, PasswordResetDoneView, \
+    PasswordResetConfirmView, PasswordResetCompleteView
 from django.contrib.sites.shortcuts import get_current_site
 from django.contrib.auth import login
 from django.http import HttpResponse
@@ -12,7 +14,7 @@ from django.template.loader import render_to_string
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.utils.encoding import force_bytes, force_text
 from django.core.mail import send_mail
-from django.contrib.auth.views import LoginView
+
 
 from profiles.utils import AcademiaUserCreationForm, AcademiaLoginForm, ProfilePictureForm, \
     get_cryptos_string, academia_blockchain_timezones
@@ -114,6 +116,22 @@ def activate_account(request, uid, token):
 class AcademiaLogin(LoginView):
     template_name = "profiles/login.html"
     authentication_form = AcademiaLoginForm
+
+
+class AcademiaPasswordResetView(PasswordResetView):
+    email_template_name = "profiles/password_reset_email.html"
+
+
+class AcademiaPasswordResetDoneView(PasswordResetDoneView):
+    email_template_name = "profiles/password_reset_done.html"
+
+
+class AcademiaPasswordResetConfirmView(PasswordResetConfirmView):
+    email_template_name = "profiles/password_reset_confirm.html"
+
+
+class AcademiaPasswordResetCompleteView(PasswordResetCompleteView):
+    email_template_name = "profiles/password_reset_complete.html"
 
 
 def content(request):

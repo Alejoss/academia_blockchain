@@ -23,4 +23,8 @@ urlpatterns = [
     path('register/', views.register_profile, name="profile_register"),
     path('login/', views.AcademiaLogin.as_view(), name="login"),
     path('logout/', auth_views.LogoutView.as_view(), name="logout"),
+    path('password_reset/', views.AcademiaPasswordResetView.as_view(), name="password_reset"),
+    path('password_reset_done/', views.AcademiaPasswordResetDoneView.as_view(), name="password_reset_done"),
+    path('password_reset_confirm/', views.AcademiaPasswordResetConfirmView.as_view(), name="password_reset_confirm"),
+    path('password_reset_complete/', views.AcademiaPasswordResetCompleteView.as_view(), name="password_reset_complete")
 ]

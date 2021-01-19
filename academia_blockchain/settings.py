@@ -26,7 +26,7 @@ SECRET_KEY = os.environ['ACADEMIA_BLOCKCHAIN_SKEY']
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-HEROKU = True
+HEROKU = False
 
 ALLOWED_HOSTS = ["*"]
 
