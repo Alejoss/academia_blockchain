@@ -8,6 +8,7 @@ from datetime import datetime
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import render, get_object_or_404, redirect
+from django.http import JsonResponse
 from django.utils.timezone import is_aware
 from django.contrib.auth import get_user
 from django.http import HttpResponse
@@ -370,6 +371,23 @@ def remove_bookmark(request, event_id):
 
     else:
         return HttpResponse(status=403)
+
+
+def certificate_detail(request, certificate_id):
+    certificate = get_object_or_404(Certificate, id=certificate_id)
+    cert_data = {
+        "id": certificate.id,
+        "username": certificate.user.username,
+        "first_name": certificate.user.first_name,
+        "last_name": certificate.user.last_name,
+        "cert_date": certificate.date_created,
+        "event_title": certificate.event.title,
+        "event_description": certificate.event.description,
+        "event_owner_username": certificate.event.owner.username,
+        "event_owner_first_name": certificate.event.owner.first_name,
+        "event_owner_last_name": certificate.event.owner.last_name,
+    }
+    return JsonResponse(cert_data)
 
 
 @login_required
