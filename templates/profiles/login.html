@@ -7,6 +7,9 @@
 <div class="row">
   <div class="col-sm-6 offset-lg-2 col-lg-4">
     <div class="mb-4 mb-sm-0">
+      <div class="bg-warning rounded-top p-2">
+        <h3 class="text-white font-weight-bold mb-0 ml-2">Login</h3>
+      </div>
       <div class="border rounded-bottom-sm border-top-0">
         <div class="p-3">
           <form action="{% url 'login' %}" method="POST" role="form">
@@ -33,6 +36,9 @@
             <div class="form-group text-center text-secondary mb-0">
               <p class="mb-0">¿No estás registrado? <a class="text-danger" href="{% url 'profile_register' %}">Unirse a Academia Blockchain</a></p>
             </div>
+            <div class="form-group text-center text-secondary mb-0">
+              <p class="mb-0"> <i class="fa fa-key" ></i> <a class="text-danger" href="{% url 'password_reset' %}">Olvidé mi contraseña</a></p>
+            </div>
           </form>
         </div>
       </div>
@@ -42,5 +48,4 @@
   </div></section>
     {#<p><a href="{% url 'password_reset' %}">Lost password?</a></p>#}
     {# Assumes you setup the password_reset view in your URLconf #}
-
 {% endblock content %}

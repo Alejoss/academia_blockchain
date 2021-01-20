@@ -120,10 +120,11 @@ class AcademiaLogin(LoginView):
 
 class AcademiaPasswordResetView(PasswordResetView):
     email_template_name = "profiles/password_reset_email.html"
+    template_name = 'profiles/password_reset_email.html'
 
 
 class AcademiaPasswordResetDoneView(PasswordResetDoneView):
-    email_template_name = "profiles/password_reset_done.html"
+    template_name = "profiles/password_reset_done.html"
 
 
 class AcademiaPasswordResetConfirmView(PasswordResetConfirmView):
