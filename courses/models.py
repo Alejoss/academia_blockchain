@@ -39,6 +39,20 @@ class Event(models.Model):
         return self.title
 
 
+class Comment(models.Model):
+    event = models.ForeignKey(Event, on_delete=models.CASCADE, related_name="comments")
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    text = models.TextField(blank=True)
+    created_on = models.DateTimeField(auto_now_add=True)
+    deleted = models.BooleanField(default=False)
+
+    class Meta:
+        ordering = ['created_on']
+
+    def __str__(self):
+        return "Comment by {} in {}".format(self.user.username, self.event.title)
+
+
 class ConnectionPlatform(models.Model):
     name = models.CharField(max_length=150, blank=True)
     url_link = models.URLField(blank=True)
