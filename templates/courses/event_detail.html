@@ -123,6 +123,26 @@
                             </li>
                         </ul>
                     {% endif %}
+                    </div>
+
+                <div class="card shadow-none bg-transparent">
+
+                {% if comments %}
+                    <div class="bg-light shadow-sm rounded px-3 pt-3 pb-6 mb-4">
+					<h3 class="mb-4 text-danger">{{ comments.count }} Comentarios:</h3>
+                        {% for comment in comments %}
+                            <hr>
+                            <div class="media py-1">
+                              <div class="media-body">
+                                <span class="mb-3 font-weight-medium text-muted d-inline-block">{{ comment.user.username }}</span>
+                                    <time class="d-block text-muted font-size-13 mb-3">{{ comment.date_created|date:"SHORT_DATE_FORMAT" }}</time>
+                                        <p class="font-size-13 line-hight-21">{{ comment.text }} </p>
+                              </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+
 					</div>
 				</div>
 			</div>
