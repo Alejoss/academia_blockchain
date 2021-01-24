@@ -1,23 +1,8 @@
-import domtoimage from 'dom-to-image';
-import './index.sass';
+import React from 'react';
+import ReactDOM from 'react-dom';
+import App from './components/App';
+import 'bootstrap/dist/css/bootstrap.css';
 
-const certificateNode = document.getElementById('certificate__wrapper');
-const buttonDownloadCertificate = document.getElementById('button-print-certificate');
-const errorMessageNode = document.getElementById('error-message');
-const errorMessage = 'ERROR';
+const certificatePreview = document.getElementById('certificate_preview');
 
-const downloadCertificate = () => {
-    domtoimage.toJpeg(certificateNode)
-        .then(function (dataUrl) {
-            var link = document.createElement('a');
-            link.download = 'CERTIFICADO_ACBC.jpeg';
-            link.href = dataUrl;
-            link.click();
-        });
-};
-
-if (buttonDownloadCertificate && certificateNode && domtoimage) {
-    buttonDownloadCertificate.addEventListener('click', downloadCertificate);
-} else if (errorMessageNode) {
-    errorMessageNode.innerHTML = errorMessage;
-}
+if (certificatePreview) ReactDOM.render(<React.StrictMode><App /></React.StrictMode>, certificatePreview);

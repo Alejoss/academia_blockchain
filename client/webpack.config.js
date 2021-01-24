@@ -5,17 +5,34 @@ module.exports = {
     entry: {
         certificate_preview: './src/certificate_preview/index.js',
     },
-    mode: 'development',
     output: {
         path: path.resolve(__dirname, '../static/assets/build'),
         filename: '[name].bundle.js',
     },
+    mode: 'development',
     module: {
         rules: [
             {
-                test: /\.s[ac]ss$/i,
-                use: [MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader'],
+                test: /\.jsx?$/,
+                exclude: /node_modules/,
+                loader: 'babel-loader',
             },
+            {
+                test: /\.s[ac]ss$/i,
+                use: [
+                    "style-loader",
+                    "css-loader",
+                    "sass-loader",
+                ],
+            },
+            { test: /\.css$/, use: ['style-loader', 'css-loader'] },
+            {
+                test: /\.(png|jpg|gif|svg|eot|ttf|woff|woff2)$/,
+                loader: 'url-loader',
+                options: {
+                    limit: 10000
+                }
+            }
         ],
     },
     plugins: [
@@ -23,4 +40,7 @@ module.exports = {
             filename: '[name].bundle.css',
         }),
     ],
+    resolve: {
+        extensions: ['.js', '.jsx']
+    },
 };
