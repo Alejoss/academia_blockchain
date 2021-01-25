@@ -326,9 +326,9 @@ def edit_event(request, event_id):
 # to know if frontend should show a certificate or 404.
 # Finally, consume that values in frontend as variables.
 def certificate_preview(request, cert_id):
-    certificate = get_object_or_404(Certificate, id=cert_id)
+    # certificate = get_object_or_404(Certificate, id=cert_id)
     template = "courses/certificate_preview.html"
-    context = {"certificate": certificate}
+    context = {"certificate": ""}
     return render(request, template, context)
 
 """
