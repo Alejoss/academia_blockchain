@@ -126,10 +126,27 @@
                     </div>
 
                 <div class="card shadow-none bg-transparent">
+                <div class="bg-light shadow-sm rounded px-3 pt-3 pb-6 mb-4">
+					<h3 class="mb-4 text-danger font-weight-bold">Deja un Comentario</h3>
+					<form id="comment_form" method="post" action="{% url 'event_comment' event.id %}">
+                        {% csrf_token %}
+						<div class="row">
+							<div class="col">
+								<div class="form-group form-group-icon">
+                                <i class="fa fa-comments"></i>
+                                    <textarea name="comment_text" class="form-control border-info"
+                                              placeholder="Escribe un comentario" rows="6"></textarea>
+		        	            </div>
+							</div>
+						</div>
+
+                        <div class="text-right">
+						    <button class="btn btn-danger text-uppercase">Enviar</button>
+                        </div>
+					</form>
 
                 {% if comments %}
-                    <div class="bg-light shadow-sm rounded px-3 pt-3 pb-6 mb-4">
-					<h3 class="mb-4 text-danger">{{ comments.count }} Comentarios:</h3>
+					<h3 class="mb-4 text-danger font-weight-bold">{{ comments.count }} Comentarios:</h3>
                         {% for comment in comments %}
                             <hr>
                             <div class="media py-1">
@@ -140,10 +157,10 @@
                               </div>
                             </div>
                         {% endfor %}
-                    </div>
                 {% endif %}
+                </div>
+                </div>
 
-					</div>
 				</div>
 			</div>
 

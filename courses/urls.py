@@ -7,6 +7,7 @@ urlpatterns = [
     path('edit_event/<int:event_id>', views.edit_event, name="edit_event"),
     path('create/', views.event_create, name="event_create"),
     path('delete/<int:event_id>', views.event_delete, name="event_delete"),
+    path('comment/<int:event_id>', views.event_comment, name="event_comment"),
     path('certificate_preview/<int:cert_id>', views.certificate_preview, name="certificate_preview"),
 
     # API

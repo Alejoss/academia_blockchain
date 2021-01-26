@@ -216,6 +216,25 @@ def event_delete(request, event_id):
 
 
 @login_required
+def event_comment(request, event_id):
+    if request.method=="POST":
+        event = get_object_or_404(Event, id=event_id)
+        comment_text = request.POST.get("comment_text", None)
+        logger.info("event: %s" % event)
+        logger.info("comment_text: %s" % comment_text)
+        if comment_text:
+            comment = Comment.objects.create(
+                event=event,
+                user=request.user,
+                text=comment_text
+            )
+            logger.info("comment: %s" % comment)
+        return redirect("event_detail", event_id=event.id)
+    else:
+        return HttpResponse(status=400)
+
+
+@login_required
 def edit_event(request, event_id):
     if request.method == "GET":
         template = "courses/event_edit.html"
