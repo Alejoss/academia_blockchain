@@ -6,7 +6,7 @@ module.exports = {
         certificate_preview: './src/certificate_preview/index.js',
     },
     output: {
-        path: path.resolve(__dirname, '../static/assets/build'),
+        path: path.resolve(__dirname, '../staticfiles/assets/build'),
         filename: '[name].bundle.js',
     },
     mode: 'development',
