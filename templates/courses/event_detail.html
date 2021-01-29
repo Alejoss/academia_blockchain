@@ -1,9 +1,12 @@
 {% extends 'base.html' %}
+{% load static %}
+{% load ratings %}
 
 {% block content %}
 <!-- ====================================
 ———	COURSES SECTION
 ===================================== -->
+<link rel="stylesheet" href="{% static 'star-ratings/css/star-ratings.css' %}">
 <section class="py-8 pt-md-10">
 	<div class="container">
         {% if event.deleted %}
@@ -96,6 +99,8 @@
 						<p class="">{{ event.description|safe }}</p>
 
 						<h3 class="card-title text-warning">Contacta a <a href="{% url 'user_profile' event.owner.id %}">{{ event.owner.username }}:</a></h3>
+
+                    {% ratings event %}
 
                     {% if user.is_authenticated %}
                         <div class="list-group">
@@ -268,6 +273,7 @@
 {% endblock content %}
 
 {% block extra_js %}
+    <script type="text/javascript" src="{% static 'star-ratings/js/dist/star-ratings.min.js' %}"></script>
     <script>
         $( document ).ready(function() {
             $("#edit_event").on("click", function(e){

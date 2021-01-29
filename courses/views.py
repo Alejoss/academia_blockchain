@@ -13,9 +13,11 @@ from django.utils.timezone import is_aware
 from django.contrib.auth import get_user
 from django.http import HttpResponse
 
+
 from courses.models import Event, ConnectionPlatform, Bookmark, CertificateRequest, Certificate, Comment
 from profiles.models import ContactMethod, AcceptedCrypto, Profile
 from profiles.utils import academia_blockchain_timezones
+from star_ratings.models import Rating
 
 logger = logging.getLogger('app_logger')
 
@@ -28,6 +30,7 @@ def event_index(request):
     template = "courses/events.html"
     events = Event.objects.filter(deleted=False)
     logger.info(events)
+
     context = {"events": events, "event_index_active": "active"}
     return render(request, template, context)
 
@@ -77,12 +80,13 @@ def event_detail(request, event_id):
     logger.info("certificate_requests: %s" % certificate_requests)
 
     comments = Comment.objects.filter(event=event, deleted=False)
+    rating = Rating.objects.for_instance(event)
 
     context = {"event": event, "contact_methods": contact_methods, "accepted_cryptos": accepted_cryptos,
                "owner_profile": owner_profile, "event_user_timezone": event_user_timezone,
                "logged_user_profile": logged_user_profile, "event_is_bookmarked": event_is_bookmarked,
                "is_event_owner": is_event_owner, "event_bookmarks": event_bookmarks,
-               "certificate_requests": certificate_requests, "comments": comments}
+               "certificate_requests": certificate_requests, "comments": comments, 'rating': rating}
     return render(request, template, context)
 
 
@@ -217,7 +221,7 @@ def event_delete(request, event_id):
 
 @login_required
 def event_comment(request, event_id):
-    if request.method=="POST":
+    if request.method == "POST":
         event = get_object_or_404(Event, id=event_id)
         comment_text = request.POST.get("comment_text", None)
         logger.info("event: %s" % event)

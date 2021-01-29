@@ -1,7 +1,9 @@
 from datetime import datetime
 from django.db import models
 from django.contrib.auth.models import User
+from django.contrib.contenttypes.fields import GenericRelation
 
+from star_ratings.models import Rating
 from profiles.models import AcceptedCrypto, Profile
 
 
@@ -34,6 +36,7 @@ class Event(models.Model):
     date_recorded = models.DateTimeField(null=True, blank=True)
     schedule_description = models.CharField(max_length=1000, blank=True)  # da flexibilidad
     deleted = models.BooleanField(default=False, blank=True)
+    ratings = GenericRelation(Rating, related_query_name="ratings")
 
     def __str__(self):
         return self.title

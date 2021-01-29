@@ -26,7 +26,7 @@ SECRET_KEY = os.environ['ACADEMIA_BLOCKCHAIN_SKEY']
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-HEROKU = True
+HEROKU = False
 
 ALLOWED_HOSTS = ["*"]
 
@@ -39,7 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'profiles',
-    'courses'
+    'courses',
+    'star_ratings'
 ]
 
 MIDDLEWARE = [

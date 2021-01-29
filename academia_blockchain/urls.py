@@ -26,6 +26,7 @@ urlpatterns = [
     path('courses/', include('courses.urls')),
     # path('exams/', include('exams.urls')),
     path('profiles/', include('profiles.urls')),
+    path('ratings/', include('star_ratings.urls', namespace='ratings')),
 ]
 
 
