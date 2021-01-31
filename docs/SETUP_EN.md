@@ -1,14 +1,16 @@
 # HOW TO SETUP ENVIRONMENT AND RUN PROJECT LOCALLY
 
-## Requirements
+## Backend
+
+### Requirements
 
 - python 3.8
 - python3-pip
 - virtualenv
 
-## Installation
+### Installation
 
-### Linux
+#### Linux
 
 ```
     # remember run a generally update before installing new packages.
@@ -27,19 +29,19 @@
     # you can confirm instalation checking out the version with command: virtualenv --version
 ```
 
-### Mac
+#### Mac
 
 ```
     [complete]
 ```
 
-### Windows
+#### Windows
 
 ```
     [complete]
 ```
 
-## Setup
+### Setup
 
 ```
     # virtualenv encapsulates python dependencies so they affect only ACADEMIA_BLOCKCHAIN project.
@@ -67,7 +69,7 @@
     deactivate
 ```
 
-### Common errors
+#### Common errors
 
 - Error: pg_config executable not found when installing psycopg2
 
@@ -91,3 +93,31 @@
     # in console, check if variable was set correctly.
     echo $ACADEMIA_BLOCKCHAIN_SKEY
     ```
+
+## Frontend
+
+There are some frontend developments that need to be compiled via webpack, such as the `certificate_preview` one. Webpack will bundle some files and place them in `static/assets/build` directory.
+
+### Requirements
+
+- `node` and `npm`
+
+### Installation
+
+```
+    # go to client directory.
+    cd client
+
+    # install dependencies
+    npm install
+```
+
+### Setup
+
+```
+    # in development stage use hot reload
+    npm run start
+
+    # when development is finished, build the final bundle files.
+    npm run build
+```
