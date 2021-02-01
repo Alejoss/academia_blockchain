@@ -29,7 +29,8 @@ HTML RENDERS
 def event_index(request):
     template = "courses/events.html"
     events = Event.objects.filter(deleted=False)
-    logger.info("events: %s" % events)
+    logger.warning("events: %s" % events)
+    logger.warning("HEROKU LOGS!")
 
     context = {"events": events, "event_index_active": "active"}
     return render(request, template, context)
