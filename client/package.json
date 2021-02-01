@@ -36,12 +36,13 @@
     "style-loader": "^2.0.0",
     "url-loader": "^4.1.1",
     "webpack": "^5.17.0",
-    "webpack-cli": "^4.4.0"
+    "webpack-cli": "^4.4.0",
+    "webpack-dev-server": "^3.11.2"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "npx webpack --config webpack.config.js",
-    "build": "npx webpack --progress"
+    "build": "webpack",
+    "start": "webpack serve",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "Academia Blockchain",
