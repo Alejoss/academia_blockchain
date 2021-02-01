@@ -29,7 +29,7 @@ HTML RENDERS
 def event_index(request):
     template = "courses/events.html"
     events = Event.objects.filter(deleted=False)
-    logger.info(events)
+    logger.info("events: %s" % events)
 
     context = {"events": events, "event_index_active": "active"}
     return render(request, template, context)
