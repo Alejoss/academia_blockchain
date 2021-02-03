@@ -1,6 +1,7 @@
 {% extends "star_ratings/widget_base.html" %}
 
 {% block rating_detail %}
+
 {% block rating_average %}
 <div class="star-ratings-rating-average">Promedio: <span class='star-ratings-rating-value'>{{ rating.average|floatformat:"-2" }}</span></div>
 {% endblock rating_average %}
@@ -13,6 +14,10 @@
 {% if not user.is_authenticated and not anonymous_ratings and not read_only %}
     <p>Entra a Academia Blockchain para calificar</p>
 {% endif %}
+{% if read_only %}
+    <p>Necesitas un certificado para calificar</p>
+{% endif %}
 {% endblock rating_user %}
 <div class="star-ratings-errors"></div>
+
 {% endblock rating_detail %}

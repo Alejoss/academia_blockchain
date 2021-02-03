@@ -83,12 +83,15 @@ def event_detail(request, event_id):
 
     comments = Comment.objects.filter(event=event, deleted=False)
     rating = Rating.objects.for_instance(event)
+    has_certificate = Certificate.objects.filter(event=event, user=request.user).exists()
+    logger.info("has_certificate: %s" % has_certificate)
 
     context = {"event": event, "contact_methods": contact_methods, "accepted_cryptos": accepted_cryptos,
                "owner_profile": owner_profile, "event_user_timezone": event_user_timezone,
                "logged_user_profile": logged_user_profile, "event_is_bookmarked": event_is_bookmarked,
                "is_event_owner": is_event_owner, "event_bookmarks": event_bookmarks,
-               "certificate_requests": certificate_requests, "comments": comments, 'rating': rating}
+               "certificate_requests": certificate_requests, "comments": comments, 'rating': rating,
+               'lack_certificate': not has_certificate}
     return render(request, template, context)
 
 
