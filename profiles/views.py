@@ -13,11 +13,9 @@ from django.http import HttpResponse
 from django.template.loader import render_to_string
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.utils.encoding import force_bytes, force_text
-from django.core.mail import send_mail
-
 
 from profiles.utils import AcademiaUserCreationForm, AcademiaLoginForm, ProfilePictureForm, \
-    get_cryptos_string, academia_blockchain_timezones
+    get_cryptos_string, academia_blockchain_timezones, send_email_message
 
 from profiles.models import Profile, AcceptedCrypto, ContactMethod, CryptoCurrency
 from courses.models import Event, Bookmark, CertificateRequest, Certificate
@@ -73,11 +71,10 @@ def register_profile(request):
                 'domain': current_site
             })
             user_email = form.cleaned_data.get('email')
-            send_mail(subject="Activa tu cuenta",
-                      message=message,
-                      from_email="academiablockchain@no_reply.com",
-                      recipient_list=[user_email]
-                      )
+            send_email_message(subject="Activa tu cuenta",
+                               message=message,
+                               receiver_email=user_email
+                               )
 
             logger.debug("current_site: %s" % current_site)
             logger.debug("uid: %s" % uid)

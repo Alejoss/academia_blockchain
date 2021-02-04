@@ -1,10 +1,11 @@
 import pytz
 import logging
+import requests
 
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, UsernameField
 from django.contrib.auth.models import User
 from django import forms
-
+from django.conf import settings
 from profiles.models import Profile
 
 logger = logging.getLogger('app_logger')
@@ -72,3 +73,15 @@ def get_cryptos_string(profile):
         cryptos_string = cryptos_string[:-2]
 
     return cryptos_string
+
+
+def send_email_message(receiver_email, subject, message):
+    domain_name = settings.MAILGUN_DOMAIN
+
+    return requests.post(
+        "https://api.mailgun.net/v3/" + domain_name + "/messages",
+        auth=("api", settings.MAILGUN_API_KEY),
+        data={"from": "academiablockchain@no-reply.com",
+              "to": [receiver_email],
+              "subject": subject,
+              "text": message})

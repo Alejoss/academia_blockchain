@@ -18,11 +18,19 @@ import logging
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
+def get_env_variable(variable_name):  # Esto ayuda para facilitar la colaboracion en el desarrollo
+    try:
+        v = os.environ[variable_name]
+    except Exception as e:
+        v = "na"
+    return v
+
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ['ACADEMIA_BLOCKCHAIN_SKEY']
+SECRET_KEY = get_env_variable('ACADEMIA_BLOCKCHAIN_SKEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -125,9 +133,9 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
 
 if HEROKU:
-    AWS_ACCESS_KEY_ID = os.environ['AWSAccessKeyId']
-    AWS_SECRET_ACCESS_KEY = os.environ['AWSSecretKey']
-    AWS_STORAGE_BUCKET_NAME = os.environ['AWS_STORAGE_BUCKET_NAME']
+    AWS_ACCESS_KEY_ID = get_env_variable('AWSAccessKeyId')
+    AWS_SECRET_ACCESS_KEY = get_env_variable('AWSSecretKey')
+    AWS_STORAGE_BUCKET_NAME = get_env_variable('AWS_STORAGE_BUCKET_NAME')
     S3_URL = 'http://%s.s3.amazonaws.com/' % AWS_STORAGE_BUCKET_NAME
     STATIC_URL = S3_URL
     MEDIA_URL = S3_URL
@@ -135,11 +143,14 @@ if HEROKU:
     DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
     AWS_DEFAULT_ACL = None
 
-    # EMAIL_HOST = 'smtp.sendgrid.net'
-    # EMAIL_HOST_USER = os.environ["SENDGRID_USERNAME"]
-    # EMAIL_HOST_PASSWORD = os.environ["SENDGRID_PASSWORD"]
-    # EMAIL_PORT = 587
-    # EMAIL_USE_TLS = True
+    # Email
+    MAILGUN_API_KEY = get_env_variable('MAILGUN_API_KEY')
+    MAILGUN_DOMAIN = get_env_variable('MAILGUN_DOMAIN')
+    MAILGUN_PUBLIC_KEY = get_env_variable('MAILGUN_PUBLIC_KEY')
+    MAILGUN_SMTP_LOGIN = get_env_variable('MAILGUN_SMTP_LOGIN')
+    MAILGUN_SMTP_PASSWORD = get_env_variable('MAILGUN_SMTP_PASSWORD')
+    MAILGUN_SMTP_PORT = get_env_variable('MAILGUN_SMTP_PORT')
+    MAILGUN_SMTP_SERVER = get_env_variable('MAILGUN_SMTP_SERVER')
 
 # Logging
 LOGGING = {
@@ -148,14 +159,6 @@ LOGGING = {
     "handlers": {"console": {"class": "logging.StreamHandler", "formatter": "verbose"}},
     "formatters": {"verbose": {"format": "[%(asctime)s] %(levelname)s [%(name)s.%(funcName)s:%(lineno)d] %(message)s"}}
 }
-
-# Email
-SENDGRID_API_KEY = os.environ['SENDGRID_API_KEY']
-EMAIL_HOST = 'smtp.sendgrid.net'
-EMAIL_HOST_USER = 'apikey'  # this is exactly the value 'apikey'
-EMAIL_HOST_PASSWORD = SENDGRID_API_KEY
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
 
 
 # Other config
