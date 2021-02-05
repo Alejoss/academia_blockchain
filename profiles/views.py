@@ -140,7 +140,10 @@ def resend_activation_email(request):
             receiver_email=user_email,
             subject="ACADEMIA BLOCKCHAIN",
             message="Llego!!"
-        )        
+        )
+        return HttpResponse("email enviado")
+    else:
+        return HttpResponse("email not found")
 
 
 def content(request):
