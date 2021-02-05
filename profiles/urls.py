@@ -26,5 +26,6 @@ urlpatterns = [
     path('password_reset/', views.AcademiaPasswordResetView.as_view(), name="password_reset"),
     path('password_reset_done/', views.AcademiaPasswordResetDoneView.as_view(), name="password_reset_done"),
     path('password_reset_confirm/', views.AcademiaPasswordResetConfirmView.as_view(), name="profile_password_reset_confirm"),
-    path('password_reset_complete/', views.AcademiaPasswordResetCompleteView.as_view(), name="profile_password_reset_complete")
+    path('password_reset_complete/', views.AcademiaPasswordResetCompleteView.as_view(), name="profile_password_reset_complete"),
+    path('resend_activation_email/', views.resend_activation_email, name="resend_activation_email"),
 ]

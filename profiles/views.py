@@ -132,6 +132,17 @@ class AcademiaPasswordResetCompleteView(PasswordResetCompleteView):
     email_template_name = "profiles/password_reset_complete.html"
 
 
+def resend_activation_email(request):
+    user_email = request.user.email
+    if user_email:
+        logger.debug("user_email: %s" % user_email)
+        send_email_message(
+            receiver_email=user_email,
+            subject="ACADEMIA BLOCKCHAIN",
+            message="Llego!!"
+        )        
+
+
 def content(request):
     template = "profiles/content.html"
     context = {"content_index_active": "active"}
