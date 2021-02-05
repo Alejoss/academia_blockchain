@@ -135,3 +135,6 @@ dmypy.json
 
 # client
 node_modules
+
+# Visual Studio Code configuration
+.vscode/
