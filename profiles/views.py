@@ -129,10 +129,12 @@ class AcademiaPasswordResetDoneView(PasswordResetDoneView):
 class AcademiaPasswordResetConfirmView(PasswordResetConfirmView):
     template_name = "profiles/password_reset_confirm.html"
     form_class = AcademiaSetPasswordForm
+    success_url = 'password_reset_complete'
 
 
 class AcademiaPasswordResetCompleteView(PasswordResetCompleteView):
-    email_template_name = "profiles/password_reset_complete.html"
+    template_name = "profiles/password_reset_complete.html"
+    # TODO crear html correctamente
 
 
 def resend_activation_email(request):
