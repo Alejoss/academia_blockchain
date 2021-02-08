@@ -2,8 +2,10 @@ import pytz
 import logging
 import requests
 
-from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, UsernameField, PasswordResetForm
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, UsernameField, \
+    PasswordResetForm, SetPasswordForm
 from django.contrib.auth.models import User
+from django.contrib.auth import password_validation
 from django import forms
 from django.conf import settings
 from django.template import loader
@@ -69,7 +71,7 @@ class ProfilePictureForm(forms.ModelForm):
 
 class AcademiaPasswordResetForm(PasswordResetForm):
     """
-    Cambia el send_mail por utiliza send_email_message con la config de mailgun
+    Cambia el send_mail por con la config de mailgun
     """
 
     def send_mail(self, subject_template_name, email_template_name,
@@ -96,8 +98,22 @@ class AcademiaPasswordResetForm(PasswordResetForm):
             receiver_email=to_email,
             subject="CAMBIA TU CONTRASEÑA - Academia Blockchain",
             message=body
-
         )
+
+
+class AcademiaSetPasswordForm(SetPasswordForm):
+
+    new_password1 = forms.CharField(
+        label="Nueva Contraseña",
+        widget=forms.PasswordInput(attrs={'autocomplete': 'new-password', 'class': 'form-control'}),
+        strip=False,
+        help_text=password_validation.password_validators_help_text_html(),
+    )
+    new_password2 = forms.CharField(
+        label="Repite la Contraseña",
+        strip=False,
+        widget=forms.PasswordInput(attrs={'autocomplete': 'new-password', 'class': 'form-control'}),
+    )
 
 
 def academia_blockchain_timezones():
