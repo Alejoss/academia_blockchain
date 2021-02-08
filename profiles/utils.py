@@ -90,8 +90,7 @@ class AcademiaPasswordResetForm(PasswordResetForm):
         #
         # #
 
-        logger.warning("ENVIO EMAIL?")
-        print("WATEFUQ")
+        logger.warning("EMAIL SENT")
 
         send_email_message(
             receiver_email=to_email,
