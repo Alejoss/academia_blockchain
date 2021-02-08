@@ -15,7 +15,8 @@ from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.utils.encoding import force_bytes, force_text
 
 from profiles.utils import AcademiaUserCreationForm, AcademiaLoginForm, ProfilePictureForm, \
-    get_cryptos_string, academia_blockchain_timezones, send_email_message, AcademiaPasswordResetForm
+    get_cryptos_string, academia_blockchain_timezones, send_email_message, AcademiaPasswordResetForm,\
+    AcademiaSetPasswordForm
 
 from profiles.models import Profile, AcceptedCrypto, ContactMethod, CryptoCurrency
 from courses.models import Event, Bookmark, CertificateRequest, Certificate
@@ -127,6 +128,7 @@ class AcademiaPasswordResetDoneView(PasswordResetDoneView):
 
 class AcademiaPasswordResetConfirmView(PasswordResetConfirmView):
     template_name = "profiles/password_reset_confirm.html"
+    form_class = AcademiaSetPasswordForm
 
 
 class AcademiaPasswordResetCompleteView(PasswordResetCompleteView):
