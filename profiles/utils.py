@@ -90,6 +90,9 @@ class AcademiaPasswordResetForm(PasswordResetForm):
         #
         # #
 
+        logger.warning("ENVIO EMAIL?")
+        print("WATEFUQ")
+
         send_email_message(
             receiver_email=to_email,
             subject="CAMBIA TU CONTRASEÑA - Academia Blockchain",
