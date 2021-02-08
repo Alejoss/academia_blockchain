@@ -2,13 +2,28 @@ import pytz
 import logging
 import requests
 
-from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, UsernameField
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, UsernameField, PasswordResetForm
 from django.contrib.auth.models import User
 from django import forms
 from django.conf import settings
+from django.template import loader
+
 from profiles.models import Profile
 
+
 logger = logging.getLogger('app_logger')
+
+
+def send_email_message(receiver_email, subject, message):
+    domain_name = settings.MAILGUN_DOMAIN
+
+    return requests.post(
+        "https://api.mailgun.net/v3/" + domain_name + "/messages",
+        auth=("api", settings.MAILGUN_API_KEY),
+        data={"from": "academiablockchain@no-reply.com",
+              "to": [receiver_email],
+              "subject": subject,
+              "text": message})
 
 
 class AcademiaUserCreationForm(UserCreationForm):
@@ -19,9 +34,9 @@ class AcademiaUserCreationForm(UserCreationForm):
         model = User
         widgets = {
             'username': forms.TextInput(attrs={'class': 'form-control border', 'id': 'username', 'name': 'username',
-                                                         'placeholder': "Nombre de Usuario"}),
+                                               'placeholder': "Nombre de Usuario"}),
             'email': forms.TextInput(attrs={'class': 'form-control border', 'id': 'email', 'name': 'email',
-                                               'placeholder': "Correo Electrónico"})
+                                            'placeholder': "Correo Electrónico"})
         }
 
 
@@ -44,13 +59,43 @@ class AcademiaLoginForm(AuthenticationForm):
 
 
 class ProfilePictureForm(forms.ModelForm):
-
     class Meta:
         model = Profile
         fields = ["profile_picture"]
         labels = {
             'profile_picture': "Imagen de Perfil"
         }
+
+
+class AcademiaPasswordResetForm(PasswordResetForm):
+    """
+    Cambia el send_mail por utiliza send_email_message con la config de mailgun
+    """
+
+    def send_mail(self, subject_template_name, email_template_name,
+                  context, from_email, to_email, html_email_template_name=None):
+        """
+        Send a django.core.mail.EmailMultiAlternatives to `to_email`.
+        """
+
+        # subject = loader.render_to_string(subject_template_name, context)
+        # # Email subject *must not* contain newlines
+        # subject = ''.join(subject.splitlines())
+        body = loader.render_to_string(email_template_name, context)
+        #
+        # email_message = EmailMultiAlternatives(subject, body, from_email, [to_email])
+        # if html_email_template_name is not None:
+        #     html_email = loader.render_to_string(html_email_template_name, context)
+        #     email_message.attach_alternative(html_email, 'text/html')
+        #
+        # #
+
+        send_email_message(
+            receiver_email=to_email,
+            subject="CAMBIA TU CONTRASEÑA - Academia Blockchain",
+            message=body
+
+        )
 
 
 def academia_blockchain_timezones():
@@ -73,15 +118,3 @@ def get_cryptos_string(profile):
         cryptos_string = cryptos_string[:-2]
 
     return cryptos_string
-
-
-def send_email_message(receiver_email, subject, message):
-    domain_name = settings.MAILGUN_DOMAIN
-
-    return requests.post(
-        "https://api.mailgun.net/v3/" + domain_name + "/messages",
-        auth=("api", settings.MAILGUN_API_KEY),
-        data={"from": "academiablockchain@no-reply.com",
-              "to": [receiver_email],
-              "subject": subject,
-              "text": message})

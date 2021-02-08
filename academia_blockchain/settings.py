@@ -34,7 +34,7 @@ SECRET_KEY = get_env_variable('ACADEMIA_BLOCKCHAIN_SKEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-HEROKU = True
+HEROKU = False
 
 ALLOWED_HOSTS = ["*"]
 

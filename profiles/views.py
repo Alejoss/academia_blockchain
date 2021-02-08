@@ -117,7 +117,7 @@ class AcademiaLogin(LoginView):
 
 class AcademiaPasswordResetView(PasswordResetView):
     email_template_name = "profiles/password_reset_email.html"
-    template_name = 'profiles/password_reset_email.html'
+    template_name = 'profiles/password_reset_form.html'
 
 
 class AcademiaPasswordResetDoneView(PasswordResetDoneView):
