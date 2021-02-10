@@ -9,6 +9,7 @@ from django.contrib.auth.views import LoginView, PasswordResetView, PasswordRese
     PasswordResetConfirmView, PasswordResetCompleteView
 from django.contrib.sites.shortcuts import get_current_site
 from django.contrib.auth import login
+from django.urls import reverse_lazy
 from django.http import HttpResponse
 from django.template.loader import render_to_string
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
@@ -129,12 +130,11 @@ class AcademiaPasswordResetDoneView(PasswordResetDoneView):
 class AcademiaPasswordResetConfirmView(PasswordResetConfirmView):
     template_name = "profiles/password_reset_confirm.html"
     form_class = AcademiaSetPasswordForm
-    success_url = 'password_reset_complete'
+    success_url = reverse_lazy('password_reset_complete')
 
 
 class AcademiaPasswordResetCompleteView(PasswordResetCompleteView):
     template_name = "profiles/password_reset_complete.html"
-    # TODO crear html correctamente
 
 
 def resend_activation_email(request):
