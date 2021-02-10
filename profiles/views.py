@@ -17,7 +17,7 @@ from django.utils.encoding import force_bytes, force_text
 
 from profiles.utils import AcademiaUserCreationForm, AcademiaLoginForm, ProfilePictureForm, \
     get_cryptos_string, academia_blockchain_timezones, send_email_message, AcademiaPasswordResetForm,\
-    AcademiaSetPasswordForm
+    AcademiaSetPasswordForm, send_confirmation_email
 
 from profiles.models import Profile, AcceptedCrypto, ContactMethod, CryptoCurrency
 from courses.models import Event, Bookmark, CertificateRequest, Certificate
@@ -57,30 +57,9 @@ def register_profile(request):
             logger.info("user_monero: %s" % user_monero)
 
             login(request, new_user)
-
+            email = form.cleaned_data['email']
             # Enviar email de confirmacion
-            activation_token = PasswordResetTokenGenerator().make_token(new_user)
-            logger.info("activation_token: %s" % activation_token)
-            current_site = get_current_site(request)
-            uid = urlsafe_base64_encode(force_bytes(new_user.pk))
-
-            logger.info("uid: %s" % uid)
-
-            message = render_to_string('profiles/email_confirm_account.html', {
-                'username': new_user.username,
-                'uid': uid,
-                'token': activation_token,
-                'domain': current_site
-            })
-            user_email = form.cleaned_data.get('email')
-            send_email_message(subject="Activa tu cuenta",
-                               message=message,
-                               receiver_email=user_email
-                               )
-
-            logger.debug("current_site: %s" % current_site)
-            logger.debug("uid: %s" % uid)
-            logger.debug("activation_token: %s" % activation_token)
+            send_confirmation_email(request, new_user, email)
 
             template = "profiles/profile_data.html"
             context = {'new_profile': new_profile}
@@ -142,12 +121,10 @@ def resend_activation_email(request):
     user_email = request.user.email
     if user_email:
         logger.debug("user_email: %s" % user_email)
-        send_email_message(
-            receiver_email=user_email,
-            subject="ACADEMIA BLOCKCHAIN",
-            message="Llego!!"
-        )
-        return HttpResponse("email enviado")
+        send_confirmation_email(request, request.user, user_email)
+        template = "profiles/password_reset_done"
+        context = {}
+        return render(request, template, context)
     else:
         return HttpResponse("email not found")
 

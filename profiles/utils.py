@@ -2,6 +2,11 @@ import pytz
 import logging
 import requests
 
+from django.contrib.auth.tokens import PasswordResetTokenGenerator
+from django.contrib.sites.shortcuts import get_current_site
+from django.utils.http import urlsafe_base64_encode
+from django.template.loader import render_to_string
+from django.utils.encoding import force_bytes
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, UsernameField, \
     PasswordResetForm, SetPasswordForm
 from django.contrib.auth.models import User
@@ -136,3 +141,28 @@ def get_cryptos_string(profile):
         cryptos_string = cryptos_string[:-2]
 
     return cryptos_string
+
+
+def send_confirmation_email(request, user, user_email):
+    # Enviar email de confirmacion
+    activation_token = PasswordResetTokenGenerator().make_token(user)
+    logger.info("activation_token: %s" % activation_token)
+    current_site = get_current_site(request)
+    uid = urlsafe_base64_encode(force_bytes(user.pk))
+
+    logger.info("uid: %s" % uid)
+
+    message = render_to_string('profiles/email_confirm_account.html', {
+        'username': user.username,
+        'uid': uid,
+        'token': activation_token,
+        'domain': current_site
+    })
+    send_email_message(subject="Activa tu cuenta",
+                       message=message,
+                       receiver_email=user_email
+                       )
+
+    logger.debug("current_site: %s" % current_site)
+    logger.debug("uid: %s" % uid)
+    logger.debug("activation_token: %s" % activation_token)
