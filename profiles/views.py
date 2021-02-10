@@ -106,8 +106,9 @@ def activate_account(request, uid, token):
         profile.email_confirmed = True
         profile.save()
         login(request, user)
-        # return redirect('home')
-        return HttpResponse('Thank you for your email confirmation. Now you can login your account.')
+        template = "profiles/account_activate_complete.html"
+        context = {}
+        return render(request, template, context)
     else:
         return HttpResponse('Activation link is invalid!')
 
