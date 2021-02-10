@@ -104,7 +104,7 @@ class AcademiaPasswordResetView(PasswordResetView):
 
 
 class AcademiaPasswordResetDoneView(PasswordResetDoneView):
-    template_name = "profiles/password_reset_done.html"
+    template_name = "profiles/email_sent.html"
 
 
 class AcademiaPasswordResetConfirmView(PasswordResetConfirmView):
@@ -122,7 +122,7 @@ def resend_activation_email(request):
     if user_email:
         logger.debug("user_email: %s" % user_email)
         send_confirmation_email(request, request.user, user_email)
-        template = "profiles/password_reset_done"
+        template = "profiles/email_sent.html"
         context = {}
         return render(request, template, context)
     else:
