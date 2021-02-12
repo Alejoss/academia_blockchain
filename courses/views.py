@@ -1,7 +1,6 @@
 from http import HTTPStatus
 import pytz
 import logging
-import bleach
 import json
 from http import HTTPStatus
 from datetime import datetime
@@ -147,10 +146,6 @@ def event_create(request):
         logger.info("time_day: %s" % time_day)
         logger.info("record_date: %s" % record_date)
         logger.info("schedule_description: %s" % schedule_description)
-
-        # Clean Text
-        description = bleach.clean(description)
-        logger.info("clean_description: %s" % description)
 
         # Event Type
         if event_type_description == "pre_recorded":
