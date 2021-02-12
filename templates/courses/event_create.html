@@ -15,6 +15,7 @@
           </div>
     <div class="mb-4 mb-sm-0">
         <hr>
+    {% if profile.email_confirmed %}
         <form method="post" id="event_create_form" role="form" action="{% url 'event_create' %}" enctype="multipart/form-data">
             {% csrf_token %}
             <div class="form-group">
@@ -153,6 +154,12 @@
                 <strong>Por ahora no tienes métodos de contacto guardados, es importante que compartas una forma para contactarte!</strong>
             {% endif %}
         </p>
+    {% else %}
+        <div class="alert alert-info alert-dismissible fade show" role="alert">
+            <strong>Hola!</strong> por favor confirma el email de tu cuenta ({{ user.email }}) para crear un evento:
+            <a href="{% url 'resend_activation_email' %}" class="alert-link">Reenviar correo de confirmación</a>.
+        </div>
+    {% endif %}
     </div>
     </div>
     </div>

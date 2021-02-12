@@ -1,6 +1,7 @@
 from http import HTTPStatus
 import pytz
 import logging
+import bleach
 import json
 from http import HTTPStatus
 from datetime import datetime
@@ -13,11 +14,11 @@ from django.utils.timezone import is_aware
 from django.contrib.auth import get_user
 from django.http import HttpResponse
 
-
 from courses.models import Event, ConnectionPlatform, Bookmark, CertificateRequest, Certificate, Comment
 from profiles.models import ContactMethod, AcceptedCrypto, Profile
 from profiles.utils import academia_blockchain_timezones
 from star_ratings.models import Rating
+
 
 logger = logging.getLogger('app_logger')
 
@@ -115,9 +116,11 @@ def event_create(request):
     if request.method == "GET":
         template = "courses/event_create.html"
         platforms = ConnectionPlatform.objects.filter(deleted=False)
+        profile = Profile.objects.get(user=request.user)
         logger.info("platforms: %s" % platforms)
+        logger.info("profile.email_confirmed: %s" % profile.email_confirmed)
 
-        context = {"event_index_active": "active", "platforms": platforms}
+        context = {"event_index_active": "active", "platforms": platforms, "profile": profile}
         return render(request, template, context)
 
     elif request.method == "POST":
@@ -144,6 +147,10 @@ def event_create(request):
         logger.info("time_day: %s" % time_day)
         logger.info("record_date: %s" % record_date)
         logger.info("schedule_description: %s" % schedule_description)
+
+        # Clean Text
+        description = bleach.clean(description)
+        logger.info("clean_description: %s" % description)
 
         # Event Type
         if event_type_description == "pre_recorded":
@@ -199,6 +206,9 @@ def event_create(request):
             date_recorded=record_date,
             schedule_description=schedule_description
         )
+        profile = Profile.objects.get(user=request.user)
+        profile.is_teacher = True
+        profile.save()
 
         # Guardar imagen
         if "event_picture" in request.FILES:
@@ -342,6 +352,7 @@ def edit_event(request, event_id):
 
         return redirect("event_detail", event_id=event.id)
 
+
 # TODO
 # The URL could be /certificate_preview/${transactionId}
 # Then, the backend searchs for the transaction in the blockchain and with that data
@@ -355,6 +366,7 @@ def certificate_preview(request, cert_id):
     template = "courses/certificate_preview.html"
     context = {"certificate": ""}
     return render(request, template, context)
+
 
 """
 API CALLS
