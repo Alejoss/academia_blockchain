@@ -2,6 +2,7 @@ Amig@s programadores que quieran apoyar al proyecto, esta es la manera de correr
 
 ## Entorno de Desarrollo
 
+### Instalación manual
 Instalar python 3.8 en tu computador. Instalar pip. Luego instalar virtualenv (es un entorno virtual de python que ayuda a encapsular las librerías y dependencias 
 para que no influyen a todo tu sistema, sino solamente al proyecto de academia blockchain). Una ves instalado virtualenv, activar el entorno virtual 
 (`source bin/activate`). 
@@ -11,6 +12,24 @@ que algunos paquetes den problemas, específicamente el psycopg2 que es una cone
 de encontrar en stackoverflow. 
 
 Con las librerías instaladas esta listo el entorno. Utilizamos el potente framework de desarrollo web Django. Necesitas correr las migraciones de la base de datos - `python manage.py migrate` - Para eso no es necesario instalar postgresql (sqlite3 es suficiente), postgres se utiliza en el servidor. La documentación de Django es extensa y muy bien detallada. Puedes correr el servidor local con "python manage.py runserver" y acceder al sitio en localhost:8000. 
+
+### Instalación con docker
+1. Entrar en el directorio del proyecto.
+`cd academia_blockchain`
+
+2. Construir la imagen.
+`docker-compose build`
+
+3. Ejecutar la aplicación.
+`docker-compose up -d`
+
+4. Aplicar migraciones.
+`docker-compose run --rm backend python3 manage.py migrate`
+
+5. Crear un super usuario de Django.
+`docker-compose run --rm backend python3 manage.py createsuperuser`
+
+6. Acceder al sitio en localhost:8000 y entrar con las credenciales de superusuario creadas en el paso 4.
 
 No es necesario conocer mucho de python para correr el proyecto. Si lo tuyo es el CSS o el JS, corres el servidor local y te dedicas a esa parte del código. 
 

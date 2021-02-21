@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
+import ast
 import os
 import django_heroku
 import dj_database_url
@@ -28,13 +29,23 @@ def get_env_variable(variable_name):  # Esto ayuda para facilitar la colaboracio
         v = "na"
     return v
 
+def get_bool_from_env(name, default_value):
+    if name in os.environ:
+        value = os.environ[name]
+        try:
+            return ast.literal_eval(value)
+        except ValueError as e:
+            raise ValueError("{} is an invalid value for {}".format(value, name)) from e
+    return default_value
+
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = get_env_variable('ACADEMIA_BLOCKCHAIN_SKEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-HEROKU = True
+HEROKU = False
+DOCKER = get_bool_from_env("DOCKER",False)
 
 ALLOWED_HOSTS = ["*"]
 
@@ -93,6 +104,9 @@ DATABASES = {
 
 if HEROKU:
     DATABASES['default'] = dj_database_url.config(conn_max_age=600, ssl_require=True)
+
+if DOCKER:
+    DATABASES['default'] = dj_database_url.config(conn_max_age=600)
 
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
