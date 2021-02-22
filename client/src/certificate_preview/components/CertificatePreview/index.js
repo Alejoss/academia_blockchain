@@ -27,20 +27,20 @@ const CertificatePreview = ({ certificateData }) => {
 								<img alt="ACBC Logo" src={logo} />
 							</div>
 							<div className="certificate__acbc-title text-center">Certificación de Academia Blockchain</div>
-							<div className="certificate__date">{certificateData.date}</div>
+							<div className="certificate__date">{certificateData.cert_date}</div>
 						</header>
 						<main className={styleFlexCenterColumn}>
-							<div className="certificate__graduate">{certificateData.graduate}</div>
+							<div className="certificate__username">{certificateData.username}</div>
 							<div className="certificate__pre-title text-center">ha completado exitosamente la certificación en</div>
-							<div className="certificate__title">{certificateData.title}</div>
-							<div className="certificate__author">{certificateData.author}</div>
-							<div className="certificate__description text-center">{certificateData.description}</div>
+							<div className="certificate__title">{certificateData.event_title}</div>
+							<div className="certificate__author text-center">Dictado por: {certificateData.event_owner_username}</div>
+							<div className="certificate__description text-center">{certificateData.event_description}</div>
 						</main>
 						<footer className={styleFlexCenterColumn}>
 							<div className="certificate__footer text-break mt-3">
 								Id de la transaction:
 							</div>
-							<div className="certificate__footer text-break text-center">{certificateData.txId}</div>
+							<div className="certificate__footer text-break text-center">{certificateData.id}</div>
 						</footer>
 					</div>
 				</div>
@@ -66,12 +66,16 @@ const CertificatePreview = ({ certificateData }) => {
 
 CertificatePreview.propTypes = {
 	certificateData: PropTypes.shape({
-		graduate: PropTypes.string.isRequired,
-		title: PropTypes.string.isRequired,
-		author: PropTypes.string.isRequired,
-		date: PropTypes.string.isRequired,
-		description: PropTypes.string.isRequired,
-		txId: PropTypes.string.isRequired
+		id: PropTypes.string.isRequired,
+		username: PropTypes.string.isRequired,
+		first_name: PropTypes.string.isRequired,
+		last_name: PropTypes.string.isRequired,
+		cert_date: PropTypes.string.isRequired,
+		event_title: PropTypes.string.isRequired,
+		event_description: PropTypes.string.isRequired,
+		event_owner_username: PropTypes.string.isRequired,
+		event_owner_first_name: PropTypes.string.isRequired,
+		event_owner_last_name: PropTypes.string.isRequired,
 	}).isRequired
 };
 
