@@ -5,6 +5,7 @@ from django.contrib.contenttypes.fields import GenericRelation
 
 from star_ratings.models import Rating
 from profiles.models import AcceptedCrypto, Profile
+from taggit.managers import TaggableManager
 
 
 def upload_event_picture(instance, filename):
@@ -37,6 +38,7 @@ class Event(models.Model):
     schedule_description = models.CharField(max_length=1000, blank=True)  # da flexibilidad
     deleted = models.BooleanField(default=False, blank=True)
     ratings = GenericRelation(Rating, related_query_name="ratings")
+    tags = TaggableManager()
 
     def __str__(self):
         return self.title

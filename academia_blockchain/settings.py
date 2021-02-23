@@ -48,7 +48,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'profiles',
     'courses',
-    'star_ratings'
+    'star_ratings',
+    'taggit'
 ]
 
 MIDDLEWARE = [
