@@ -1,6 +1,8 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block extra_head %}
+  <link href="{% static 'assets/css/tag-basic-style.css' %}" id="option_style" rel="stylesheet">
   <script src='https://cdn.tiny.cloud/1/yedm03jmmtjrfydjtb1xhl94q6b8w29cudjs7xo4bsboo0qy/tinymce/5/tinymce.min.js' referrerpolicy="origin">
   </script>
 {% endblock extra_head %}
@@ -28,7 +30,7 @@
                 {% endif %}
             </p>
         <hr>
-        <form method="post" id="event_create_form" role="form" action="{% url 'edit_event' event.id %}"
+        <form method="post" id="event_create_form" role="form" action="{% url 'event_edit' event.id %}"
             enctype="multipart/form-data">
             {% csrf_token %}
             <div class="form-group">
@@ -151,6 +153,15 @@
                 </small>
             </div>
 
+            <div class="form-group">
+                <label for="title">
+                    Tags
+                </label>
+                <div data-tags-input-name="tags" id="tagBox"></div>
+                <small id="" class="form-text text-muted">
+                </small>
+            </div>
+
             <div class="input-group">
               <label for="id_profile_picture">Imagen del Evento: </label>
                 <input type="file" name="event_picture" accept="image/*" id="id_event_picture">
@@ -193,6 +204,7 @@
 
 {% block extra_js %}
 <script src="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.js"></script>
+<script src='{% static 'assets/js/tagging.min.js' %}'></script>
 
 <script>
     $( document ).ready(function() {
@@ -288,6 +300,18 @@
            // eliminar evento
            window.location.href = "{% url 'event_delete' 0 %}".replace("0", "{{ event.id }}");
         });
+
+        var t = $("#tagBox").tagging();
+        t[0].addClass("form-control");
+
+        var event_tag_list = JSON.parse("{{ event_tags|escapejs }}");
+
+        for (i=0; i<event_tag_list.length; i++){
+            console.log(event_tag_list[i]);
+            t[0].tagging("add", event_tag_list[i]);
+        }
+
+
     });
 </script>
 {% endblock %}

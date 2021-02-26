@@ -80,7 +80,9 @@ def event_detail(request, event_id):
 
     comments = Comment.objects.filter(event=event, deleted=False)
     rating = Rating.objects.for_instance(event)
-    has_certificate = Certificate.objects.filter(event=event, user=request.user).exists()
+    has_certificate = False
+    if request.user.is_authenticated:
+        has_certificate = Certificate.objects.filter(event=event, user=request.user).exists()
     logger.info("has_certificate: %s" % has_certificate)
 
     context = {"event": event, "contact_methods": contact_methods, "accepted_cryptos": accepted_cryptos,
@@ -123,112 +125,102 @@ def event_create(request):
         return render(request, template, context)
 
     elif request.method == "POST":
-        print("REQUEST POST:")
-        print(request.POST)
-        # event_type_description = request.POST.get("event_type_description")
-        # event_recurrent = bool(request.POST.get("event_recurrent"))
-        # title = request.POST.get("title")
-        # description = request.POST.get("description")
-        # platform_name = request.POST.get("platform_name")
-        # other_platform = request.POST.get("other_platform")
-        # date_start = request.POST.get("date_start")
-        # date_end = request.POST.get("date_end")
-        # time_day = request.POST.get("time_day")
-        # record_date = request.POST.get("record_date")
-        # schedule_description = request.POST.get("schedule_description")
-        print("---------------------------")
+        event_type_description = request.POST.get("event_type_description")
+        event_recurrent = bool(request.POST.get("event_recurrent"))
+        title = request.POST.get("title")
+        description = request.POST.get("description")
+        platform_name = request.POST.get("platform_name")
+        other_platform = request.POST.get("other_platform")
+        date_start = request.POST.get("date_start")
+        date_end = request.POST.get("date_end")
+        time_day = request.POST.get("time_day")
+        record_date = request.POST.get("record_date")
+        schedule_description = request.POST.get("schedule_description")
         tags = request.POST.getlist("tags[]")
 
-        # logger.info("event_type_description: %s" % event_type_description)
-        # logger.info("event_recurrent: %s" % event_recurrent)
-        # logger.info("title: %s" % title)
-        # logger.info("description: %s" % description)
-        # logger.info("platform_name: %s" % platform_name)
-        # logger.info("other_platform: %s" % other_platform)
-        # logger.info("date_start: %s" % date_start)
-        # logger.info("date_end: %s" % date_end)
-        # logger.info("time_day: %s" % time_day)
-        # logger.info("record_date: %s" % record_date)
-        # logger.info("schedule_description: %s" % schedule_description)
-        print("tags: %s" % tags)
-        print("---------------------------")
+        logger.info("event_type_description: %s" % event_type_description)
+        logger.info("event_recurrent: %s" % event_recurrent)
+        logger.info("title: %s" % title)
+        logger.info("description: %s" % description)
+        logger.info("platform_name: %s" % platform_name)
+        logger.info("other_platform: %s" % other_platform)
+        logger.info("date_start: %s" % date_start)
+        logger.info("date_end: %s" % date_end)
+        logger.info("time_day: %s" % time_day)
+        logger.info("record_date: %s" % record_date)
+        logger.info("schedule_description: %s" % schedule_description)
 
-        # # Event Type
-        # if event_type_description == "pre_recorded":
-        #     is_recorded = True
-        # elif event_type_description in ["live_course", "event_single"]:
-        #     is_recorded = False
-        # else:
-        #     is_recorded = False
-        #
-        # if event_type_description in ["pre_recorded", "live_course"]:
-        #     event_type = "COURSE"
-        # elif event_type_description in ["event_single", "event_recurrent"]:
-        #     event_type = "EVENT"
-        # else:
-        #     event_type = "COURSE"  # loggear exceptions
-        #
-        # # Connection Platform
-        # try:
-        #     platform_obj = ConnectionPlatform.objects.get(name=platform_name)
-        # except Exception as e:
-        #     logger.warning("platform_name: %s" % platform_name)
-        #     platform_obj = None
-        #
-        # # Date & Time
-        # if len(date_start) > 0:
-        #     date_start = datetime.strptime(date_start, "%d/%m/%Y")
-        # else:
-        #     date_start = None
-        # if len(date_end) > 0:
-        #     date_end = datetime.strptime(date_end, "%d/%m/%Y")
-        # else:
-        #     date_end = None
-        # if len(time_day) > 0 and date_start is not None:
-        #     time_day = datetime.strptime(time_day, "%I:%M %p")
-        #     date_start.replace(hour=time_day.hour, minute=time_day.minute)
-        #
-        # if len(record_date) > 0:
-        #     record_date = datetime.strptime(record_date, "%d/%m/%Y")
-        # else:
-        #     record_date = None
-        #
-        # created_event = Event.objects.create(
-        #     event_type=event_type,
-        #     is_recorded=is_recorded,
-        #     is_recurrent=event_recurrent,
-        #     owner=request.user,
-        #     title=title,
-        #     description=description,
-        #     platform=platform_obj,
-        #     other_platform=other_platform,
-        #     date_start=date_start,
-        #     date_end=date_end,
-        #     date_recorded=record_date,
-        #     schedule_description=schedule_description
-        # )
-        #
-        # profile = Profile.objects.get(user=request.user)
-        # profile.is_teacher = True
-        # profile.save()
-        #
-        # # Guardar imagen
-        # if "event_picture" in request.FILES:
-        #     event_picture = request.FILES['event_picture']
-        #     logger.info("event_picture: %s" % event_picture)
-        #     created_event.image.save(event_picture.name, event_picture)
-        #
-        # # Sumar Tags
-        # for tag in tags:
-        #     logger.info("tag_added: %s" % tag)
-        #     created_event.tags.add(tag)
-        #
-        # # Quitar Tags borrados
-        # for tag in created_event.tags.all():
-        #     pass
+        # Event Type
+        if event_type_description == "pre_recorded":
+            is_recorded = True
+        elif event_type_description in ["live_course", "event_single"]:
+            is_recorded = False
+        else:
+            is_recorded = False
 
-        # return redirect("event_detail", event_id=created_event.id)
-        return HttpResponse("ideas")
+        if event_type_description in ["pre_recorded", "live_course"]:
+            event_type = "COURSE"
+        elif event_type_description in ["event_single", "event_recurrent"]:
+            event_type = "EVENT"
+        else:
+            event_type = "COURSE"  # loggear exceptions
+
+        # Connection Platform
+        try:
+            platform_obj = ConnectionPlatform.objects.get(name=platform_name)
+        except Exception as e:
+            logger.warning("platform_name: %s" % platform_name)
+            platform_obj = None
+
+        # Date & Time
+        if len(date_start) > 0:
+            date_start = datetime.strptime(date_start, "%d/%m/%Y")
+        else:
+            date_start = None
+        if len(date_end) > 0:
+            date_end = datetime.strptime(date_end, "%d/%m/%Y")
+        else:
+            date_end = None
+        if len(time_day) > 0 and date_start is not None:
+            time_day = datetime.strptime(time_day, "%I:%M %p")
+            date_start.replace(hour=time_day.hour, minute=time_day.minute)
+
+        if len(record_date) > 0:
+            record_date = datetime.strptime(record_date, "%d/%m/%Y")
+        else:
+            record_date = None
+
+        created_event = Event.objects.create(
+            event_type=event_type,
+            is_recorded=is_recorded,
+            is_recurrent=event_recurrent,
+            owner=request.user,
+            title=title,
+            description=description,
+            platform=platform_obj,
+            other_platform=other_platform,
+            date_start=date_start,
+            date_end=date_end,
+            date_recorded=record_date,
+            schedule_description=schedule_description
+        )
+
+        profile = Profile.objects.get(user=request.user)
+        profile.is_teacher = True
+        profile.save()
+
+        # Guardar imagen
+        if "event_picture" in request.FILES:
+            event_picture = request.FILES['event_picture']
+            logger.info("event_picture: %s" % event_picture)
+            created_event.image.save(event_picture.name, event_picture)
+
+        # Sumar Tags
+        for tag in tags:
+            logger.info("tag_added: %s" % tag)
+            created_event.tags.add(tag)
+
+        return redirect("event_detail", event_id=created_event.id)
 
 
 @login_required
@@ -263,23 +255,23 @@ def event_comment(request, event_id):
 
 
 @login_required
-def edit_event(request, event_id):
+def event_edit(request, event_id):
     if request.method == "GET":
         template = "courses/event_edit.html"
         event = get_object_or_404(Event, id=event_id)
         logger.info("event: %s" % event)
         platforms = ConnectionPlatform.objects.filter(deleted=False)
         user_contact_methods = ContactMethod.objects.filter(user=event.owner)
-
+        event_tags = [e.name for e in event.tags.all()]
         logger.info("platforms: %s" % platforms)
         logger.info("user_contact_methods: %s" % user_contact_methods)
 
-        context = {"event": event, "platforms": platforms, "user_contact_methods": user_contact_methods}
+        context = {"event": event, "platforms": platforms, "user_contact_methods": user_contact_methods,
+                   "event_tags": json.dumps(event_tags)}
         return render(request, template, context)
 
     elif request.method == "POST":
         event = get_object_or_404(Event, id=event_id)
-
         event_type_description = request.POST.get("event_type_description")
         event_recurrent = bool(request.POST.get("event_recurrent"))
         title = request.POST.get("title")
@@ -291,6 +283,7 @@ def edit_event(request, event_id):
         time_day = request.POST.get("time_day")
         record_date = request.POST.get("record_date")
         schedule_description = request.POST.get("schedule_description")
+        actualized_tags = request.POST.getlist("tags[]")
 
         logger.info("event_type_description: %s" % event_type_description)
         logger.info("event_recurrent: %s" % event_recurrent)
@@ -303,6 +296,7 @@ def edit_event(request, event_id):
         logger.info("time_day: %s" % time_day)
         logger.info("record_date: %s" % record_date)
         logger.info("schedule_description: %s" % schedule_description)
+        logger.info("tags: %s" % actualized_tags)
 
         # Event Type
         if event_type_description == "pre_recorded":
@@ -362,8 +356,18 @@ def edit_event(request, event_id):
             logger.info("event_picture: %s" % event_picture)
             event.image.save(event_picture.name, event_picture)
 
-        return redirect("event_detail", event_id=event.id)
+        # Actualizar tags
+        event_tags = [e.name for e in event.tags.all()]
+        for tag in actualized_tags:
+            if tag not in event_tags:
+                event.tags.add(tag.strip())
+                logger.info("new_tag: %s" % tag)
+        for existing_tag in event_tags:
+            if existing_tag not in actualized_tags:
+                event.tags.remove(existing_tag)
+                logger.info("remove_tag: %s" % existing_tag)
 
+        return redirect("event_detail", event_id=event.id)
 
 # TODO
 # The URL could be /certificate_preview/${transactionId}

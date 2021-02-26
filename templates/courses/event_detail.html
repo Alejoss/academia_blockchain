@@ -80,9 +80,17 @@
                         <div class="card-body border-top-5 border-success position-relative">
                     {% endif %}
 
+                    <div class="mb-8">
+                        {% for tag in event.tags.all %}
+                        <span class="badge badge-pill badge-primary">
+                            {{ tag }}
+                        </span>
+                        {% endfor %}
+                    </div>
+
                     {% if event.owner == user %}
                         <div class="text-right">
-                            <button id="edit_event" type="button" class="btn btn-primary"><i class="fa fa-edit"></i> Editar</button>
+                            <button id="event_edit" type="button" class="btn btn-primary"><i class="fa fa-edit"></i> Editar</button>
                         </div>
                     {% else %}
                         {% if event_is_bookmarked %}
@@ -280,9 +288,9 @@
     <script type="text/javascript" src="{% static 'star-ratings/js/dist/star-ratings.min.js' %}"></script>
     <script>
         $( document ).ready(function() {
-            $("#edit_event").on("click", function(e){
+            $("#event_edit").on("click", function(e){
                 e.preventDefault();
-                window.location.href = "{% url 'edit_event' event.id %}";
+                window.location.href = "{% url 'event_edit' event.id %}";
             });
             $("#event_bookmark").on("click", function(e){
                 e.preventDefault();
