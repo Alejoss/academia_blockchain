@@ -3,6 +3,7 @@ from courses import views
 
 urlpatterns = [
     path('', views.event_index, name="event_index"),
+    path('events_tag/<int:tag_id>', views.events_tag, name="events_tag"),
     path('event_detail/<int:event_id>', views.event_detail, name="event_detail"),
     path('edit/<int:event_id>', views.event_edit, name="event_edit"),
     path('create/', views.event_create, name="event_create"),

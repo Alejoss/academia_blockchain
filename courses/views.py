@@ -17,6 +17,7 @@ from courses.models import Event, ConnectionPlatform, Bookmark, CertificateReque
 from profiles.models import ContactMethod, AcceptedCrypto, Profile
 from profiles.utils import academia_blockchain_timezones
 from star_ratings.models import Rating
+from taggit.models import Tag
 
 
 logger = logging.getLogger('app_logger')
@@ -29,8 +30,18 @@ HTML RENDERS
 def event_index(request):
     template = "courses/events.html"
     events = Event.objects.filter(deleted=False)
+    tags = Tag.objects.all()
     logger.info("events: %s" % events)
-    context = {"events": events, "event_index_active": "active"}
+    context = {"events": events, "event_index_active": "active", "tags": tags}
+    return render(request, template, context)
+
+
+def events_tag(request, tag_id):
+    template = "courses/events_tag.html"
+    tag = get_object_or_404(Tag, id=tag_id)
+    tags = Tag.objects.all()
+    events = Event.objects.filter(tags__name__in=[tag.name])
+    context = {"events": events, "event_index_active": "active", "tags": tags}
     return render(request, template, context)
 
 
