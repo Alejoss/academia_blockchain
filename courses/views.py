@@ -13,11 +13,12 @@ from django.utils.timezone import is_aware
 from django.contrib.auth import get_user
 from django.http import HttpResponse
 
-
 from courses.models import Event, ConnectionPlatform, Bookmark, CertificateRequest, Certificate, Comment
 from profiles.models import ContactMethod, AcceptedCrypto, Profile
 from profiles.utils import academia_blockchain_timezones
 from star_ratings.models import Rating
+from taggit.models import Tag
+
 
 logger = logging.getLogger('app_logger')
 
@@ -29,8 +30,18 @@ HTML RENDERS
 def event_index(request):
     template = "courses/events.html"
     events = Event.objects.filter(deleted=False)
+    tags = Tag.objects.all()
     logger.info("events: %s" % events)
-    context = {"events": events, "event_index_active": "active"}
+    context = {"events": events, "event_index_active": "active", "tags": tags}
+    return render(request, template, context)
+
+
+def events_tag(request, tag_id):
+    template = "courses/events_tag.html"
+    tag = get_object_or_404(Tag, id=tag_id)
+    tags = Tag.objects.all()
+    events = Event.objects.filter(tags__name__in=[tag.name])
+    context = {"events": events, "event_index_active": "active", "tags": tags}
     return render(request, template, context)
 
 
@@ -80,7 +91,9 @@ def event_detail(request, event_id):
 
     comments = Comment.objects.filter(event=event, deleted=False)
     rating = Rating.objects.for_instance(event)
-    has_certificate = Certificate.objects.filter(event=event, user=request.user).exists()
+    has_certificate = False
+    if request.user.is_authenticated:
+        has_certificate = Certificate.objects.filter(event=event, user=request.user).exists()
     logger.info("has_certificate: %s" % has_certificate)
 
     context = {"event": event, "contact_methods": contact_methods, "accepted_cryptos": accepted_cryptos,
@@ -115,9 +128,11 @@ def event_create(request):
     if request.method == "GET":
         template = "courses/event_create.html"
         platforms = ConnectionPlatform.objects.filter(deleted=False)
+        profile = Profile.objects.get(user=request.user)
         logger.info("platforms: %s" % platforms)
+        logger.info("profile.email_confirmed: %s" % profile.email_confirmed)
 
-        context = {"event_index_active": "active", "platforms": platforms}
+        context = {"event_index_active": "active", "platforms": platforms, "profile": profile}
         return render(request, template, context)
 
     elif request.method == "POST":
@@ -132,6 +147,7 @@ def event_create(request):
         time_day = request.POST.get("time_day")
         record_date = request.POST.get("record_date")
         schedule_description = request.POST.get("schedule_description")
+        tags = request.POST.getlist("tags[]")
 
         logger.info("event_type_description: %s" % event_type_description)
         logger.info("event_recurrent: %s" % event_recurrent)
@@ -200,11 +216,20 @@ def event_create(request):
             schedule_description=schedule_description
         )
 
+        profile = Profile.objects.get(user=request.user)
+        profile.is_teacher = True
+        profile.save()
+
         # Guardar imagen
         if "event_picture" in request.FILES:
             event_picture = request.FILES['event_picture']
             logger.info("event_picture: %s" % event_picture)
             created_event.image.save(event_picture.name, event_picture)
+
+        # Sumar Tags
+        for tag in tags:
+            logger.info("tag_added: %s" % tag)
+            created_event.tags.add(tag)
 
         return redirect("event_detail", event_id=created_event.id)
 
@@ -241,23 +266,23 @@ def event_comment(request, event_id):
 
 
 @login_required
-def edit_event(request, event_id):
+def event_edit(request, event_id):
     if request.method == "GET":
         template = "courses/event_edit.html"
         event = get_object_or_404(Event, id=event_id)
         logger.info("event: %s" % event)
         platforms = ConnectionPlatform.objects.filter(deleted=False)
         user_contact_methods = ContactMethod.objects.filter(user=event.owner)
-
+        event_tags = [e.name for e in event.tags.all()]
         logger.info("platforms: %s" % platforms)
         logger.info("user_contact_methods: %s" % user_contact_methods)
 
-        context = {"event": event, "platforms": platforms, "user_contact_methods": user_contact_methods}
+        context = {"event": event, "platforms": platforms, "user_contact_methods": user_contact_methods,
+                   "event_tags": json.dumps(event_tags)}
         return render(request, template, context)
 
     elif request.method == "POST":
         event = get_object_or_404(Event, id=event_id)
-
         event_type_description = request.POST.get("event_type_description")
         event_recurrent = bool(request.POST.get("event_recurrent"))
         title = request.POST.get("title")
@@ -269,6 +294,7 @@ def edit_event(request, event_id):
         time_day = request.POST.get("time_day")
         record_date = request.POST.get("record_date")
         schedule_description = request.POST.get("schedule_description")
+        actualized_tags = request.POST.getlist("tags[]")
 
         logger.info("event_type_description: %s" % event_type_description)
         logger.info("event_recurrent: %s" % event_recurrent)
@@ -281,6 +307,7 @@ def edit_event(request, event_id):
         logger.info("time_day: %s" % time_day)
         logger.info("record_date: %s" % record_date)
         logger.info("schedule_description: %s" % schedule_description)
+        logger.info("tags: %s" % actualized_tags)
 
         # Event Type
         if event_type_description == "pre_recorded":
@@ -340,6 +367,17 @@ def edit_event(request, event_id):
             logger.info("event_picture: %s" % event_picture)
             event.image.save(event_picture.name, event_picture)
 
+        # Actualizar tags
+        event_tags = [e.name for e in event.tags.all()]
+        for tag in actualized_tags:
+            if tag not in event_tags:
+                event.tags.add(tag.strip())
+                logger.info("new_tag: %s" % tag)
+        for existing_tag in event_tags:
+            if existing_tag not in actualized_tags:
+                event.tags.remove(existing_tag)
+                logger.info("remove_tag: %s" % existing_tag)
+
         return redirect("event_detail", event_id=event.id)
 
 # TODO
@@ -355,6 +393,7 @@ def certificate_preview(request, cert_id):
     template = "courses/certificate_preview.html"
     context = {"certificate": ""}
     return render(request, template, context)
+
 
 """
 API CALLS

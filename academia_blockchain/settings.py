@@ -47,6 +47,7 @@ DEBUG = True
 HEROKU = False
 DOCKER = get_bool_from_env("DOCKER",False)
 
+
 ALLOWED_HOSTS = ["*"]
 
 # Application definition
@@ -59,7 +60,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'profiles',
     'courses',
-    'star_ratings'
+    'star_ratings',
+    'taggit'
 ]
 
 MIDDLEWARE = [

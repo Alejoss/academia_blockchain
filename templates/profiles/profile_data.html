@@ -6,6 +6,15 @@
 ===================================== -->
 <div class="col-md-8 col-lg-9 order-md-1">
     <div class="row">
+        {% if not profile.email_confirmed %}
+            <div class="alert alert-info alert-dismissible fade show" role="alert">
+                <strong>Hola!</strong> por favor confirma el email de tu cuenta {{ user.email }}:
+                <a href="{% url 'resend_activation_email' %}" class="alert-link">Reenviar correo de confirmación</a>.
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                  <span aria-hidden="true">×</span>
+                </button>
+            </div>
+        {% endif %}
         <div class="media media-avator-view flex-column flex-sm-row">
             <a class="media-img mb-5 mb-sm-0 mr-md-5 mr-lg-6 rounded-sm shadow-sm" href="">
             {% if profile.profile_picture %}
@@ -77,6 +86,7 @@
         {% csrf_token %}
         <div class="row">
           <div class="col-sm-6 col-xs-12">
+
             <div class="form-group form-group-icon">
               <i class="fa fa-at"></i>
               <input name="email" type="text" class="form-control border-info" placeholder="Email"

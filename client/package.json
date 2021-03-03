@@ -41,7 +41,7 @@
   },
   "scripts": {
     "build": "webpack",
-    "start": "webpack serve",
+    "start": "webpack --watch",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],

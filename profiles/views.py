@@ -9,13 +9,15 @@ from django.contrib.auth.views import LoginView, PasswordResetView, PasswordRese
     PasswordResetConfirmView, PasswordResetCompleteView
 from django.contrib.sites.shortcuts import get_current_site
 from django.contrib.auth import login
+from django.urls import reverse_lazy
 from django.http import HttpResponse
 from django.template.loader import render_to_string
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.utils.encoding import force_bytes, force_text
 
 from profiles.utils import AcademiaUserCreationForm, AcademiaLoginForm, ProfilePictureForm, \
-    get_cryptos_string, academia_blockchain_timezones, send_email_message
+    get_cryptos_string, academia_blockchain_timezones, send_email_message, AcademiaPasswordResetForm,\
+    AcademiaSetPasswordForm, send_confirmation_email
 
 from profiles.models import Profile, AcceptedCrypto, ContactMethod, CryptoCurrency
 from courses.models import Event, Bookmark, CertificateRequest, Certificate
@@ -55,30 +57,9 @@ def register_profile(request):
             logger.info("user_monero: %s" % user_monero)
 
             login(request, new_user)
-
+            email = form.cleaned_data['email']
             # Enviar email de confirmacion
-            activation_token = PasswordResetTokenGenerator().make_token(new_user)
-            logger.info("activation_token: %s" % activation_token)
-            current_site = get_current_site(request)
-            uid = urlsafe_base64_encode(force_bytes(new_user.pk))
-
-            logger.info("uid: %s" % uid)
-
-            message = render_to_string('profiles/email_confirm_account.html', {
-                'username': new_user.username,
-                'uid': uid,
-                'token': activation_token,
-                'domain': current_site
-            })
-            user_email = form.cleaned_data.get('email')
-            send_email_message(subject="Activa tu cuenta",
-                               message=message,
-                               receiver_email=user_email
-                               )
-
-            logger.debug("current_site: %s" % current_site)
-            logger.debug("uid: %s" % uid)
-            logger.debug("activation_token: %s" % activation_token)
+            send_confirmation_email(request, new_user, email)
 
             template = "profiles/profile_data.html"
             context = {'new_profile': new_profile}
@@ -104,8 +85,9 @@ def activate_account(request, uid, token):
         profile.email_confirmed = True
         profile.save()
         login(request, user)
-        # return redirect('home')
-        return HttpResponse('Thank you for your email confirmation. Now you can login your account.')
+        template = "profiles/account_activate_complete.html"
+        context = {}
+        return render(request, template, context)
     else:
         return HttpResponse('Activation link is invalid!')
 
@@ -117,19 +99,34 @@ class AcademiaLogin(LoginView):
 
 class AcademiaPasswordResetView(PasswordResetView):
     email_template_name = "profiles/password_reset_email.html"
-    template_name = 'profiles/password_reset_email.html'
+    template_name = 'profiles/password_reset_form.html'
+    form_class = AcademiaPasswordResetForm
 
 
 class AcademiaPasswordResetDoneView(PasswordResetDoneView):
-    template_name = "profiles/password_reset_done.html"
+    template_name = "profiles/email_sent.html"
 
 
 class AcademiaPasswordResetConfirmView(PasswordResetConfirmView):
-    email_template_name = "profiles/password_reset_confirm.html"
+    template_name = "profiles/password_reset_confirm.html"
+    form_class = AcademiaSetPasswordForm
+    success_url = reverse_lazy('password_reset_complete')
 
 
 class AcademiaPasswordResetCompleteView(PasswordResetCompleteView):
-    email_template_name = "profiles/password_reset_complete.html"
+    template_name = "profiles/password_reset_complete.html"
+
+
+def resend_activation_email(request):
+    user_email = request.user.email
+    if user_email:
+        logger.debug("user_email: %s" % user_email)
+        send_confirmation_email(request, request.user, user_email)
+        template = "profiles/email_sent.html"
+        context = {}
+        return render(request, template, context)
+    else:
+        return HttpResponse("email not found")
 
 
 def content(request):
