@@ -1,0 +1,25 @@
+version: "3.9"
+   
+services:
+  postgres:
+    image: postgres
+    environment:
+      - POSTGRES_DB=abc
+      - POSTGRES_USER=postgresuser
+      - POSTGRES_PASSWORD=postgrespassword
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+  backend:
+    environment: 
+      - DOCKER=True
+      - DATABASE_URL=postgres://postgresuser:postgrespassword@postgres:5432/abc
+    build: .
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/code
+    ports:
+      - "8000:8000"
+    depends_on:
+      - postgres
+volumes:
+  postgres_data: {}
