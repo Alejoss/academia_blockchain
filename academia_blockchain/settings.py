@@ -29,6 +29,7 @@ def get_env_variable(variable_name):  # Esto ayuda para facilitar la colaboracio
         v = "na"
     return v
 
+
 def get_bool_from_env(name, default_value):
     if name in os.environ:
         value = os.environ[name]
@@ -45,7 +46,7 @@ SECRET_KEY = get_env_variable('ACADEMIA_BLOCKCHAIN_SKEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 HEROKU = False
-DOCKER = get_bool_from_env("DOCKER",False)
+DOCKER = get_bool_from_env("DOCKER", False)
 
 
 ALLOWED_HOSTS = ["*"]

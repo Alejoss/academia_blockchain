@@ -36,7 +36,7 @@
                             </div>
                             <input id="contact_id_{{ forloop.counter }}" type="hidden" value="{{ c.id }}" class="hidden">
                             <input type="text" class="form-control" id="contact_name_{{ forloop.counter }}" value="{{ c.name }}" placeholder="Facebook, Telegram ...">
-                            <input type="text" class="form-control" id="contact_url_{{ forloop.counter }}" value="{{ c.url_link }}" placeholder="url / mail / número">
+                            <input type="text" class="form-control" id="contact_url_{{ forloop.counter }}" value="{{ c.url_link }}" placeholder="@ / url / mail / número">
                           </div>
                           <textarea type="text" class="form-control" id="contact_text_{{ forloop.counter }}"
                                     placeholder="Envíame un mensaje, estoy conectado en las tardes">{{ c.description }}</textarea>
@@ -161,7 +161,7 @@
                 '<input type="text" class="form-control" id="contact_name_number"'.replace("number", counter) +
                 'placeholder="Facebook, Telegram ...">' +
                 '<input type="text" class="form-control" id="contact_url_number"'.replace("number", counter) +
-                'placeholder="url / mail / número"></div>' +
+                'placeholder="@ / url / mail / número"></div>' +
                 '<textarea type="text" class="form-control" id="contact_text_number"'.replace("number", counter) +
                 'placeholder="Envíame un mensaje, estoy conectado en las tardes"></textarea><hr></div>'
             );

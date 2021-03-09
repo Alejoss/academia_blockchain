@@ -41,7 +41,7 @@ class Event(models.Model):
     tags = TaggableManager()
 
     def __str__(self):
-        return self.title
+        return self.title + " - " + self.owner.username
 
 
 class Comment(models.Model):
