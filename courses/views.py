@@ -84,7 +84,7 @@ def event_detail(request, event_id):
     logger.info("is_event_owner: %s" % is_event_owner)
     if is_event_owner:
         event_bookmarks = Bookmark.objects.filter(event=event, deleted=False)
-        certificate_requests = CertificateRequest.objects.filter(event=event, deleted=False)
+        certificate_requests = CertificateRequest.objects.filter(event=event, deleted=False, accepted=False)
         logger.info("event_bookmarks: %s" % event_bookmarks)
 
     logger.info("certificate_requests: %s" % certificate_requests)
