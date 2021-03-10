@@ -26,10 +26,13 @@ Con las librerías instaladas esta listo el entorno. Utilizamos el potente frame
 4. Aplicar migraciones.
 `docker-compose run --rm backend python3 manage.py migrate`
 
-5. Crear un super usuario de Django.
+5. Cargar fixture de la base de datos. Así populas el sitio con objetos de prueba.
+`python manage.py loaddata db_fixture.json`
+
+6. Crear un super usuario de Django.
 `docker-compose run --rm backend python3 manage.py createsuperuser`
 
-6. Acceder al sitio en localhost:8000 y entrar con las credenciales de superusuario creadas en el paso 4.
+7. Acceder al sitio en localhost:8000 y entrar con las credenciales de superusuario creadas en el paso 4.
 
 No es necesario conocer mucho de python para correr el proyecto. Si lo tuyo es el CSS o el JS, corres el servidor local y te dedicas a esa parte del código. 
 
