@@ -13,6 +13,14 @@ services:
     environment: 
       - DOCKER=True
       - DATABASE_URL=postgres://postgresuser:postgrespassword@postgres:5432/abc
+      - ACADEMIA_BLOCKCHAIN_SKEY=h*-wz$7ag$&b=bpkv11(3sfjmb#5rwjrvymct1u1@dv^*u0y!7
+      - AWSAccessKeyId=xxxx
+      - AWSSecretKey=xxxx
+      - AWS_STORAGE_BUCKET_NAME=xxxx
+      - DATABASE_URL=postgres://bntmkhnnexlyxn:021989d6aefaf7d5e8e41100985939484a606afc72eb5c2398f496a855a10e98@ec2-18-214-211-47.compute-1.amazonaws.com:5432/d4m0gdlpirtu6g
+      - DISABLE_COLLECTSTATIC=0
+      - HEROKU=False
+
     build: .
     command: python manage.py runserver 0.0.0.0:8000
     volumes:
