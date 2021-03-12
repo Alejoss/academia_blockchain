@@ -12720,9 +12720,13 @@ a:hover {
 @media (min-width: 768px) {
   .navbar-nav .dropdown .nav-link span {
     display: block;
-    width: 85px;
+    width: 100px;
     border-right: 2px solid;
     padding: 0 0.75rem;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    margin: 3px;
   }
 }
 

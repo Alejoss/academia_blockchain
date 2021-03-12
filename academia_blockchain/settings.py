@@ -45,7 +45,7 @@ SECRET_KEY = get_env_variable('ACADEMIA_BLOCKCHAIN_SKEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-HEROKU = False
+HEROKU = True
 DOCKER = get_bool_from_env("DOCKER", False)
 
 
