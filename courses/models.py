@@ -38,7 +38,7 @@ class Event(models.Model):
     schedule_description = models.CharField(max_length=1000, blank=True)  # da flexibilidad
     deleted = models.BooleanField(default=False, blank=True)
     ratings = GenericRelation(Rating, related_query_name="ratings")
-    tags = TaggableManager()
+    tags = TaggableManager(blank=True)
 
     def __str__(self):
         return self.title + " - " + self.owner.username

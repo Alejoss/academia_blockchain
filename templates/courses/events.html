@@ -98,11 +98,13 @@
                                 {% endif %}
                             {% endif %}
                         </li>
-                        <li>
+                        <li class="mr-3">
                             {% if event.is_recorded %}
                                 {% if event.is_recorded %}
-                                    <i class="fa fa-clock-o mr-2" aria-hidden="true"></i>
-                                    {{ event.date_recorded|date:"SHORT_DATE_FORMAT" }}
+                                    <span title="Fecha de Grabación">
+                                        <i class="fa fa-clock-o mr-2" aria-hidden="true"></i>
+                                        {{ event.date_recorded|date:"SHORT_DATE_FORMAT" }}
+                                    </span>
                                 {% endif %}
                             {% elif event.is_recurrent %}
                                 {% if event.schedule_description %}

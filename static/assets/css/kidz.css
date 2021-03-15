@@ -12488,6 +12488,7 @@ a:hover {
   font-weight: 600;
   font-size: 2.5rem;
   font-family: "Dosis", sans-serif;
+  background-color: rgba(60, 60, 60, 0.5);
 }
 
 /* Color Bar */
