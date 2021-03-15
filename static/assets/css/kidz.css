@@ -12618,7 +12618,7 @@ a:hover {
 }
 
 .navbar .navbar-brand img {
-  max-width: 130px;
+  max-width: 90px;
 }
 
 @media (min-width: 768px) {
@@ -12629,7 +12629,7 @@ a:hover {
 
 @media (min-width: 992px) {
   .navbar .navbar-brand img {
-    max-width: 166px;
+    max-width: 90px;
   }
 }
 
