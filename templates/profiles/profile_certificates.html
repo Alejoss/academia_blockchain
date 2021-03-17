@@ -72,7 +72,56 @@
                                         onclick="location.href = '{% url 'certificate_preview' c.id %}' ">
                                         <i class="fa fa-certificate mr-2" aria-hidden="true"></i>Ver Certificado
                                     </button>
+                                    <button data-id="{{ c.event.id }}" class="send_to_blockchain btn btn-sm btn-info
+                                    text-uppercase mb-1 mr-2 btn-hover-white">
+                                        <i class="fa fa-link mr-2" aria-hidden="true"></i>Enviar a la Blockchain
+                                    </button>
                                 </div>
+
+{#                                    Modal confirmacion enviar certificado a la blockchain#}
+                                    <div class="modal fade mb-8" id="modal_send_blockchain" tabindex="-1" role="dialog"
+                                         aria-labelledby="exampleModalLabel" style="display: none;" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                      <div class="modal-content">
+                                        <div class="modal-header">
+                                          <h5 class="modal-title">Guardar Certificado en la Blockchain</h5>
+                                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">×</span>
+                                          </button>
+                                        </div>
+                                        <div class="modal-body">
+                                          <p>Guardar datos en una blockchain tiene costo. <a href="">(leer más...)</a>
+                                              <br>
+                                              ¡Y también tiene beneficios!
+                                              <br>
+                                              <ul>
+                                                <li>
+                                                    Tu certificado será guardado permanentemente en una base de datos descentralizada.
+                                                </li>
+                                                <li>
+                                                    Tu certificado será visible para terceras personas (opcional).
+                                                </li>
+                                                <li>
+                                                    Ganarás el emblema Bibliotecario del Futuro.
+                                                </li>
+                                                <li>
+                                                    Ganarás 5 puntos de actividad.
+                                                </li>
+                                              </ul>
+                                              <br>
+                                          </p>
+                                            <p>
+                                                Presiona Continuar para revisar el hash del certificado, establecer conexión con
+                                                la blockchain de Ethereum y alistar los datos.
+                                            </p>
+                                        </div>
+                                        <div class="modal-footer">
+                                          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                                          <button type="button" class="btn btn-primary">Continuar</button>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    </div>
                             </div>
                         </div>
 
@@ -102,3 +151,15 @@
     </div>
 
 {% endblock profile_content %}
+
+
+{% block extra_js %}
+    <script>
+    $( document ).ready(function() {
+        $(".send_to_blockchain").on("click", function(){
+            let cert_id = $(this).data("id");
+            $("#modal_send_blockchain").modal("show")
+        });
+    });
+    </script>
+{% endblock extra_js %}
