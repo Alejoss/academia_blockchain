@@ -117,7 +117,8 @@
                                         </div>
                                         <div class="modal-footer">
                                           <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                                          <button type="button" class="btn btn-primary">Continuar</button>
+                                          <button id="confirm_send_blockchain" type="button"
+                                                  data-id="" class="btn btn-primary">Continuar</button>
                                         </div>
                                       </div>
                                     </div>
@@ -158,7 +159,13 @@
     $( document ).ready(function() {
         $(".send_to_blockchain").on("click", function(){
             let cert_id = $(this).data("id");
-            $("#modal_send_blockchain").modal("show")
+            console.log(cert_id);
+            $("#confirm_send_blockchain").data("id", cert_id);
+            $("#modal_send_blockchain").modal("show");
+        });
+        $("#confirm_send_blockchain").on("click", function(){
+            let cert_id = $(this).data("id");
+            window.location.href = "{% url 'send_cert_blockchain' 0 %}".replace("0", cert_id);
         });
     });
     </script>

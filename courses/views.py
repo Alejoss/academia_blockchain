@@ -4,6 +4,7 @@ import logging
 import json
 from http import HTTPStatus
 from datetime import datetime
+from hashlib import sha256
 
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
@@ -18,7 +19,6 @@ from profiles.models import ContactMethod, AcceptedCrypto, Profile
 from profiles.utils import academia_blockchain_timezones
 from star_ratings.models import Rating
 from taggit.models import Tag
-
 
 logger = logging.getLogger('app_logger')
 
@@ -380,6 +380,7 @@ def event_edit(request, event_id):
 
         return redirect("event_detail", event_id=event.id)
 
+
 # TODO
 # The URL could be /certificate_preview/${transactionId}
 # Then, the backend searchs for the transaction in the blockchain and with that data
@@ -392,6 +393,19 @@ def certificate_preview(request, cert_id):
     # certificate = get_object_or_404(Certificate, id=cert_id)
     template = "courses/certificate_preview.html"
     context = {"certificate": ""}
+    return render(request, template, context)
+
+
+def send_cert_blockchain(request, cert_id):
+    template = "courses/send_cert_blockchain.html"
+    certificate = get_object_or_404(Certificate, id=cert_id)
+    cert_text = (certificate.user.username + certificate.user.first_name + certificate.user.last_name +
+                 certificate.event.title + certificate.event.owner.username).encode("utf8")
+    logger.info("cert_text: %s" % cert_text)
+    cert_hash = sha256(cert_text)
+    logger.info("cert_hash: %s" % cert_hash)
+
+    context = {"certificate": certificate, "cert_text": cert_text, "cert_hash": cert_hash}
     return render(request, template, context)
 
 

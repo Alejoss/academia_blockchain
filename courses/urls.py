@@ -10,6 +10,7 @@ urlpatterns = [
     path('delete/<int:event_id>', views.event_delete, name="event_delete"),
     path('comment/<int:event_id>', views.event_comment, name="event_comment"),
     path('certificate_preview/<int:cert_id>', views.certificate_preview, name="certificate_preview"),
+    path('send_cert_blockchain/<int:cert_id>', views.send_cert_blockchain, name="send_cert_blockchain"),
 
     # API
     path('event_bookmark/<int:event_id>', views.event_bookmark, name="event_bookmark"),

@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="main-wrapper teachers-details">
+
+
+<!-- ====================================
+———	BREADCRUMB
+===================================== -->
+<section class="breadcrumb-bg" style="background-image: url(https://images.squarespace-cdn.com/content/v1/5b6cc487620b85a4400b78a1/1538763794373-QZJV5OXM00OUQXPUZ2S7/ke17ZwdGBToddI8pDm48kEsYCv8siTIZGDHdFeal4UoUqsxRUqqbr1mOJYKfIPR7LoDQ9mXPOjoJoqy81S2I8N_N4V1vUb5AoIIIbLZhVYxCRW4BPu10St3TBAUQYVKcr0gDI7dDrQdpstTwgN7SyerQb7v7DMsLFGNUDBmtpvryubs1SbPLUqRBWzDZP1g3/blockchainis.jpg); ">
+<div class="container">
+  <div class="breadcrumb-holder">
+    <div>
+      <h1 class="breadcrumb-title">Enviar {{ certificate.event.title }} <br> a la blockchain.</h1>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ====================================
+———	TEACHERS DETAILS
+===================================== -->
+<section class="py-7 py-md-10">
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-4 col-xs-12">
+        <div class="image mb-5 mb-md-0">
+          <img class="w-100 rounded" src="{{ certificate.event.image.url }}">
+        </div>
+      </div>
+
+      <div class="col-sm-8 col-xs-12">
+        <h2 class="text-warning font-weight-bold text-capitalize pl-0 mb-5">Conectar Metamask</h2>
+
+        <p class="text-muted mb-5">Para interactuar con la blockchain de Ethereum necesitas Metamask, un plugin para tu navegador.
+            <a href="">leer más</a>
+        </p>
+
+        <p class="text-muted mb-5">En la cadena de bloques se guarda un hash que es una representación única e inmutable de tu certificado.
+            <a href="">leer más</a> <br> El siguiente es el texto del certificado que quedará guardado permanentemente a través del hash:
+        </p>
+
+          <form action="">
+              <div class="form-group" >
+                  <textarea class="form-control" disabled rows="5">
+                      {{ certificate.user.username }}
+                      {{ certificate.user.first_name }}
+                      {{ certificate.user.last_name }}
+                      {{ certificate.event.title }}
+                      {{ certificate.event.owner.username }}
+                  </textarea>
+              </div>
+              <div class="form-group">
+                <input class="form-control" type="text" disabled value="{{ cert_hash.hexdigest }}">
+              </div>
+                  <div class="text-right">
+                  <button type="submit" class="btn btn-info text-right" id="submit_form">
+                    Enviar
+                  </button>
+                  </div>
+          </form>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+</div> <!-- element wrapper ends -->
+{% endblock content %}
