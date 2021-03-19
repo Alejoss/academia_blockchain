@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block content %}
 <div class="main-wrapper teachers-details">
@@ -7,7 +8,7 @@
 <!-- ====================================
 ———	BREADCRUMB
 ===================================== -->
-<section class="breadcrumb-bg" style="background-image: url(https://images.squarespace-cdn.com/content/v1/5b6cc487620b85a4400b78a1/1538763794373-QZJV5OXM00OUQXPUZ2S7/ke17ZwdGBToddI8pDm48kEsYCv8siTIZGDHdFeal4UoUqsxRUqqbr1mOJYKfIPR7LoDQ9mXPOjoJoqy81S2I8N_N4V1vUb5AoIIIbLZhVYxCRW4BPu10St3TBAUQYVKcr0gDI7dDrQdpstTwgN7SyerQb7v7DMsLFGNUDBmtpvryubs1SbPLUqRBWzDZP1g3/blockchainis.jpg); ">
+<section class="breadcrumb-bg" style="background-image: url({% static 'assets/img/parallax_blockchain.jpg' %}); ">
 <div class="container">
   <div class="breadcrumb-holder">
     <div>
@@ -30,7 +31,7 @@
       </div>
 
       <div class="col-sm-8 col-xs-12">
-        <h2 class="text-warning font-weight-bold text-capitalize pl-0 mb-5">Conectar Metamask</h2>
+        <h2 class="text-warning font-weight-bold text-capitalize pl-0 mb-5">Activat Metamask</h2>
 
         <p class="text-muted mb-5">Para interactuar con la blockchain de Ethereum necesitas Metamask, un plugin para tu navegador.
             <a href="">leer más</a>
@@ -40,7 +41,6 @@
             Lo adecuado es guardar la información escencial en el hash. <a href="">leer más</a> <br>
             El siguiente es el texto del certificado que quedará guardado permanentemente a través del hash:
         </p>
-          
 
           <form action="">
               <div class="form-group" >
@@ -56,8 +56,11 @@
                 <input class="form-control" type="text" disabled value="{{ cert_hash.hexdigest }}">
               </div>
                   <div class="text-right">
-                  <button type="submit" class="btn btn-info text-right" id="submit_form">
-                    Enviar
+                  <button type="submit" class="btn btn-info text-right" id="connect_ethereum">
+                    Conectar a Ethereum
+                  </button>
+                  <button type="submit" class="btn btn-success text-right" id="send_transaction">
+                    Enviar Certificado
                   </button>
                   </div>
           </form>
@@ -69,3 +72,43 @@
 
 </div> <!-- element wrapper ends -->
 {% endblock content %}
+
+{% block extra_js %}
+    <script src="{% static 'assets/js/web3/dist/web3.min.js' %}"></script>
+    <script>
+    $( document ).ready(function() {
+       $("#send_transaction").hide();
+       const infura_url = "https://ropsten.infura.io/v3/db26d321185243db9d29d384b55dba3c";
+       const web3 = new Web3(infura_url);
+       console.log(web3);
+       const address = "0x0Fa50B058e9CCAb5AfD2337F0dF997801715a66e";
+       web3.eth.getBalance(address, (err, wei) => {
+            balance = web3.utils.fromWei(wei, 'ether');
+            console.log(balance);
+       });
+
+       accounts = []
+       async function getAccount() {
+          accounts = await ethereum.request({ method: 'eth_requestAccounts' });
+          console.log(accounts);
+       }
+       $("#connect_ethereum").on("click", function(e){
+           e.preventDefault();
+           getAccount();
+           $("#send_transaction").show();
+           $(this).hide();
+       });
+
+       $("#send_transaction").on("click", function(e){
+           e.preventDefault();
+           console.log(accounts[0]);
+           let ropsten_response = web3.eth.sendTransaction(
+               {
+                 from: ''
+               }
+           )
+       });
+
+    });
+    </script>
+{% endblock extra_js %}
