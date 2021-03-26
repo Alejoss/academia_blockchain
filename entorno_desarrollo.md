@@ -8,8 +8,7 @@ para que no influyen a todo tu sistema, sino solamente al proyecto de academia b
 (`source bin/activate`). 
 
 Con el entorno virtual activadoinstalar todas las librerías listadas en el archivo requirements.txt con el comando `pip install -r requirements.txt` . Aquí, puede
-que algunos paquetes den problemas, específicamente el psycopg2 que es una conexión a postgres que necesita paquetes extra. Las soluciones son conocidas y fáciles
-de encontrar en stackoverflow. 
+que algunos paquetes den problemas, específicamente el `psycopg2` que es una conexión a postgres que necesita paquetes extra. Las soluciones son conocidas y fáciles de encontrar en stackoverflow. Generalmente, con `sudo apt install libpq-dev python3-dev` se puede solucionar. 
 
 Con las librerías instaladas esta listo el entorno. Utilizamos el potente framework de desarrollo web Django. Necesitas correr las migraciones de la base de datos - `python manage.py migrate` - Para eso no es necesario instalar postgresql (sqlite3 es suficiente), postgres se utiliza en el servidor. La documentación de Django es extensa y muy bien detallada. Puedes correr el servidor local con "python manage.py runserver" y acceder al sitio en localhost:8000. 
 
