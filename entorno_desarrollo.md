@@ -13,7 +13,9 @@ de encontrar en stackoverflow.
 
 Con las librerías instaladas esta listo el entorno. Utilizamos el potente framework de desarrollo web Django. Necesitas correr las migraciones de la base de datos - `python manage.py migrate` - Para eso no es necesario instalar postgresql (sqlite3 es suficiente), postgres se utiliza en el servidor. La documentación de Django es extensa y muy bien detallada. Puedes correr el servidor local con "python manage.py runserver" y acceder al sitio en localhost:8000. 
 
-### Instalación con docker
+### Instalación con docker - Recomendada
+0. Instalar [docker](https://docs.docker.com/engine/install/ubuntu/) y [docker-compose](https://docs.docker.com/compose/install/). Instalar python 3.8 y pip. Clonar el repositorio.
+
 1. Entrar en el directorio del proyecto.
 `cd academia_blockchain`
 
@@ -27,15 +29,12 @@ Con las librerías instaladas esta listo el entorno. Utilizamos el potente frame
 `docker-compose run --rm backend python3 manage.py migrate`
 
 5. Cargar fixture de la base de datos. Así populas el sitio con objetos de prueba.
-`docker-compose run --rm python manage.py loaddata db_fixture.json`
+`docker-compose run --rm backend python3 manage.py loaddata db_fixture.json`
 
 6. Crear un super usuario de Django.
 `docker-compose run --rm backend python3 manage.py createsuperuser`
 
 7. Acceder al sitio en localhost:8000 y entrar con las credenciales de superusuario creadas en el paso 4.
-
-
-No es necesario conocer mucho de python para correr el proyecto. Si lo tuyo es el CSS o el JS, corres el servidor local y te dedicas a esa parte del código. 
 
 
 ## Por qué no ves Truffle + Solidity
@@ -49,3 +48,8 @@ todavía.
 
 Por favor si encuentras errores toma un screenshot y compártelos, puedes hacerlo en un comentario aquí o, mejor, puedes abrir un issue aparte. Esto ayudará mucho 
 al proceso de desarrollo colaborativo. 
+
+## Recuerda 
+
+
+No es necesario conocer mucho de python para correr el proyecto. Si lo tuyo es el CSS o el JS, corres el servidor local y te dedicas a esa parte del código. 
