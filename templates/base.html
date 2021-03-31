@@ -169,6 +169,27 @@
 <script src="assets/plugins/revolution/js/extensions/revolution.extension.layeranimation.min.js"></script>
 <script src="assets/plugins/revolution/js/extensions/revolution.extension.navigation.min.js"></script>
 -->
+
+<script>
+    // This function will be consumed on multiple views. We can eventually replace it for a library.
+    // Taken from https://docs.djangoproject.com/en/3.1/ref/csrf/#ajax
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                // Does this cookie string begin with the name we want?
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+</script>
+
 {% block extra_js %}
 {% endblock extra_js %}
 

@@ -310,6 +310,9 @@
                         method: "post",
                         url: "{% url 'event_bookmark' event.id %}",
                         data: data,
+                        headers: {
+                            'X-CSRFToken': getCookie('{{ settings.CSRF_COOKIE_NAME }}')
+                        },
                         success: function(response){
                             console.log("BOOKMARKED!");
                             $("#event_bookmark_div").hide();
@@ -331,6 +334,9 @@
                         method: "post",
                         url: "{% url 'remove_bookmark' event.id %}",
                         data: data,
+                        headers: {
+                            'X-CSRFToken': getCookie('{{ settings.CSRF_COOKIE_NAME }}')
+                        },
                         success: function(response){
                             console.log("removed!");
                             $("#remove_bookmark_div").hide();
