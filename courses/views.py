@@ -7,7 +7,6 @@ from datetime import datetime
 from hashlib import sha256
 
 from django.contrib.auth.decorators import login_required
-from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import JsonResponse
 from django.utils.timezone import is_aware
@@ -415,7 +414,6 @@ API CALLS
 
 
 @login_required
-@csrf_exempt
 def event_bookmark(request, event_id):
     if request.is_ajax() and request.method == "POST":
         event = get_object_or_404(Event, id=event_id)
@@ -436,7 +434,6 @@ def event_bookmark(request, event_id):
 
 
 @login_required
-@csrf_exempt
 def remove_bookmark(request, event_id):
     if request.is_ajax() and request.method == "POST":
         event = get_object_or_404(Event, id=event_id)
@@ -471,7 +468,6 @@ def certificate_detail(request, certificate_id):
 
 
 @login_required
-@csrf_exempt
 def request_certificate(request, event_id):
     if request.is_ajax() and request.method == "POST":
         event = get_object_or_404(Event, id=event_id)
@@ -492,7 +488,6 @@ def request_certificate(request, event_id):
 
 
 @login_required
-@csrf_exempt
 def cancel_cert_request(request, event_id):
     if request.is_ajax() and request.method == "POST":
         event = get_object_or_404(Event, id=event_id)
@@ -510,7 +505,6 @@ def cancel_cert_request(request, event_id):
 
 
 @login_required
-@csrf_exempt
 def accept_certificate(request, cert_request_id):
     if request.is_ajax() and request.method == "POST":
         certificate_request = get_object_or_404(CertificateRequest, id=cert_request_id)

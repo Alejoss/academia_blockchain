@@ -135,6 +135,9 @@
                         method: "post",
                         url: "{% url 'remove_bookmark' 0 %}".replace("0", data["event_id"]),
                         data: data,
+                        headers: {
+                            'X-CSRFToken': getCookie('{{ settings.CSRF_COOKIE_NAME }}')
+                        },
                         success: function(response){
                             location.reload();
                         },
@@ -152,6 +155,9 @@
                         method: "post",
                         url: "{% url 'request_certificate' 0 %}".replace("0", data["event_id"]),
                         data: data,
+                        headers: {
+                            'X-CSRFToken': getCookie('{{ settings.CSRF_COOKIE_NAME }}')
+                        },
                         success: function(response){
                             location.reload();
                         },
@@ -170,6 +176,9 @@
                         method: "post",
                         url: "{% url 'cancel_cert_request' 0 %}".replace("0", data["event_id"]),
                         data: data,
+                        headers: {
+                            'X-CSRFToken': getCookie('{{ settings.CSRF_COOKIE_NAME }}')
+                        },
                         success: function(response){
                             location.reload();
                         },
@@ -188,6 +197,9 @@
                         method: "post",
                         url: "",
                         data: data,
+                        headers: {
+                            'X-CSRFToken': getCookie('{{ settings.CSRF_COOKIE_NAME }}')
+                        },
                         success: function(response){
                             location.reload();
                         },

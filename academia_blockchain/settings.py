@@ -75,6 +75,8 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+CSRF_COOKIE_NAME = 'csrftoken'
+
 ROOT_URLCONF = 'academia_blockchain.urls'
 
 TEMPLATES = [
@@ -88,9 +90,14 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'django_settings_export.settings_export'
             ],
         },
     },
+]
+
+SETTINGS_EXPORT = [
+  'CSRF_COOKIE_NAME'
 ]
 
 WSGI_APPLICATION = 'academia_blockchain.wsgi.application'
