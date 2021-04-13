@@ -1,6 +1,7 @@
 # CÓMO COLABORAR
 
 Puedes colaborar creando issues o resolviéndolos.
+Por favor si encuentras errores toma un screenshot y compártelos. Esto ayudará mucho al proceso de desarrollo colaborativo. 
 
 ## Cómo crear un issue
 

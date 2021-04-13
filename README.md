@@ -21,18 +21,23 @@ Academia Blockchain DAO
 
 ## Colabora con este proyecto de código abierto
 
-0. Lee el archivo AcademiaBlockchainDAO disponible en la carpeta raíz del proyecto.
-1. Crea un Fork del proyecto en tu cuenta de Github.
-2. Clona el proyecto para correrlo localmente.
-3. Soluciona un Issue y nombra los commits con el # del Issue en el que trabajaste.
-4. Crea un pull request con el # del Issue que solucionaste y describe de manera rápida lo que hiciste.
+Puedes colaborar creando issues o resolviéndolos. Para ambos casos nos manejamos con un código.
+El código consta de una primera palabra (DOCS, FRONT, BACK, OTHER), un guión medio y un número de cuatro dígitos.
+    
+La participación en el proyecto, se registra en una Organización Autónoma Descentralizada (DAO). Utilizamos el token ACBC para compensar simbólicamente las distintas colaboraciones al proyecto.
+
+Para una explicación más detalla puedes leer la documentación disponible dentro del directorio `docs`.
 
 ## Instalar el proyecto localmente.
-Para correr el proyecto en tu computadora local vas a necesitar:
 
-* Python 3.8
-* Postgresql 
+Para correr el proyecto en tu computadora local por favor revisa `SETUP_ES.md` ubicado en el directorio `docs`.
 
-Todo lo señalado en `requirements.txt` . Por favor revisa el archivo entorno_desarrollo.md . 
+## Por qué no ves Truffle + Solidity
 
+En nuestro roadmap está el desarrollo de un contrato inteligente propio en la segunda fase del proyecto. Hay algunas decisiones de arquitectura que hay que tomar
+antes de comenzar con esto. Los certificados se pueden guardar en la blockchain utilizando web3, no es necesario un entorno de desarrollo de contratos inteligentes
+todavía. 
 
+## Recuerda 
+
+No es necesario conocer mucho de python para correr el proyecto. Si lo tuyo es el CSS o el JS, corres el servidor local y te dedicas a esa parte del código. 
