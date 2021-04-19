@@ -69,7 +69,11 @@
                                 <i class="fa fa-smile-o text-white" aria-hidden="true"></i>
                             </span>
                             {% else %} <!-- precio -->
-                                $ {{ event.reference_price }}
+                            <span data-toggle="tooltip" data-placement="top" title="" data-original-title="Has click para observar el valor en diferentes monedas">
+                                <span type="button" data-toggle="modal" data-target="#ModalPrecios"> <!-- boton modal precios -->
+                                    $ {{ event.reference_price }}
+                                </span>
+                            </span>
                             {% endif %}
                         </span>
 					</div>
@@ -178,7 +182,30 @@
 				</div>
 			</div>
 
-			<div class="col-lg-4 col-md-5">
+            <div class="modal fade" id="ModalPrecios" tabindex="-1" aria-hidden="true"> <!-- Modal precios-->
+                <div class="modal-dialog">
+                <div class="modal-content rounded-top">
+                    <div class="modal-header bg-info">
+                    <h5 class="modal-title text-white font-weight-bold py-2 pl-3 mb-0">Valor y formas de pago</h5>
+                    <button type="button" class="btn btn-danger text-uppercase" data-dismiss="modal">X</button>
+                    </div>
+                    <div class="modal-body">
+                        <p class="text-muted font-weight-bold">
+                            $ {{ event.reference_price }}
+                            
+                        </p>
+                        <p> VALOR ACTUAL DE LAS MONEDAS MOSTRADAS: 
+                            
+                        </p>
+                    </div>
+                    <div class="modal-footer">
+                        <p> Powered by CoinGecko API </p>
+                    </div>
+                </div>
+                </div>
+            </div>
+
+			<div class="col-lg-4 col-md-5"><!-- columna derecha - INFORMACION -->
 				<div class="pb-4 mb-2">
                     {% if event.event_type == "COURSE" %}
                         <div class="section-title bg-info rounded-top">
