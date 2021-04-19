@@ -50,7 +50,7 @@
               </div>
         <hr>
         {% endif %}
-		<div class="row">
+		<div class="row"> <!-- contenido -->
 			<div class="col-lg-8 col-md-7">
 				<div class="card shadow-none bg-transparent">
                     {% if event.image %}
@@ -58,7 +58,7 @@
                     {% else %}
                         <img class="card-img-top" src="https://picsum.photos/500" alt="Event Image">
                     {% endif %}
-					<div class="card-img-overlay">
+					<div class="card-img-overlay"> <!-- valor -->
                         {% if event.event_type == "COURSE" %}
                             <span class="badge badge-info badge-rounded-circle">
                         {% else %}
@@ -68,7 +68,7 @@
                             <span data-toggle="tooltip" data-placement="top" title="" data-original-title="GRATIS!">
                                 <i class="fa fa-smile-o text-white" aria-hidden="true"></i>
                             </span>
-                            {% else %}
+                            {% else %} <!-- precio -->
                                 $ {{ event.reference_price }}
                             {% endif %}
                         </span>
