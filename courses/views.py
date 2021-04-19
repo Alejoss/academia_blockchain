@@ -2,6 +2,7 @@ from http import HTTPStatus
 import pytz
 import logging
 import json
+import requests
 from http import HTTPStatus
 from datetime import datetime
 from hashlib import sha256
@@ -51,6 +52,7 @@ def event_detail(request, event_id):
 
     contact_methods = ContactMethod.objects.filter(user=event.owner, deleted=False)
     accepted_cryptos = AcceptedCrypto.objects.filter(user=event.owner, deleted=False)
+    ways_to_pay = coins_value(accepted_cryptos, event) # llama al API CoinGeko y devuelve una lista con las monedas aceptadas por el usuario con sus valores
     owner_profile = Profile.objects.get(user=event.owner)
 
     logger.info("contact_methods: %s" % contact_methods)
@@ -100,7 +102,7 @@ def event_detail(request, event_id):
                "logged_user_profile": logged_user_profile, "event_is_bookmarked": event_is_bookmarked,
                "is_event_owner": is_event_owner, "event_bookmarks": event_bookmarks,
                "certificate_requests": certificate_requests, "comments": comments, 'rating': rating,
-               'lack_certificate': not has_certificate}
+               'lack_certificate': not has_certificate, "coin_value": ways_to_pay}
     return render(request, template, context)
 
 
@@ -539,3 +541,15 @@ def reject_certificate(request, cert_request_id):
             return HttpResponse(status=403)
     else:
         return HttpResponse(status=400)
+
+# API coingeko
+def coins_value(accepted_cryptos, event):
+    coins_request = requests.get("https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=monero%2C%20bitcoin%2C%20ethereum&order=market_cap_desc&per_page=100&page=1&sparkline=false") # solicita la informacion de XMR, ETH, BTC
+    coins_request = json.loads(coins_request.content) # convierte la respuesta en json
+    ways_to_pay = []
+    for c in accepted_cryptos:
+        for coin in coins_request:
+            if c.crypto.name == coin["name"]: #evalua las coincidencias entre el pedido al API y las monedas preferidas por el usuario
+                event_reference_price_crypto = event.reference_price / coin["current_price"] #se define el valor del curso en las monedas seleccionadas por el usuario
+                ways_to_pay.append({"id":coin["id"], "image": coin["image"], "symbol": coin["symbol"], "name": coin["name"], "current_price": coin["current_price"], "event_reference_price_crypto": event_reference_price_crypto}) #agrega las monedas seleccionadas y sus datos a una lista
+    return ways_to_pay
