@@ -91,24 +91,46 @@
         }
 
        async function getAccount() {
-          const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
-          const account = accounts[0];
+           return await ethereum.request({ method: 'eth_requestAccounts' });
+       }
+       async function sendTransaction(params) {
+           const txHash = await ethereum.request({
+               method: 'eth_sendTransaction',
+               params: [params]
+           })
+           console.log("txHash:");
+           console.log(txHash);
+           return txHash;
        }
 
        $("#connect_ethereum").on("click", function(e){
            e.preventDefault();
-           const accounts = getAccount().then((accounts) => {
-               console.log(accounts);
-           }).catch((error) => {
 
-           });
-           const active_acccount = accounts[0]
-           console.log(accounts);
-           console.log(active_acccount);
-           console.log(ethereum.chainId)
-           console.log(ethereum.chainId.networkId);
-           $("#send_transaction").show();
-           $(this).hide();
+           let accounts = []
+           let return_value = getAccount().then((result) => {
+               console.log("result:");
+               accounts = result
+               console.log("accounts[0]:")
+               console.log(accounts[0])
+               const transactionParameters = {
+                   nonce: '0x00', // ignored by MetaMask
+                   gasPrice: '0x09184e72a000', // customizable by user during MetaMask confirmation.
+                   gas: '0x2710', // customizable by user during MetaMask confirmation.
+                   to: '0x0000000000000000000000000000000000000000', // Required except during contract publications.
+                   from: ethereum.selectedAddress, // must match user's active address.
+                   value: '0x00', // Only required to send ether to the recipient from the initiating external account.
+                   data: '0x7f7465737432000000000000000000000000000000000000000000000000000000600057', // Optional, but used for defining smart contract creation and interaction.
+                   chainId: '0x3', // Used to prevent transaction reuse across blockchains. Auto-filled by MetaMask.
+               };
+               console.log(transactionParameters);
+               let sendTransactionResponse = sendTransaction(transactionParameters);
+               console.log(sendTransactionResponse)
+           }).catch((error) => {console.log(error)});
+
+           console.log("return_value:");
+           console.log(return_value);
+
+
        });
 
        $("#send_transactions").on("click", function(e){
