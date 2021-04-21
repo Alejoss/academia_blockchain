@@ -56,8 +56,7 @@ def event_detail(request, event_id):
     owner_profile = Profile.objects.get(user=event.owner)
 
     logger.info("contact_methods: %s" % contact_methods)
-    logger.info("contact_methods: %s" % contact_methods)
-    logger.info("contact_methods: %s" % contact_methods)
+    logger.info("ways_to_pay: %s" % ways_to_pay)
 
     academia_blockchain_timezones()
 
@@ -551,5 +550,7 @@ def coins_value(accepted_cryptos, event):
         for coin in coins_request:
             if c.crypto.name == coin["name"]: #evalua las coincidencias entre el pedido al API y las monedas preferidas por el usuario
                 event_reference_price_crypto = event.reference_price / coin["current_price"] #se define el valor del curso en las monedas seleccionadas por el usuario
-                ways_to_pay.append({"id":coin["id"], "image": coin["image"], "symbol": coin["symbol"], "name": coin["name"], "current_price": coin["current_price"], "event_reference_price_crypto": event_reference_price_crypto}) #agrega las monedas seleccionadas y sus datos a una lista
+                ways_to_pay.append({"id":coin["id"], "image": coin["image"], "symbol": coin["symbol"], "name": coin["name"],
+                                    "current_price": coin["current_price"], "event_reference_price_crypto": event_reference_price_crypto})
+                # agrega las monedas seleccionadas y sus datos a una lista
     return ways_to_pay
