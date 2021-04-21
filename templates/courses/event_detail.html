@@ -50,7 +50,7 @@
               </div>
         <hr>
         {% endif %}
-		<div class="row">
+		<div class="row"> <!-- contenido -->
 			<div class="col-lg-8 col-md-7">
 				<div class="card shadow-none bg-transparent">
                     {% if event.image %}
@@ -58,7 +58,7 @@
                     {% else %}
                         <img class="card-img-top" src="https://picsum.photos/500" alt="Event Image">
                     {% endif %}
-					<div class="card-img-overlay">
+					<div class="card-img-overlay"> <!-- valor -->
                         {% if event.event_type == "COURSE" %}
                             <span class="badge badge-info badge-rounded-circle">
                         {% else %}
@@ -68,8 +68,12 @@
                             <span data-toggle="tooltip" data-placement="top" title="" data-original-title="GRATIS!">
                                 <i class="fa fa-smile-o text-white" aria-hidden="true"></i>
                             </span>
-                            {% else %}
-                                $ {{ event.reference_price }}
+                            {% else %} <!-- precio -->
+                            <span data-toggle="tooltip" data-placement="top" title="" data-original-title="Has click para observar el valor en diferentes monedas">
+                                <span type="button" data-toggle="modal" data-target="#ModalPrecios"> <!-- boton modal precios -->
+                                    $ {{ event.reference_price }}
+                                </span>
+                            </span>
                             {% endif %}
                         </span>
 					</div>
@@ -178,7 +182,37 @@
 				</div>
 			</div>
 
-			<div class="col-lg-4 col-md-5">
+            <div class="modal fade" id="ModalPrecios" tabindex="-1" aria-hidden="true"> <!-- Modal precios -->
+                <div class="modal-dialog">
+                <div class="modal-content rounded-top">
+                    <div class="modal-header bg-info">
+                    <h5 class="modal-title text-white font-weight-bold py-2 pl-3 mb-0">Valor y formas de pago</h5>
+                    <button type="button" class="btn btn-danger text-uppercase" data-dismiss="modal">X</button>
+                    </div>
+                    <div class="modal-body">
+                        <p class="text-muted font-weight-bold">
+                            $ {{ event.reference_price }}
+                            {% for c in coin_info %} <!-- por cada moneda se imprime symbolo y valor del curso -->
+                            <br />    
+                                {{ c.symbol }} {{ c.event_reference_price_crypto }}  
+                            {% endfor %} 
+                        </p>
+                        <p> VALOR ACTUAL DE LAS MONEDAS MOSTRADAS: 
+                            <br>
+                            {% for c in coin_info %} <!-- por cada moneda se imprime imagen y valor actual en usd -->
+                                <img style="width: 1rem;height: 1rem;" src={{ c.image }} alt={{ c.symbol }}>
+                                <span>$ {{ c.current_price }}</span>
+                            {% endfor %}
+                        </p>
+                    </div>
+                    <div class="modal-footer">
+                        <p> Powered by CoinGecko API </p>
+                    </div>
+                </div>
+                </div>
+            </div>
+
+			<div class="col-lg-4 col-md-5"><!-- columna derecha - INFORMACION -->
 				<div class="pb-4 mb-2">
                     {% if event.event_type == "COURSE" %}
                         <div class="section-title bg-info rounded-top">
