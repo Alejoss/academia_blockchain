@@ -2,7 +2,7 @@ from http import HTTPStatus
 import pytz
 import logging
 import json
-import requests
+from pycoingecko import CoinGeckoAPI
 from http import HTTPStatus
 from datetime import datetime
 from hashlib import sha256
@@ -544,12 +544,15 @@ def reject_certificate(request, cert_request_id):
 
 # API coingeko
 def coins_value(accepted_cryptos, event):
-    coins_request = requests.get("https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=monero%2C%20bitcoin%2C%20ethereum&order=market_cap_desc&per_page=100&page=1&sparkline=false") # solicita la informacion de XMR, ETH, BTC
-    coins_request = json.loads(coins_request.content) # convierte la respuesta en json
+    cg = CoinGeckoAPI()
     ways_to_pay = []
-    for c in accepted_cryptos:
-        for coin in coins_request:
-            if c.crypto.name == coin["name"]: #evalua las coincidencias entre el pedido al API y las monedas preferidas por el usuario
-                event_reference_price_crypto = event.reference_price / coin["current_price"] #se define el valor del curso en las monedas seleccionadas por el usuario
-                ways_to_pay.append({"id":coin["id"], "image": coin["image"], "symbol": coin["symbol"], "name": coin["name"], "current_price": coin["current_price"], "event_reference_price_crypto": event_reference_price_crypto}) #agrega las monedas seleccionadas y sus datos a una lista
-    return ways_to_pay
+    for c in accepted_cryptos: #se crea una lista de las monedas aceptadas.
+        ways_to_pay.append(c.crypto.name.lower())
+    coins = cg.get_coins_markets(ids=ways_to_pay, vs_currency='usd')  # solicita la informacion de las monedas en la lista. 
+    #El parametro ids solo acepta listas. Los ids se escriben en minuscula. Si no se define devuelte la información de todas las monedas.
+    #El parametro vs_currency es obligatorio.
+    crypto_info = []
+    for coin in coins:    
+        event_reference_price_crypto = event.reference_price / coin["current_price"] #se define el valor del curso en las monedas seleccionadas por el usuario
+        crypto_info.append({"id":coin["id"], "image": coin["image"], "symbol": coin["symbol"], "name": coin["name"], "current_price": coin["current_price"], "event_reference_price_crypto": event_reference_price_crypto}) #agrega las monedas seleccionadas y sus datos a una lista               
+    return crypto_info
