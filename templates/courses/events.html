@@ -3,19 +3,170 @@
 
 {% block content %}
 
-<!-- ====================================
-———	BREADCRUMB
+<!--====================================
+——— BEGIN MAIN SLIDE LIST
 ===================================== -->
-  <section class="breadcrumb-bg" style="background-image: url('{% static 'assets/img/parallax_c.png' %}');">
-    <div class="container">
-      <div class="breadcrumb-holder">
-        <div>
-          <h1 class="breadcrumb-title"> Utiliza criptomonedas para aprender y gana compartiendo conocimiento.
-              <br> ACADEMIA BLOCKCHAIN es el futuro <br> de la educación libre. </h1>
+<section class="rev_slider_wrapper fullwidthbanner-container over" dir="ltr">
+
+  <!-- the ID here will be used in the JavaScript below to initialize the slider -->
+  <div id="rev_slider_1" class="rev_slider rev-slider-kidz-school" data-version="5.4.5" style="display:none">
+
+    <ul>
+        <!-- SLIDE 1  -->
+        <li data-transition="fade">
+            <img src="{% static 'assets/img/parallax_c.png' %}" alt="Sky" class="rev-slidebg">
+        <!-- LAYERS -->
+
+        <!-- LAYER NR. 1 -->
+        <div class="tp-caption tp-resizeme font-dosis font-weight-bold"
+        <div class="tp-caption tp-resizeme font-dosis font-weight-bold"
+          data-frames='[{
+            "delay":1600,"speed":1000,"frame":"500","from":"y:-50px;opacity:0;","to":"o:1;","ease":"Power3.easeInOut"},
+            {"delay":"wait","speed":300,"frame":"999","to":"auto:auto;","ease":"Power3.easeInOut"}]'
+
+          data-visibility="on"
+          data-x="left"
+          data-y="middle"
+          data-hoffset="['10', '40', '15', '30']"
+          data-voffset="['25', '25', '25', '25']"
+          data-fontsize="['50', '45', '40', '30']"
+          data-lineheight="['50', '45', '40', '30']"
+          data-color="#FFF"
+          data-width="auto"
+          data-basealign="grid"
+          data-responsive_offset="off"
+          style="z-index: 1;">
+            <span class="breadcrumb-title">Accede a Educacion sin Intermediarios. </span>
         </div>
-      </div>
-    </div>
-  </section>
+
+        <!-- LAYER NR. 2 -->
+        <div class="tp-caption tp-resizeme breadcrumb-title"
+          data-frames='[{
+          "delay":2000,"speed":1300,"frame":"500","from":"y:-50px;opacity:0;","to":"o:1;","ease":"Power3.easeInOut"},
+          {"delay":"wait","speed":200,"frame":"999","to":"auto:auto;","ease":"Power3.easeInOut"}]'
+
+          data-visibility="on"
+          data-x="left"
+          data-y="middle"
+          data-hoffset="['10', '40', '15', '30']"
+          data-voffset="['100', '100', '100', '100']"
+          data-width="['550','500','500','420']"
+          data-fontsize="['25', '23', '23', '23']"
+          data-lineheight="['30', '25', '25', '25']"
+          data-color="#FFF"
+          data-textAlign="left"
+          data-basealign="grid"
+          data-responsive_offset="off"
+          data-type="text"
+          data-whitespace="normal"
+          style="z-index: 10;">
+            En Academia Blockchain puedes encontrar cursos, eventos y exámenes sin comisiones.
+        </div>
+
+        <!-- LAYER NR. 3
+        <a href="https://wrapbootstrap.com/theme/kidz-multipurpose-children-kids-theme-WB059350N"
+          class="tp-caption tp-resizeme slide-layer-3 btn btn-white"
+          data-frames='[{
+            "delay":2200,"speed":1300,"frame":"500","from":"y:-50px;opacity:0;","to":"o:1;","ease":"Power3.easeInOut"},
+            {"delay":"wait","speed":200,"frame":"999","to":"auto:auto;","ease":"Power3.easeInOut"}]'
+
+          data-visibility="on"
+          data-x="left"
+          data-y="middle"
+          data-hoffset="['10', '40', '15', '30']"
+          data-voffset="['90', '80', '70', '55']"
+          data-width="['auto']"
+          data-height="['auto']"
+          data-fontsize="['18', '17', '16', '15']"
+          data-lineheight="['25', '23', '21', '20']"
+          data-color="#e7655a"
+          data-textAlign="left"
+          data-basealign="grid"
+          data-responsive_offset="off"
+          style="text-transform: uppercase; z-index: 1;">
+           purchase
+        </a> -->
+        </li>
+
+        <!-- SLIDE 2  -->
+        <li data-transition="fade">
+            <img src="{% static 'assets/img/parallax_a.png' %}" alt="Sky" class="rev-slidebg">
+        <!-- LAYERS-->
+
+        <!-- LAYER NR. 1 -->
+        <div class="tp-caption tp-resizeme font-dosis font-weight-bold breadcrumb-title"
+          data-frames='[{
+          "delay":1600,"speed":1000,"frame":"500","from":"y:-50px;opacity:0;","to":"o:1;","ease":"Power3.easeInOut"},
+          {"delay":"wait","speed":200,"frame":"999","to":"auto:auto;","ease":"Power3.easeInOut"}]'
+
+          data-visibility="on"
+          data-x="center"
+          data-y="middle"
+          data-hoffset="['0', '0', '0', '0']"
+          data-voffset="['-75', '-75', '-65', '-45']"
+          data-fontsize="['50', '45', '40', '30']"
+          data-lineheight="['50', '45', '40', '30']"
+          data-color="#FFF"
+          data-width="auto"
+          data-basealign="grid"
+          data-responsive_offset="off"
+          style="z-index: 1;">
+            Academia Blockchain es el futuro de la educación libre
+        </div>
+
+        <!-- LAYER NR. 2
+        <div class="tp-caption tp-resizeme"
+          data-frames='[{
+          "delay":2000,"speed":1300,"frame":"500","from":"y:-50px;opacity:0;","to":"o:1;","ease":"Power3.easeInOut"},
+          {"delay":"wait","speed":200,"frame":"999","to":"auto:auto;","ease":"Power3.easeInOut"}]'
+
+          data-visibility="on"
+          data-x="center"
+          data-y="middle"
+          data-hoffset="['0', '0', '0', '0']"
+          data-voffset="['0', '0', '0', '0']"
+          data-width="['550','400','400','420']"
+          data-fontsize="['25', '23', '23', '23']"
+          data-lineheight="['30', '25', '25', '25']"
+          data-color="#FFF"
+          data-textAlign="center"
+          data-basealign="grid"
+          data-responsive_offset="on"
+          data-responsive="on"
+          data-type="text"
+          data-whitespace="normal"
+          style="z-index: 10;">
+            All ecommerce features are included with KIDZ, Build your site.
+        </div>
+        -->
+
+        <!-- LAYER NR. 3 -->
+        <a href="https://wrapbootstrap.com/theme/kidz-multipurpose-children-kids-theme-WB059350N"
+          class="tp-caption tp-resizeme slide-layer-3 btn btn-white"
+          data-frames='[{
+          "delay":2200,"speed":1300,"frame":"500","from":"y:-50px;opacity:0;","to":"o:1;","ease":"Power3.easeInOut"},
+          {"delay":"wait","speed":200,"frame":"999","to":"auto:auto;","ease":"Power3.easeInOut"}]'
+
+          data-visibility="on"
+          data-x="center"
+          data-y="middle"
+          data-hoffset="['0', '0', '0', '0']"
+          data-voffset="['0', '0', '0', '0']"
+          data-width="['auto']"
+          data-height="['auto']"
+          data-fontsize="['18', '17', '16', '15']"
+          data-lineheight="['25', '23', '21', '20']"
+          data-color="#e7655a"
+          data-textAlign="left"
+          data-basealign="grid"
+          data-responsive_offset="off"
+          style="text-transform: uppercase; z-index: 1;">
+            Leer Más
+        </a>
+        </li>
+		</ul>
+  </div>
+</section>
 
 <!-- ====================================
 ———	SEARCH RESULT
@@ -37,12 +188,7 @@
 {#				</div> #}
 {#			</div>#}
 {#		</form>#}
-        <div class="text-sm-right mt-6">
-          <button type="submit" class="btn btn-warning text-uppercase"
-                  onclick="location.href = '{% url 'event_create' %}' ">
-            Crear Nuevo Curso o Evento
-          </button>
-        </div>
+
         <h2 class="text-capitalize text-muted font-weight-bold mb-0">Actividad Reciente: </h2>
 	</div>
 </section>
@@ -54,94 +200,95 @@
             <a href="{% url 'events_tag' tag.id %}" class="badge badge-light">{{ tag.name }}</a>
         {% endfor %}
     </div>
-    <div class="list-fullwidth">
 
+    <div class="row wow fadeInUp" style="visibility: visible; animation-name: fadeInUp;">
         {% for event in events %}
-            <div class="media media-list-view mb-5">
-{#                {% if event.event_type == "COURSE" %} Mostrar imagen del evento #}
-{#                    <a class="media-img" href="{% url 'event_detail' %}">#}
-{#                    <img src= "https://www.tornadobitcoin.com/wp-content/uploads/2020/01/Untitled-design.png" alt="Image">#}
-{#                    <div class="media-img-overlay">#}
-        {#                <span class="badge badge-success badge-rounded-circle">$50</span>#}
-{#                    </div>#}
-{#                    </a>#}
-{#                {% endif %}#}
-                <div class="media-body">
-                    <h3 class="mb-3 mb-lg-2 mb-xl-3">
-                        {% if event.event_type == "COURSE" %}
-{#                            lo que cambia es el color del title#}
-                            <a class="text-info text-capitalize font-weight-bold" href="{% url 'event_detail' event.id %}">
-                            {{ event.title }}</a>
-                        {% elif event.event_type == "EVENT" %}
-                            <a class="text-success text-capitalize font-weight-bold" href="{% url 'event_detail' event.id %}">
-                            {{ event.title }}</a>
-                        {% endif %}
-                    </h3>
-
-                    <ul class="list-unstyled d-flex text-muted mb-2">
-                        <li class="mr-3">
-                            <i class="fa fa-user-circle-o mr-2" aria-hidden="true"></i> {{ event.owner.username }}
-                        </li>
-                        <li class="mr-3">
-                            {% if event.event_type == "COURSE" %}
-                                {% if event.is_recorded %}
-                                    <i class="fa fa-play-circle mr-2" aria-hidden="true"></i>Curso Grabado
-                                {% else %}
-                                    <i class="fa fa-video-camera mr-2" aria-hidden="true"></i>Curso en Línea
-                                {% endif %}
-                            {% elif event.event_type == "EVENT" %}
-                                {% if event.is_recurrent %}
-                                    <i class="fa fa-calendar mr-2" aria-hidden="true"></i>Evento Recurrente
-                                {% else %}
-                                    <i class="fa fa-tag mr-2" aria-hidden="true"></i>Evento
-                                {% endif %}
-                            {% endif %}
-                        </li>
-                        <li class="mr-3">
-                            {% if event.is_recorded %}
-                                {% if event.is_recorded %}
-                                    <span title="Fecha de Grabación">
-                                        <i class="fa fa-clock-o mr-2" aria-hidden="true"></i>
-                                        {{ event.date_recorded|date:"SHORT_DATE_FORMAT" }}
-                                    </span>
-                                {% endif %}
-                            {% elif event.is_recurrent %}
-                                {% if event.schedule_description %}
-                                    <i class="fa fa-clock-o mr-2" aria-hidden="true"></i>
-                                    {{ event.schedule_description }}
-                                {% endif %}
-                            {% else %}
-                                {% if event.date_start %}
-                                    <i class="fa fa-clock-o mr-2" aria-hidden="true"></i>
-                                    {{ event.date_start|date:"SHORT_DATE_FORMAT" }}
-                                {% endif %}
-                                {% if event.date_end %}
-                                    - {{ event.date_end|date:"SHORT_DATE_FORMAT" }}
-                                {% endif %}
-                            {% endif %}
-                        </li>
-                    </ul>
-
-{#                    <p class="text-justify mb-lg-2">#}
-{#                        {{ event.description | safe }}#}
-{#                    </p>#}
-
-{#                    <div class="">#}
-{#                        <a href="" class="btn btn-sm btn-white text-uppercase mb-1 mr-4 btn-hover-success">#}
-{#                            <i class="fa fa-star mr-2" aria-hidden="true"></i>Guardar#}
-{#                        </a>#}
-{#                        <a class="btn btn-link text-hover-success text-underline pl-0" href="}">#}
-{#                            <i class="fa fa-angle-double-right mr-1" aria-hidden="true"></i> Leer más#}
-{#                        </a>#}
-{#                    </div>#}
+          <div class="col-sm-6 col-lg-3 col-xs-12">
+            <div class="card">
+              <a href="course-single-left-sidebar.html" class="position-relative">
+                <img class="card-img-top" data-src="assets/img/courses/courses-img1.jpg" src="{{ event.image.url }}" alt="Card image">
+                <div class="card-img-overlay">
+                  <span class="badge badge-warning badge-rounded-circle">$50</span>
                 </div>
+              </a>
+              <div class="card-body border-top-5 px-3 border-warning">
+                <h3 class="card-title">
+                  <a class="text-warning text-capitalize d-block" href="course-single-left-sidebar.html">{{ event.title }}</a>
+                </h3>
+                <ul class="list-unstyled text-muted">
+                  <li class="mb-1">
+                    <i class="fa fa-user-circle-o mr-2" aria-hidden="true"></i>{{ event.owner.username }}
+                  </li>
+                    <li class="mb-1">
+                        {% if event.is_recorded %}
+                            {% if event.is_recorded %}
+                                <span title="Fecha de Grabación">
+                                    <i class="fa fa-clock-o mr-2" aria-hidden="true"></i>
+                                    {{ event.date_recorded|date:"SHORT_DATE_FORMAT" }}
+                                </span>
+                            {% endif %}
+                        {% elif event.is_recurrent %}
+                            {% if event.schedule_description %}
+                                <i class="fa fa-clock-o mr-2" aria-hidden="true"></i>
+                                {{ event.schedule_description }}
+                            {% endif %}
+                        {% else %}
+                            {% if event.date_start %}
+                                <i class="fa fa-clock-o mr-2" aria-hidden="true"></i>
+                                {{ event.date_start|date:"SHORT_DATE_FORMAT" }}
+                            {% endif %}
+                            {% if event.date_end %}
+                                - {{ event.date_end|date:"SHORT_DATE_FORMAT" }}
+                            {% endif %}
+                        {% endif %}
+                    </li>
+                    <li class="mr-3">
+                        {% if event.event_type == "COURSE" %}
+                            {% if event.is_recorded %}
+                                <i class="fa fa-play-circle mr-2" aria-hidden="true"></i>Curso Pre Grabado
+                            {% else %}
+                                <i class="fa fa-video-camera mr-2" aria-hidden="true"></i>Curso en Vivo
+                            {% endif %}
+                        {% elif event.event_type == "EVENT" %}
+                            {% if event.is_recurrent %}
+                                <i class="fa fa-calendar mr-2" aria-hidden="true"></i>Evento Recurrente
+                            {% else %}
+                                <i class="fa fa-tag mr-2" aria-hidden="true"></i>Evento
+                            {% endif %}
+                        {% endif %}
+                    </li>
+                </ul>
+              </div>
             </div>
+          </div>
         {% endfor %}
+    </div>
+
+    <div class="section-title justify-content-center mb-4 mb-md-8 wow">
+      <span class="shape shape-left bg-warning"></span>
+        <a href=""><h4 class="text-warning">&nbsp; Ver Todo &nbsp;</h4></a>
+      <span class="shape shape-right bg-warning"></span>
+    </div>
 
     </div>
-</div>
 </section>
 
+<section class="py-9 bg-parallax" style="background-image: url({% static 'assets/img/imagen_bottom.jpg' %});">
+    <div class="container">
+        <div class="wow fadeInUp" style="visibility: visible; animation-name: fadeInUp;">
+          <div class="section-title justify-content-center">
+            <h2 class="text-white text-center breadcrumb-title">Utiliza criptomonedas para aprender y
+                gana compartiendo conocimiento.</h2>
+          </div>
+            <div class="text-sm-right">
+              <button type="submit" class="btn btn-warning text-uppercase"
+                      onclick="location.href = '{% url 'event_create' %}' ">
+                Crear Nuevo Curso
+              </button>
+            </div>
+        </div>
+    </div>
+</section>
 {% endblock content %}
 
 {% block extra_js %}

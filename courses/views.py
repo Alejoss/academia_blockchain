@@ -41,7 +41,7 @@ def events_tag(request, tag_id):
     tag = get_object_or_404(Tag, id=tag_id)
     tags = Tag.objects.all()
     events = Event.objects.filter(tags__name__in=[tag.name])
-    context = {"events": events, "event_index_active": "active", "tags": tags}
+    context = {"events": events, "event_index_active": "active", "tags": tags, "tag": tag}
     return render(request, template, context)
 
 
@@ -540,6 +540,7 @@ def reject_certificate(request, cert_request_id):
             return HttpResponse(status=403)
     else:
         return HttpResponse(status=400)
+
 
 # API coingeko
 def coins_value(accepted_cryptos, event):

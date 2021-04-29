@@ -59,7 +59,7 @@
 
   /*======== RS-SLIDER ========*/
   jQuery('#rev_slider_1').show().revolution({
-    delay: 5000,
+    delay: 20000,
     sliderLayout: 'fullwidth',
     sliderType:'standard',
     responsiveLevels: [1171, 1025, 769, 480],
@@ -187,7 +187,7 @@
   $('#brands').owlCarousel({
     loop:true,
     margin:30,
-    autoplay: true,
+    autoplay: false,
     autoplayTimeout: 3000,
     nav:false,
     dots: false,
