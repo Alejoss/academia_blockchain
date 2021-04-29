@@ -206,7 +206,11 @@
           <div class="col-sm-6 col-lg-3 col-xs-12">
             <div class="card">
               <a href="course-single-left-sidebar.html" class="position-relative">
-                <img class="card-img-top" data-src="assets/img/courses/courses-img1.jpg" src="{{ event.image.url }}" alt="Card image">
+                  {% if event.image.url %}
+                    <img class="card-img-top" src="{{ event.image.url }}" alt="Card image">
+                  {% else %}
+                    <img class="card-img-top" src="https://picsum.photos/500" alt="Event Image">
+                  {% endif %}
                 <div class="card-img-overlay">
                   <span class="badge badge-warning badge-rounded-circle">$50</span>
                 </div>
