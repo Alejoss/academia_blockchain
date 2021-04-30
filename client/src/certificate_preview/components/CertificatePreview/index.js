@@ -38,23 +38,13 @@ const CertificatePreview = ({ certificateData }) => {
 						</main>
 						<footer className={styleFlexCenterColumn}>
 							<div className="certificate__footer text-break mt-3">
-								Id de la transaction:
+								Este certificado todavía no figura en la blockchain
 							</div>
-							<div className="certificate__footer text-break text-center">{certificateData.id}</div>
 						</footer>
 					</div>
 				</div>
 			</div>
 
-			<div className="m-3">
-				<a
-					href={`https://etherscan.io/tx/${certificateData.txId}`}
-					target="_blank"
-					rel="noreferrer"
-				>
-					Ver transacción en la blockchain
-				</a>
-			</div>
 			<div className="m-3">
 				<button onClick={() => handleDownload(certificateNode)} type="button" className="btn btn-primary">
 					DESCARGAR
@@ -66,7 +56,7 @@ const CertificatePreview = ({ certificateData }) => {
 
 CertificatePreview.propTypes = {
 	certificateData: PropTypes.shape({
-		id: PropTypes.string.isRequired,
+		id: PropTypes.number.isRequired,
 		username: PropTypes.string.isRequired,
 		first_name: PropTypes.string.isRequired,
 		last_name: PropTypes.string.isRequired,
