@@ -2,7 +2,7 @@ from http import HTTPStatus
 import pytz
 import logging
 import json
-import requests
+from pycoingecko import CoinGeckoAPI
 from http import HTTPStatus
 from datetime import datetime
 from hashlib import sha256
@@ -534,8 +534,7 @@ def reject_certificate(request, cert_request_id):
 
 # API coingeko
 def coins_value(accepted_cryptos, event):
-    coins_request = requests.get("https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=monero%2C%20bitcoin%2C%20ethereum&order=market_cap_desc&per_page=100&page=1&sparkline=false") # solicita la informacion de XMR, ETH, BTC
-    coins_request = json.loads(coins_request.content) # convierte la respuesta en json
+    cg = CoinGeckoAPI()
     ways_to_pay = []
     for c in accepted_cryptos:
         for coin in coins_request:
