@@ -65,13 +65,14 @@
                             <span class="badge badge-success badge-rounded-circle">
                         {% endif %}
                             {% if event.reference_price == 0.0 %}
-                            <span data-toggle="tooltip" data-placement="top" title="" data-original-title="GRATIS!">
+                            <span data-toggle="tooltip" data-placement="top" title="GRATIS!" data-original-title="GRATIS!">
                                 <i class="fa fa-smile-o text-white" aria-hidden="true"></i>
                             </span>
                             {% else %} <!-- precio -->
-                            <span data-toggle="tooltip" data-placement="top" title="" data-original-title="Has click para observar el valor en diferentes monedas">
+                            <span data-toggle="tooltip" data-placement="top" title="" data-original-title="Has click
+                            para ver el precio en criptomonedas">
                                 <span type="button" data-toggle="modal" data-target="#ModalPrecios"> <!-- boton modal precios -->
-                                    $ {{ event.reference_price }}
+                                    $ {{ event.reference_price|floatformat }}
                                 </span>
                             </span>
                             {% endif %}

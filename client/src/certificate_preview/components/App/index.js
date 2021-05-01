@@ -3,7 +3,7 @@ import Spinner from '../Spinner';
 import NotFound from '../NotFound';
 import GenericError from '../GenericError';
 import CertificatePreview from '../CertificatePreview';
-import { fetchCertificateData } from '../../utils';
+import { fetchCertificateData, getCertificateIdFromUrl } from '../../utils';
 
 const App = () => {
 	const [isLoading, setIsLoading] = useState(true);
@@ -12,7 +12,8 @@ const App = () => {
 	const [certificateData, setCertificateData] = useState({});
 
 	useEffect(() => {
-		fetchCertificateData()
+		const certificateId = getCertificateIdFromUrl(); 
+		fetchCertificateData(certificateId)
 			.then((response) => {
 				setIsLoading(false);
 				setCertificateData(response);

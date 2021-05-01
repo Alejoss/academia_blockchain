@@ -30,9 +30,9 @@ def get_env_variable(variable_name):
     return v
 
 ALLOWED_HOSTS = ["*"]
-DEBUG = get_env_variable('ENV') == "local" or get_env_variable('ENV') == "na"
+DEBUG = True
 DOCKER = get_env_variable('ENV') == "local" and get_env_variable('DOCKER') == "True"
-HEROKU = get_env_variable('ENV') == "heroku"
+HEROKU = get_env_variable('ENV') == "HEROKU"
 SECRET_KEY = get_env_variable('ACADEMIA_BLOCKCHAIN_SKEY')
 
 # Application definition

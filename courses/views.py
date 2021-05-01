@@ -41,7 +41,7 @@ def events_tag(request, tag_id):
     tag = get_object_or_404(Tag, id=tag_id)
     tags = Tag.objects.all()
     events = Event.objects.filter(tags__name__in=[tag.name])
-    context = {"events": events, "event_index_active": "active", "tags": tags}
+    context = {"events": events, "event_index_active": "active", "tags": tags, "tag": tag}
     return render(request, template, context)
 
 
@@ -56,8 +56,7 @@ def event_detail(request, event_id):
     owner_profile = Profile.objects.get(user=event.owner)
 
     logger.info("contact_methods: %s" % contact_methods)
-    logger.info("contact_methods: %s" % contact_methods)
-    logger.info("contact_methods: %s" % contact_methods)
+    logger.info("ways_to_pay: %s" % ways_to_pay)
 
     academia_blockchain_timezones()
 
@@ -382,19 +381,9 @@ def event_edit(request, event_id):
         return redirect("event_detail", event_id=event.id)
 
 
-# TODO
-# The URL could be /certificate_preview/${transactionId}
-# Then, the backend searchs for the transaction in the blockchain and with that data
-# create and send the certificate_data in the context.
-# Suggestion: certificate_data fields could be: graduate, title, author, description, author-address, date and tx-id
-# Suggestion: maybe we could add a boolean such as isTxIdValid
-# to know if frontend should show a certificate or 404.
-# Finally, consume that values in frontend as variables.
 def certificate_preview(request, cert_id):
-    # certificate = get_object_or_404(Certificate, id=cert_id)
     template = "courses/certificate_preview.html"
-    context = {"certificate": ""}
-    return render(request, template, context)
+    return render(request, template)
 
 
 def send_cert_blockchain(request, cert_id):
@@ -542,17 +531,16 @@ def reject_certificate(request, cert_request_id):
     else:
         return HttpResponse(status=400)
 
+
 # API coingeko
 def coins_value(accepted_cryptos, event):
     cg = CoinGeckoAPI()
     ways_to_pay = []
-    for c in accepted_cryptos: #se crea una lista de las monedas aceptadas.
-        ways_to_pay.append(c.crypto.name.lower())
-    coins = cg.get_coins_markets(ids=ways_to_pay, vs_currency='usd')  # solicita la informacion de las monedas en la lista. 
-    #El parametro ids solo acepta listas. Los ids se escriben en minuscula. Si no se define devuelte la información de todas las monedas.
-    #El parametro vs_currency es obligatorio.
-    crypto_info = []
-    for coin in coins:    
-        event_reference_price_crypto = event.reference_price / coin["current_price"] #se define el valor del curso en las monedas seleccionadas por el usuario
-        crypto_info.append({"id":coin["id"], "image": coin["image"], "symbol": coin["symbol"], "name": coin["name"], "current_price": coin["current_price"], "event_reference_price_crypto": event_reference_price_crypto}) #agrega las monedas seleccionadas y sus datos a una lista               
-    return crypto_info
+    for c in accepted_cryptos:
+        for coin in coins_request:
+            if c.crypto.name == coin["name"]: #evalua las coincidencias entre el pedido al API y las monedas preferidas por el usuario
+                event_reference_price_crypto = event.reference_price / coin["current_price"] #se define el valor del curso en las monedas seleccionadas por el usuario
+                ways_to_pay.append({"id":coin["id"], "image": coin["image"], "symbol": coin["symbol"], "name": coin["name"],
+                                    "current_price": coin["current_price"], "event_reference_price_crypto": event_reference_price_crypto})
+                # agrega las monedas seleccionadas y sus datos a una lista
+    return ways_to_pay

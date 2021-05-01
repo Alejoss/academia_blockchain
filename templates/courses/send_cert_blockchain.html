@@ -52,16 +52,13 @@
                       {{ certificate.event.owner.username }}
                   </textarea>
               </div>
-              <div class="form-group">
-                <input class="form-control" type="text" disabled value="{{ cert_hash.hexdigest }}">
-              </div>
+                  <div class="form-group">
+                    <input class="form-control" type="text" disabled value="{{ cert_hash.hexdigest }}">
+                  </div>
                   <div class="text-right">
-                  <button type="submit" class="btn btn-info text-right" id="connect_ethereum">
-                    Conectar a Ethereum
-                  </button>
-                  <button type="submit" class="btn btn-success text-right" id="send_transaction">
-                    Enviar Certificado
-                  </button>
+                      <button type="submit" class="btn btn-info text-right" id="connect_ethereum">
+                         Enviar certificado a Ethereum
+                      </button>
                   </div>
           </form>
       </div>
@@ -78,37 +75,47 @@
     <script>
     $( document ).ready(function() {
        $("#send_transaction").hide();
-       {#const infura_url = "https://ropsten.infura.io/v3/db26d321185243db9d29d384b55dba3c";#}
-       {#const web3 = new Web3(Web3.givenProvider);#}
-       {#console.log(web3);#}
-       {#const address = "0x0Fa50B058e9CCAb5AfD2337F0dF997801715a66e";#}
-       {#web3.eth.getBalance(address, (err, wei) => {#}
-       {#     balance = web3.utils.fromWei(wei, 'ether');#}
-       {#     console.log(balance);#}
 
        if (typeof window.ethereum !== 'undefined') {
          console.log('MetaMask is installed!');
         }
 
        async function getAccount() {
-          const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
-          const account = accounts[0];
+           return await ethereum.request({ method: 'eth_requestAccounts' });
+       }
+       async function sendTransaction(params) {
+           const txHash = await ethereum.request({
+               method: 'eth_sendTransaction',
+               params: [params]
+           })
+           console.log("txHash:");
+           console.log(txHash);
+           return txHash;
        }
 
        $("#connect_ethereum").on("click", function(e){
            e.preventDefault();
-           const accounts = getAccount().then((accounts) => {
-               console.log(accounts);
-           }).catch((error) => {
 
-           });
-           const active_acccount = accounts[0]
-           console.log(accounts);
-           console.log(active_acccount);
-           console.log(ethereum.chainId)
-           console.log(ethereum.chainId.networkId);
-           $("#send_transaction").show();
-           $(this).hide();
+           const transactionParameters = {
+                   nonce: '0x00', // ignored by MetaMask
+                   gasPrice: '0x09184e72a000', // customizable by user during MetaMask confirmation.
+                   gas: '0x0A410', // customizable by user during MetaMask confirmation.
+                   to: '0x0Fa50B058e9CCAb5AfD2337F0dF997801715a66e', // Required except during contract publications.
+                   from: ethereum.selectedAddress, // must match user's active address.
+                   value: '0x00', // Only required to send ether to the recipient from the initiating external account.
+                   data: '0x7f7465737432000000000000000000000000000000000000000000000000000000600057', // Optional, but used for defining smart contract creation and interaction.
+                   chainId: '0x3', // Used to prevent transaction reuse across blockchains. Auto-filled by MetaMask.
+               };
+
+           let return_value = sendTransaction(transactionParameters).then((result) => {
+               console.log(transactionParameters);
+               console.log("result:");
+               console.log(result);
+           }).catch((error) => {console.log(error)});
+
+           console.log("return_value:");
+           console.log(return_value);
+
        });
 
        $("#send_transactions").on("click", function(e){

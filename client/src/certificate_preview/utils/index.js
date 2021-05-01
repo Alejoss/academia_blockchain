@@ -1,3 +1,4 @@
+// eslint-disable-next-line no-unused-vars
 const mockedCertificateData = {
 	"id": '0xbed43af4d271362da3b85a370f9226fcde9e78c2c98e2bfd74d6774c2261a3fa',
 	"username": 'Juan Tarufetti',
@@ -11,19 +12,19 @@ const mockedCertificateData = {
 	"event_owner_last_name": 'Varela',
 };
 
-// eslint-disable-next-line no-unused-vars
-const mockedNotFoundResponse = {
-	success: false,
-	status: 404
-};
+export const fetchCertificateData = certificate_id => new Promise((resolve, reject) => {
+	const certificate_details_url = `/courses/certificate_detail/${certificate_id}`;
 
-// eslint-disable-next-line no-unused-vars
-const mockedErrorResponse = {
-	success: false,
-	status: 500
-};
+	fetch(certificate_details_url)
+		.then(response => {
+			if (response.status === 200) return response.json();
+			else reject({ status: response.status });
+		})
+		.then(resolve)
+		.catch(reason => {
+			console.error('TESTSSSS', reason); // eslint-disable-line no-console
+			reject({ status: 123456 });
+		})
+	});
 
-// eslint-disable-next-line import/prefer-default-export
-export const fetchCertificateData = () => new Promise((resolve) => {
-	setTimeout(() => resolve(mockedCertificateData), 900);
-});
+export const getCertificateIdFromUrl = () => window.location.href.split('certificate_preview/')[1];
