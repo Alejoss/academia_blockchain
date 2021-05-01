@@ -381,19 +381,9 @@ def event_edit(request, event_id):
         return redirect("event_detail", event_id=event.id)
 
 
-# TODO
-# The URL could be /certificate_preview/${transactionId}
-# Then, the backend searchs for the transaction in the blockchain and with that data
-# create and send the certificate_data in the context.
-# Suggestion: certificate_data fields could be: graduate, title, author, description, author-address, date and tx-id
-# Suggestion: maybe we could add a boolean such as isTxIdValid
-# to know if frontend should show a certificate or 404.
-# Finally, consume that values in frontend as variables.
 def certificate_preview(request, cert_id):
-    # certificate = get_object_or_404(Certificate, id=cert_id)
     template = "courses/certificate_preview.html"
-    context = {"certificate": ""}
-    return render(request, template, context)
+    return render(request, template)
 
 
 def send_cert_blockchain(request, cert_id):
