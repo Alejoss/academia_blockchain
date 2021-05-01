@@ -189,7 +189,7 @@
 {#			</div>#}
 {#		</form>#}
 
-        <h2 class="text-capitalize text-muted font-weight-bold mb-0">Actividad Reciente: </h2>
+        <h2 class="text-capitalize text-muted font-weight-bold mb-0">Reciente: </h2>
 	</div>
 </section>
 
@@ -201,12 +201,12 @@
         {% endfor %}
     </div>
 
-    <div class="row wow fadeInUp" style="visibility: visible; animation-name: fadeInUp;">
+    <div class="row wow" style="visibility: visible">
         {% for event in events %}
           <div class="col-sm-6 col-lg-3 col-xs-12">
             <div class="card">
               <a href="course-single-left-sidebar.html" class="position-relative">
-                  {% if event.image.url %}
+                  {% if event.image %}
                     <img class="card-img-top" src="{{ event.image.url }}" alt="Card image">
                   {% else %}
                     <img class="card-img-top" src="https://picsum.photos/500" alt="Event Image">
@@ -270,7 +270,7 @@
 
     <div class="section-title justify-content-center mb-4 mb-md-8 wow">
       <span class="shape shape-left bg-warning"></span>
-        <a href=""><h4 class="text-warning">&nbsp; Ver Todo &nbsp;</h4></a>
+        <a href="{% url 'events_all' %}"><h4 class="text-warning">&nbsp; Ver Todo &nbsp;</h4></a>
       <span class="shape shape-right bg-warning"></span>
     </div>
 

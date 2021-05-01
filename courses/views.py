@@ -45,6 +45,13 @@ def events_tag(request, tag_id):
     return render(request, template, context)
 
 
+def events_all(request):
+    template = "courses/events_all.html"
+    events = Event.objects.all()
+    context = {"events": events, "event_index_active": "active"}
+    return render(request, template, context)
+
+
 def event_detail(request, event_id):
     template = "courses/event_detail.html"
     event = get_object_or_404(Event, id=event_id)
