@@ -2,7 +2,7 @@ from http import HTTPStatus
 import pytz
 import logging
 import json
-import requests
+from pycoingecko import CoinGeckoAPI
 from http import HTTPStatus
 from datetime import datetime
 from hashlib import sha256
@@ -381,19 +381,9 @@ def event_edit(request, event_id):
         return redirect("event_detail", event_id=event.id)
 
 
-# TODO
-# The URL could be /certificate_preview/${transactionId}
-# Then, the backend searchs for the transaction in the blockchain and with that data
-# create and send the certificate_data in the context.
-# Suggestion: certificate_data fields could be: graduate, title, author, description, author-address, date and tx-id
-# Suggestion: maybe we could add a boolean such as isTxIdValid
-# to know if frontend should show a certificate or 404.
-# Finally, consume that values in frontend as variables.
 def certificate_preview(request, cert_id):
-    # certificate = get_object_or_404(Certificate, id=cert_id)
     template = "courses/certificate_preview.html"
-    context = {"certificate": ""}
-    return render(request, template, context)
+    return render(request, template)
 
 
 def send_cert_blockchain(request, cert_id):
@@ -544,8 +534,7 @@ def reject_certificate(request, cert_request_id):
 
 # API coingeko
 def coins_value(accepted_cryptos, event):
-    coins_request = requests.get("https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=monero%2C%20bitcoin%2C%20ethereum&order=market_cap_desc&per_page=100&page=1&sparkline=false") # solicita la informacion de XMR, ETH, BTC
-    coins_request = json.loads(coins_request.content) # convierte la respuesta en json
+    cg = CoinGeckoAPI()
     ways_to_pay = []
     for c in accepted_cryptos:
         for coin in coins_request:
