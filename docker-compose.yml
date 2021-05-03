@@ -1,6 +1,13 @@
-version: "3.9"
-   
+version: "3.0"
+
 services:
+  client:
+    env_file:
+      - .env
+    build: ./client
+    volumes:
+      - ./client/src:/app/client/src
+      - ./static/assets/build:/app/client/build
   postgres:
     image: postgres
     env_file:
@@ -10,7 +17,9 @@ services:
   backend:
     env_file:
       - .env
-    build: .
+    build:
+      context: .
+      dockerfile: backend.Dockerfile
     command: python manage.py runserver 0.0.0.0:8000
     volumes:
       - .:/code
@@ -18,6 +27,6 @@ services:
       - "8000:8000"
     depends_on:
       - postgres
-
+      - client
 volumes:
   postgres_data: {}

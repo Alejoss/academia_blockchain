@@ -31,3 +31,4 @@ swapper==1.1.2.post1
 urllib3==1.26.2
 webencodings==0.5.1
 whitenoise==5.1.0
+pycoingecko==2.0.0
