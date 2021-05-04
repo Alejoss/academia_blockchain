@@ -552,3 +552,4 @@ def coins_value(accepted_cryptos, event):
 
         except:
             print('No es posible conectarse al API de coingecko en este momento')
+            return [{"id":"error al conectar el API", "image": "", "symbol": "ERROR", "name": "error", "current_price": "error al conectar el API", "event_reference_price_crypto": "error al conectar el API"})]
