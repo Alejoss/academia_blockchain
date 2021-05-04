@@ -36,21 +36,15 @@
 {#				</div> #}
 {#			</div>#}
 {#		</form>#}
-        <div class="text-sm-right mt-6">
-          <button type="submit" class="btn btn-warning text-uppercase"
-                  onclick="location.href = '{% url 'event_create' %}' ">
-            Crear Nuevo Curso o Evento
-          </button>
-        </div>
-        <h2 class="text-capitalize text-muted font-weight-bold mb-0">Actividad Reciente: </h2>
+        <h2 class="text-capitalize text-muted font-weight-bold mb-0"> {{ tag.name }} </h2>
 	</div>
 </section>
 
 <section class="pb-md-10 pb-6">
 <div class=" container">
     <div class="mb-8">
-        {% for tag in tags %}
-            <a href="{% url 'events_tag' tag.id %}" class="badge badge-light">{{ tag.name }}</a>
+        {% for t in tags %}
+            <a href="{% url 'events_tag' t.id %}" class="badge badge-light">{{ t.name }}</a>
         {% endfor %}
     </div>
     <div class="list-fullwidth">
@@ -134,7 +128,12 @@
                 </div>
             </div>
         {% endfor %}
-
+    </div>
+    <div class="text-sm-right mt-6">
+      <button type="submit" class="btn btn-warning text-uppercase"
+              onclick="location.href = '{% url 'event_create' %}' ">
+        Crear Nuevo Curso
+      </button>
     </div>
 </div>
 </section>
