@@ -52,7 +52,7 @@ def event_detail(request, event_id):
 
     contact_methods = ContactMethod.objects.filter(user=event.owner, deleted=False)
     accepted_cryptos = AcceptedCrypto.objects.filter(user=event.owner, deleted=False)
-    ways_to_pay = coins_value(accepted_cryptos, event) # llama al API CoinGeko y devuelve una lista con las monedas aceptadas por el usuario con sus valores
+    ways_to_pay = coins_value(accepted_cryptos, event) # llama al API CoinGeko y devuelve una lista con las monedas aceptadas por el usuario y sus valores.
     owner_profile = Profile.objects.get(user=event.owner)
 
     logger.info("contact_methods: %s" % contact_methods)
@@ -544,15 +544,21 @@ def reject_certificate(request, cert_request_id):
 
 # API coingeko
 def coins_value(accepted_cryptos, event):
-    cg = CoinGeckoAPI()
-    ways_to_pay = []
-    for c in accepted_cryptos: #se crea una lista de las monedas aceptadas.
-        ways_to_pay.append(c.crypto.name.lower())
-    coins = cg.get_coins_markets(ids=ways_to_pay, vs_currency='usd')  # solicita la informacion de las monedas en la lista. 
-    #El parametro ids solo acepta listas. Los ids se escriben en minuscula. Si no se define devuelte la información de todas las monedas.
-    #El parametro vs_currency es obligatorio.
-    crypto_info = []
-    for coin in coins:    
-        event_reference_price_crypto = event.reference_price / coin["current_price"] #se define el valor del curso en las monedas seleccionadas por el usuario
-        crypto_info.append({"id":coin["id"], "image": coin["image"], "symbol": coin["symbol"], "name": coin["name"], "current_price": coin["current_price"], "event_reference_price_crypto": event_reference_price_crypto}) #agrega las monedas seleccionadas y sus datos a una lista               
-    return crypto_info
+    if (event.reference_price != 0):
+        
+        ways_to_pay = []
+        for c in accepted_cryptos: #se crea una lista de las monedas aceptadas.
+            ways_to_pay.append(c.crypto.name.lower())
+        
+        try:
+            coins_request = CoinGeckoAPI().get_coins_markets(ids=ways_to_pay, vs_currency='usd')  # solicita la informacion de las monedas aceptadas. 
+
+            crypto_info = []
+            for coin in coins_request: #se crea una lista con los valores de las monedas
+                event_reference_price_crypto = event.reference_price / coin["current_price"] 
+                crypto_info.append({"id":coin["id"], "image": coin["image"], "symbol": coin["symbol"], "name": coin["name"], "current_price": coin["current_price"], "event_reference_price_crypto": event_reference_price_crypto})                
+            
+            return crypto_info
+
+        except:
+            print('No es posible conectarse al API de coingecko en este momento')
