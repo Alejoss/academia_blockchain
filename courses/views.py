@@ -548,15 +548,14 @@ def coins_value(accepted_cryptos, event):
             ways_to_pay.append(c.crypto.name.lower())
         
         try:
-            coins_request = CoinGeckoAPI().get_coins_markets(ids=ways_to_pay, vs_currency='usd')  # solicita la informacion de las monedas aceptadas. 
-
+            coins_request = CoinGeckoAPI().get_coins_markets(ids=ways_to_pay, vs_currency='usd')  # solicita la informacion de las monedas aceptadas.
             crypto_info = []
             for coin in coins_request: #se crea una lista con los valores de las monedas
                 event_reference_price_crypto = event.reference_price / coin["current_price"] 
-                crypto_info.append({"id":coin["id"], "image": coin["image"], "symbol": coin["symbol"], "name": coin["name"], "current_price": coin["current_price"], "event_reference_price_crypto": event_reference_price_crypto})                
-            
+                crypto_info.append({"id":coin["id"], "image": coin["image"], "symbol": coin["symbol"], "name": coin["name"],
+                                    "current_price": coin["current_price"], "event_reference_price_crypto": event_reference_price_crypto})
             return crypto_info
-
         except:
             print('No es posible conectarse al API de coingecko en este momento')
-            return [{"id":"error al conectar el API", "image": "", "symbol": "ERROR", "name": "error", "current_price": "error al conectar el API", "event_reference_price_crypto": "error al conectar el API"})]
+            return [{"id":"error al conectar el API", "image": "", "symbol": "ERROR", "name": "error",
+                     "current_price": "error al conectar el API", "event_reference_price_crypto": "error al conectar el API"}]

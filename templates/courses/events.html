@@ -60,7 +60,7 @@
           data-type="text"
           data-whitespace="normal"
           style="z-index: 10;">
-            En Academia Blockchain puedes encontrar cursos, eventos y exámenes sin comisiones.
+            En Academia Blockchain puedes encontrar eventos, exámenes y cursos sin comisiones.
         </div>
 
         <!-- LAYER NR. 3
@@ -212,7 +212,7 @@
                     <img class="card-img-top" src="https://picsum.photos/500" alt="Event Image">
                   {% endif %}
                 <div class="card-img-overlay">
-                  <span class="badge badge-warning badge-rounded-circle">$50</span>
+{#                  <span class="badge badge-warning badge-rounded-circle">$50</span>#}
                 </div>
               </a>
               <div class="card-body border-top-5 px-3 border-warning">
@@ -260,6 +260,9 @@
                                 <i class="fa fa-tag mr-2" aria-hidden="true"></i>Evento
                             {% endif %}
                         {% endif %}
+                    </li>
+                    <li class="mr-3">
+                        <i class="fa fa-dollar mr-2" aria-hidden="true"></i>  {{ event.reference_price }}
                     </li>
                 </ul>
               </div>
