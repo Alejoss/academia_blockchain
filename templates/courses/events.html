@@ -205,7 +205,7 @@
         {% for event in events %}
           <div class="col-sm-6 col-lg-3 col-xs-12">
             <div class="card">
-              <a href="course-single-left-sidebar.html" class="position-relative">
+              <a href="{% url 'event_detail' event.id %}" class="position-relative">
                   {% if event.image %}
                     <img class="card-img-top" src="{{ event.image.url }}" alt="Card image">
                   {% else %}
@@ -217,7 +217,7 @@
               </a>
               <div class="card-body border-top-5 px-3 border-warning">
                 <h3 class="card-title">
-                  <a class="text-warning text-capitalize d-block" href="course-single-left-sidebar.html">{{ event.title }}</a>
+                  <a class="text-warning text-capitalize d-block" href="{% url 'event_detail' event.id %}">{{ event.title }}</a>
                 </h3>
                 <ul class="list-unstyled text-muted">
                   <li class="mb-1">
