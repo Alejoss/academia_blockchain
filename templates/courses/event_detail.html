@@ -187,25 +187,31 @@
                 <div class="modal-dialog">
                 <div class="modal-content rounded-top">
                     <div class="modal-header bg-info">
-                    <h5 class="modal-title text-white font-weight-bold py-2 pl-3 mb-0">Valor y formas de pago</h5>
-                    <button type="button" class="btn btn-danger text-uppercase" data-dismiss="modal">X</button>
+                        <h5 class="modal-title text-white font-weight-bold py-2 pl-3 mb-0">Valor y formas de pago</h5>
+                        <button type="button" class="btn btn-danger text-uppercase" data-dismiss="modal">X</button>
                     </div>
                     <div class="modal-body">
                         <p class="text-muted font-weight-bold">
-                            $ {{ event.reference_price }}
-                            {% for c in coin_info %} <!-- por cada moneda se imprime symbolo y valor del curso -->
-                            <br />    
-                                {{ c.symbol }} {{ c.event_reference_price_crypto }}  
-                            {% endfor %} 
-                        </p>
-                        <p> VALOR ACTUAL DE LAS MONEDAS MOSTRADAS: 
-                            <br>
-                            {% for c in coin_info %} <!-- por cada moneda se imprime imagen y valor actual en usd -->
-                                <img style="width: 1rem;height: 1rem;" src={{ c.image }} alt={{ c.symbol }}>
-                                <span>$ {{ c.current_price }}</span>
+                            <strong>$ {{ event.reference_price }} </strong>
+                            <ul class="list-unstyled list-item-border-bottom">
+                            {% for c in preferred_cryptos %}
+                            <li class="mb-4 pb-4">
+                              <div class="media">
+                                  <img class="rounded-lg w-100 border-warning border-2 d-block" src="{{ c.image }}"
+                                    alt="{{ c.symbol }} image">
+                                <div class="media-body">
+                                    <p class="text-muted font-weight-bold">
+                                        {{ c.symbol|upper }} : {{ c.event_reference_price_crypto }}
+                                    </p>
+                                  <time class="text-white">July 7 - 2018</time>
+                                </div>
+                              </div>
+                                <hr>
+                            </li>
                             {% endfor %}
+                            </ul>
                         </p>
-                    </div>
+                       </div>
                     <div class="modal-footer">
                         <p> Powered by CoinGecko API </p>
                     </div>
