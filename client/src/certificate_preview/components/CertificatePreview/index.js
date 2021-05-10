@@ -1,6 +1,6 @@
 import React, { useRef } from 'react';
 import PropTypes from 'prop-types';
-import domtoimage from 'dom-to-image';
+import html2canvas from 'html2canvas';
 import logo from './academia_blockchain_logo.png';
 import './index.sass';
 
@@ -8,19 +8,19 @@ const CertificatePreview = ({ certificateData }) => {
 	const certificateNode = useRef(null);
 	const styleFlexCenterColumn = 'd-flex justify-content-center align-items-center flex-column';
 	const handleDownload = (ref) => {
-		domtoimage.toJpeg(ref.current)
-			.then((dataUrl) => {
-				const link = document.createElement('a');
-				link.download = 'CERTIFICADO_ACBC.jpeg';
-				link.href = dataUrl;
-				link.click();
-			});
+		html2canvas(ref.current).then((canvas) => {
+			const link = document.createElement('a');
+			link.setAttribute('download', 'ACBC_CERTIFICADO.png');
+			link.setAttribute('href', canvas.toDataURL('image/png').replace('image/png', 'image/octet-stream'));
+			link.click();
+			link.remove();
+		});
 	};
 
 	return (
 		<div className={styleFlexCenterColumn}>
-			<div ref={certificateNode} aria-label="Vista previa del certificado" className="w-100">
-				<div className="certificate__border">
+			<div aria-label="Vista previa del certificado" className="w-100">
+				<div ref={certificateNode} className="certificate__border">
 					<div className="certificate__container">
 						<header className="certificate__header p-1">
 							<div className="certificate__logo-container">
