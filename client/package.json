@@ -5,7 +5,7 @@
   "main": "config.js",
   "dependencies": {
     "bootstrap": "^4.6.0",
-    "dom-to-image": "^2.6.0",
+    "html2canvas": "^1.0.0-rc.7",
     "prop-types": "^15.7.2",
     "react": "^17.0.1",
     "react-bootstrap": "^1.4.3",
