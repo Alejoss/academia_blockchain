@@ -1,64 +1,17 @@
 {% extends 'base.html' %}
 
 {% block content %}
-
 <!-- ====================================
 ———	BREADCRUMB
-===================================== -->
-  <section class="breadcrumb-bg" style="background-image: url('https://www.processmaker.com/wp-content/uploads/2020/01/blockchain-technology-digital-code-chain_99236-110.jpg');">
-    <div class="container">
-      <div class="breadcrumb-holder">
-        <div>
-          <h1 class="breadcrumb-title"> Utiliza criptomonedas para aprender y gana compartiendo conocimiento. </h1>
-        </div>
-      </div>
-    </div>
-  </section>
-
-	<div class="container">
-        <div class="text-sm-right mt-6">
-          <button type="submit" class="btn btn-warning text-uppercase"
-                  onclick="location.href = '{% url 'event_create' %}' ">
-            Crear Nuevo Curso
-          </button>
-        </div>
-    </div>
-
-
-<section class="pt-7 pb-7 pt-md-10">
-	<div class="container">
-		<form method="post" action="{% url 'event_search' %}" class="shadow-sm rounded mb-8">
-			<div class="input-group input-group-lg">
-				<div class="input-group-prepend">
-					<span class="input-group-text bg-light border-0 px-4">
-						<i class="fa fa-search text-muted font-size-18" aria-hidden="true"></i>
-					</span>
-				</div>
-				<input type="text" class="form-control bg-light border-0 form-control-lg" aria-label="Amount (to the nearest dollar)"
-				 placeholder="Cursos / Eventos / Exámenes">
-                <div class="input-group-append">
-					<button type="submit" class="btn shadow-none btn-lg btn-info text-uppercase">Buscar</button>
-				</div>
-			</div>
-		</form>
-	</div>
-</section>
-
-<!-- ====================================
-———	SEARCH RESULT
 ===================================== -->
 
 <section class="pb-md-10 pb-6">
 <div class=" container">
-    <div class="mb-8">
-        {% for t in tags %}
-            <a href="{% url 'events_tag' t.id %}" class="badge badge-light">{{ t.name }}</a>
-        {% endfor %}
-    </div>
-    <div class="row wow" style="visibility: visible">
 
-{% for event in events %}
-          <div class="col-sm-6 col-lg-3 col-xs-12">
+<div class="row wow" style="visibility: visible">
+
+    {% for event in events %}
+    <div class="col-sm-6 col-lg-3 col-xs-12">
             <div class="card">
               <a href="course-single-left-sidebar.html" class="position-relative">
                   {% if event.image %}
@@ -120,7 +73,8 @@
               </div>
             </div>
           </div>
-        {% endfor %}
+    {% endfor %}
+
     </div>
 </div>
 </section>

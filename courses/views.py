@@ -52,6 +52,20 @@ def events_all(request):
     return render(request, template, context)
 
 
+def event_search(request):
+    template = "courses/events_serach.html"
+    if request.method == "POST":
+        query = request.POST.get("q")
+        events = Event.objects.filter(title__search=query)
+
+        logger.info("query: %s" % query)
+        logger.info("events: %s" % events)
+        context = {"events": events}
+        return render(request, template, context)
+    else:
+        return HttpResponse(status=400)
+
+
 def event_detail(request, event_id):
     template = "courses/event_detail.html"
     event = get_object_or_404(Event, id=event_id)
