@@ -197,13 +197,12 @@
                             {% for c in preferred_cryptos %}
                             <li class="mb-4 pb-4">
                               <div class="media">
-                                  <img class="rounded-lg w-100 border-warning border-2 d-block" src="{{ c.image }}"
+                                  <img class="rounded-lg w-100 border-warning border-2 d-block modal_img_new" src="{{ c.image }}"
                                     alt="{{ c.symbol }} image">
-                                <div class="media-body">
+                                <div class="media-body media_body_modal">
                                     <p class="text-muted font-weight-bold">
                                         {{ c.symbol|upper }} : {{ c.event_reference_price_crypto }}
                                     </p>
-                                  <time class="text-white">July 7 - 2018</time>
                                 </div>
                               </div>
                                 <hr>

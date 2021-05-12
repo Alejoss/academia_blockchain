@@ -28,6 +28,7 @@
 <section class="pt-7 pb-7 pt-md-10">
 	<div class="container">
 		<form method="post" action="{% url 'event_search' %}" class="shadow-sm rounded mb-8">
+            {% csrf_token %}
 			<div class="input-group input-group-lg">
 				<div class="input-group-prepend">
 					<span class="input-group-text bg-light border-0 px-4">
