@@ -48,17 +48,19 @@ def events_tag(request, tag_id):
 def events_all(request):
     template = "courses/events_all.html"
     events = Event.objects.all()
-    context = {"events": events, "event_index_active": "active"}
+    tags = Tag.objects.all()
+    context = {"events": events, "event_index_active": "active", "tags": tags}
     return render(request, template, context)
 
 
 def event_search(request):
-    template = "courses/events_serach.html"
+    template = "courses/events_result.html"
     if request.method == "POST":
         query = request.POST.get("q")
-        events = Event.objects.filter(title__search=query)
-
         logger.info("query: %s" % query)
+
+        events = Event.objects.filter(title__icontains=query)
+
         logger.info("events: %s" % events)
         context = {"events": events}
         return render(request, template, context)
