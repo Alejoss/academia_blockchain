@@ -62,7 +62,7 @@ def event_search(request):
         events = Event.objects.filter(title__icontains=query)
 
         logger.info("events: %s" % events)
-        context = {"events": events}
+        context = {"events": events, "query": query}
         return render(request, template, context)
     else:
         return HttpResponse(status=400)

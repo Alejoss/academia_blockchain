@@ -15,10 +15,10 @@
                   <a class="text-warning text-capitalize d-block" href="{% url 'event_detail' event.id %}">{{ event.title }}</a>
                 </h3>
                 <ul class="list-unstyled text-muted">
-                  <li class="mb-1">
-                    <i class="fa fa-user-circle-o mr-2" aria-hidden="true"></i>{{ event.owner.username }}
-                  </li>
-                    <li class="mb-1">
+                    <li class="mb-2">
+                        <i class="fa fa-user-circle-o mr-2" aria-hidden="true"></i>{{ event.owner.username }}
+                    </li>
+                    <li class="mb-2">
                         {% if event.is_recorded %}
                             {% if event.is_recorded %}
                                 <span title="Fecha de Grabación">
@@ -41,7 +41,7 @@
                             {% endif %}
                         {% endif %}
                     </li>
-                    <li class="mr-3">
+                    <li class="mb-2">
                         {% if event.event_type == "COURSE" %}
                             {% if event.is_recorded %}
                                 <i class="fa fa-play-circle mr-2" aria-hidden="true"></i>Curso Pre Grabado
@@ -56,7 +56,7 @@
                             {% endif %}
                         {% endif %}
                     </li>
-                    <li class="mr-3">
+                    <li class="mb-2">
                         <i class="fa fa-dollar mr-2" aria-hidden="true"></i>  {{ event.reference_price }}
                     </li>
                 </ul>

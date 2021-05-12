@@ -22,23 +22,20 @@
 
 <section class="pt-7 pb-7 pt-md-10">
 	<div class="container">
-{#		<form class="shadow-sm rounded mb-8">#}
-{#			<div class="input-group input-group-lg">#}
-{#				<div class="input-group-prepend">#}
-{#					<span class="input-group-text bg-light border-0 px-4">#}
-{#						<i class="fa fa-search text-muted font-size-18" aria-hidden="true"></i>#}
-{#					</span>#}
-{#				</div>#}
-{#				<input type="text" class="form-control bg-light border-0 form-control-lg" aria-label="Amount (to the nearest dollar)"#}
-{#				 placeholder="Cursos / Eventos / Conversaciones" required="">#}
-{#                <div class="input-group-append">#}
-{#					<button type="submit" class="btn shadow-none btn-lg btn-info text-uppercase">Buscar</button>#}
-{#				</div> #}
-{#			</div>#}
-{#		</form>#}
+        <div class="text-sm-right mt-6">
+          <button type="submit" class="btn btn-warning text-uppercase"
+                  onclick="location.href = '{% url 'event_create' %}' ">
+            Crear Nuevo Curso
+          </button>
+        </div>
+    </div>     
+
+    <div class="container">
         <h2 class="text-capitalize text-muted font-weight-bold mb-0"> {{ tag.name }} </h2>
 	</div>
 </section>
+
+
 
 <section class="pb-md-10 pb-6">
 <div class=" container">
@@ -51,12 +48,6 @@
         {% for event in events %}
             {% include 'courses/event_card.html' with event=event %}
         {% endfor %}
-    </div>
-    <div class="text-sm-right mt-6">
-      <button type="submit" class="btn btn-warning text-uppercase"
-              onclick="location.href = '{% url 'event_create' %}' ">
-        Crear Nuevo Curso
-      </button>
     </div>
 </div>
 </section>
