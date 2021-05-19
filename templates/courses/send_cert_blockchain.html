@@ -93,8 +93,12 @@
            return txHash;
        }
 
+       getAccount();
+
        $("#connect_ethereum").on("click", function(e){
            e.preventDefault();
+
+           let transaction_hash = "0x"
 
            const transactionParameters = {
                    nonce: '0x00', // ignored by MetaMask
@@ -111,33 +115,28 @@
                console.log(transactionParameters);
                console.log("result:");
                console.log(result);
+               transaction_hash = result
+               $.ajax({
+                        method: "post",
+                        url: "{% url 'add_cert_hash' certificate.id %}",
+                        data: data,
+                        headers: {
+                            'X-CSRFToken': getCookie('{{ settings.CSRF_COOKIE_NAME }}')
+                        },
+                        success: function(response){
+                            console.log("BOOKMARKED!");
+                            $("#event_bookmark_div").hide();
+                            $("#remove_bookmark_div").show();
+                        },
+                        error: function(response){
+                            console.log(response);
+                        }
+                    });
            }).catch((error) => {console.log(error)});
 
            console.log("return_value:");
            console.log(return_value);
 
-       });
-
-       $("#send_transactions").on("click", function(e){
-           e.preventDefault();
-           let params = [
-                  {
-                    from: '0xb60e8dd61c5d32be8058bb8eb970870f07233155',
-                    to: '0xd46e8dd67c5d32be8058bb8eb970870f07244567',
-                    gas: '0x76c0', // 30400
-                    gasPrice: '0x9184e72a000', // 10000000000000
-                    value: '0x9184e72a', // 2441406250
-                    data: '0xd46e8dd67c5d32be8d46e8dd67c5d32be8058bb8eb970870f072445675058bb8eb970870f072445675'
-                  },
-                ];
-           ethereum.request({
-               method: "eth_send_transaction",
-               params
-           }).then((result) => {
-               console.log(result);
-           }).catch((error) => {
-               console.log(error);
-           });
        });
 
     });

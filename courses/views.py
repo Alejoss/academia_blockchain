@@ -422,6 +422,12 @@ def send_cert_blockchain(request, cert_id):
     return render(request, template, context)
 
 
+def add_cert_hash(request, cert_id):
+    if request.method == "POST":
+        pass
+    else:
+        pass
+
 """
 API CALLS
 """
