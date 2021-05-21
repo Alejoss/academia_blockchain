@@ -14,6 +14,7 @@ from django.http import HttpResponse
 from django.template.loader import render_to_string
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.utils.encoding import force_bytes, force_text
+from django.conf import settings
 
 from profiles.utils import AcademiaUserCreationForm, AcademiaLoginForm, ProfilePictureForm, \
     get_cryptos_string, academia_blockchain_timezones, send_email_message, AcademiaPasswordResetForm,\
@@ -59,7 +60,8 @@ def register_profile(request):
             login(request, new_user)
             email = form.cleaned_data['email']
             # Enviar email de confirmacion
-            send_confirmation_email(request, new_user, email)
+            if settings.HEROKU:
+                send_confirmation_email(request, new_user, email)
 
             template = "profiles/profile_data.html"
             context = {'new_profile': new_profile}
