@@ -11,7 +11,7 @@
             <p class="font-size-20 font-weight-medium d-inline-block mb-1">Tus criptomonedas preferidas</p>
             <small class="form-text text-muted">
                 Las personas que encuentren tus cursos y eventos van a ver tus criptos preferidas.
-                Puedes incluir la dirección (opcional).
+                Puedes incluir la dirección (recomendado).
             </small>
             <hr>
         </div>
@@ -25,19 +25,20 @@
                     {% for c in accepted_cryptos %}
                         <div id ="div_{{ forloop.counter }}">
                           <div class="input-group mb-3">
-                            <div class="input-group-prepend">
+                            <input id="crypto_id_{{ forloop.counter }}" type="hidden" value="{{ c.id }}" class="hidden">
+                            <input type="text" class="form-control" id="crypto_name_{{ forloop.counter }}" value="{{ c.crypto.name }}" placeholder="Nombre">
+                            <input type="text" class="form-control" id="crypto_code_{{ forloop.counter }}" value="{{ c.crypto.code }}" placeholder="Código">
+
+                            <div class="input-group-append">
                               <button data-counter="{{ forloop.counter }}" type="button" class="btn btn-danger input-group-text delete"
                               data-toggle="tooltip" data-placement="left" data-original-title="Eliminar">
                                   <i class="fa fa-times"></i></button>
                             </div>
-                            <div class="input-group-prepend">
+                            <div class="input-group-append">
                               <button data-counter="{{ forloop.counter }}" type="button" class="btn btn-success input-group-text save"
                                       data-toggle="tooltip" data-placement="right" data-original-title="Guardar">
                                   <i class="fa fa-check"></i></button>
                             </div>
-                            <input id="crypto_id_{{ forloop.counter }}" type="hidden" value="{{ c.id }}" class="hidden">
-                            <input type="text" class="form-control" id="crypto_name_{{ forloop.counter }}" value="{{ c.crypto.name }}" placeholder="Nombre">
-                            <input type="text" class="form-control" id="crypto_code_{{ forloop.counter }}" value="{{ c.crypto.code }}" placeholder="Código">
                           </div>
                           <input type="text" class="form-control" id="crypto_address_{{ forloop.counter }}"
                                     placeholder="Opcional. Dirección de tu billetera (copia y pégala aquí)" value="{{ c.address }}">

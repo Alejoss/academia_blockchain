@@ -7,7 +7,7 @@
             <div class="media media-avator-view flex-column flex-sm-row">
                 <div class="media-body">
                     <p>
-                      Aquí puedes encontrar los certificados a los cursos / eventos que has asistido. Recuerda que para recibir un
+                      Aquí puedes encontrar tus certificados. Recuerda que para recibir un
                         certificado debes solicitarlo, puedes hacerlo en la página de "Favoritos". El creador del curso / evento
                         debe aceptar tu solicitud.
                     </p>
@@ -72,10 +72,10 @@
                                         onclick="location.href = '{% url 'certificate_preview' c.id %}' ">
                                         <i class="fa fa-certificate mr-2" aria-hidden="true"></i>Ver Certificado
                                     </button>
-                                    <button data-id="{{ c.event.id }}" class="send_to_blockchain btn btn-sm btn-info
-                                    text-uppercase mb-1 mr-2 btn-hover-white">
-                                        <i class="fa fa-link mr-2" aria-hidden="true"></i>Enviar a la Blockchain
-                                    </button>
+{#                                    <button data-id="{{ c.event.id }}" class="send_to_blockchain btn btn-sm btn-info#}
+{#                                    text-uppercase mb-1 mr-2 btn-hover-white">#}
+{#                                        <i class="fa fa-link mr-2" aria-hidden="true"></i>Enviar a la Blockchain#}
+{#                                    </button>#}
                                 </div>
 
 {#                                    Modal confirmacion enviar certificado a la blockchain#}
