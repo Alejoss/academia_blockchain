@@ -284,28 +284,22 @@ def profile_edit_cryptos(request):
         logger.info("crypto_code: %s" % crypto_code)
         logger.info("crypto_address: %s" % crypto_address)
 
-        if int(crypto_id) > 0:  # AcceptedCrypto existente
+        if int(crypto_id) > 0:  # EDIT AcceptedCrypto existente
             try:
                 obj = AcceptedCrypto.objects.get(id=crypto_id)
             except Exception as e:
                 logger.warning("accepted_crypto not found: %s" % crypto_id)
                 return HttpResponse("Accepted Crypto not found", status=404)
-            if crypto_name == "0":
-                # Remove Accepted Crypto
-                logger.info("delete accepted_crypto: %s" % crypto_id)
-                obj.deleted = True
-                obj.save()
+            if CryptoCurrency.objects.filter(name=crypto_name).exists():
+                crypto_obj = CryptoCurrency.objects.get(name=crypto_name)
+                logger.info("crypto_obj: %s" % crypto_obj)
+                obj.crypto = crypto_obj
             else:
-                if CryptoCurrency.objects.filter(name=crypto_name).exists():
-                    crypto_obj = CryptoCurrency.objects.get(name=crypto_name)
-                    logger.info("crypto_obj: %s" % crypto_obj)
-                    obj.crypto = crypto_obj
-                else:
-                    # Crear una nueva criptomoneda
-                    new_crypto = CryptoCurrency.objects.create(name=crypto_name,
-                                                               code=crypto_code)
-                    logger.info("new_crypto: %s" % new_crypto)
-                    obj.crypto = new_crypto
+                # Crear una nueva criptomoneda
+                new_crypto = CryptoCurrency.objects.create(name=crypto_name,
+                                                           code=crypto_code)
+                logger.info("new_crypto: %s" % new_crypto)
+                obj.crypto = new_crypto
                 obj.address = crypto_address
                 obj.save()
 
