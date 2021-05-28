@@ -14,12 +14,6 @@
                   <form action="{% url 'profile_register' %}" method="POST" role="form">
                       {% csrf_token %}
 
-                      {% if form.errors %}
-                        <div class="form-group text-center text-secondary mb-0">
-                          <p class="mb-0">{{ form.errors }} </p>
-                        </div>
-                      {% endif %}
-
                     <div class="form-group form-group-icon">
                         {{ form.username }}
                     </div>
@@ -37,6 +31,16 @@
                       <input type="password" class="form-control border" placeholder="Contraseña" required=""
                              name="password2">
                     </div>
+
+                    {% if form.errors %}
+                      {% for field in form %}
+                          {% for error in field.errors %} 
+                              <div class="alert alert-danger">
+                                  <strong>{{ error|escape }}</strong>
+                              </div>
+                          {% endfor %}
+                      {% endfor %}
+                    {% endif %}
 
                     <div class="form-group">
                       <button type="submit" class="btn btn-success text-uppercase w-100">Crear Cuenta</button>

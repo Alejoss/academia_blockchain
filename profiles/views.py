@@ -46,7 +46,7 @@ def register_profile(request):
 
             # Crear Accepted Cryptos por default
             bitcoin, created = CryptoCurrency.objects.get_or_create(name="Bitcoin", code="BTC")
-            ether, created = CryptoCurrency.objects.get_or_create(name="Ether", code="ETH")
+            ether, created = CryptoCurrency.objects.get_or_create(name="Ethereum", code="ETH")
             monero, created = CryptoCurrency.objects.get_or_create(name="Monero", code="XMR")
 
             user_bitcoin = AcceptedCrypto.objects.create(user=new_user, crypto=bitcoin)
