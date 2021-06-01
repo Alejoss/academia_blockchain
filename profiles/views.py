@@ -331,6 +331,18 @@ def profile_edit_cryptos(request):
 
 
 @login_required
+def profile_delete_crypto(request):
+    if request.method == "POST":
+        crypto_id = request.POST.get("crypto_id")
+        accepted_crypto_obj = get_object_or_404(AcceptedCrypto, id=crypto_id)
+        accepted_crypto_obj.deleted = True
+        accepted_crypto_obj.save()
+        return HttpResponse(status=201)
+    else:
+        return HttpResponse(status=400)
+
+
+@login_required
 def profile_events(request):
     template = "profiles/profile_events.html"
     events = Event.objects.filter(owner=request.user, deleted=False)

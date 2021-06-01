@@ -42,7 +42,7 @@
                               </button>
                             </div>
                           </div>
-                          <input type="text" class="form-control address" disabled
+                          <input type="text" class="form-control" disabled
                                     placeholder="Opcional. Dirección de tu billetera (copia y pégala aquí)" value="{{ c.address }}">
                             <hr>
                         </div>
@@ -51,9 +51,40 @@
                 </div>
             </form>
         </div>
-        <button id="new_crypto_method" class="btn btn-success text-uppercase">
-                Sumar Nueva Criptomoneda Preferida
+
+        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#modalAddCrypto">
+            Sumar nueva cripto preferida
         </button>
+
+        <div class="modal fade mb-8" id="modalAddCrypto" tabindex="-1" role="dialog" style="display: none;" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Sumar Nueva Criptomoneda Preferida</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">×</span>
+              </button>
+            </div>
+              <form action="{% url 'profile_edit_cryptos' %}" method="post" id="crypto_method_form">
+                  {% csrf_token %}
+                <div class="modal-body">
+                      <div class="input-group mb-3">
+                        <input name="crypto_id" type="hidden" value="" class="hidden">
+                        <input id="modal_crypto_name" type="text" class="form-control" value="" placeholder="Nombre">
+                        <input id="modal_crypto_code" type="text" class="form-control crypto_code" onkeyup="this.value = this.value.toUpperCase();"
+                               value="" placeholder="Código">
+                      </div>
+                      <input id="modal_crypto_address" type="text" class="form-control"
+                                placeholder="Recomendado. Dirección de tu billetera (copia y pégala aquí)" value="">
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                  <button type="submit" id="save_crypto_form" class="btn btn-success">Guardar</button>
+                </div>
+              </form>
+          </div>
+        </div>
+        </div>
 </div>
 {% endblock profile_content %}
 
@@ -65,8 +96,6 @@
     <script>
     $( document ).ready(function() {
         $(".hidden").hide();
-
-        let counter = {{ accepted_cryptos|length }}  // para coordinar con el forloop counter
 
         $("#crypto_method_wrapper").on("click", ".delete", function(){
             console.log("Item ID:");
@@ -81,7 +110,7 @@
             };
             console.log(data);
             $.ajax({
-                url: "{% url 'profile_edit_cryptos' %}",
+                url: "{% url 'profile_delete_crypto' 0 %}".replace("0", crypto_id),
                 method: "post",
                 data: data,
                 success: function(response){
@@ -95,55 +124,14 @@
             });
         });
 
-        $("#crypto_method_wrapper").on("click", ".save", function(){
-            let span_icon = $(this).find(".fa");
-
-            span_icon.removeClass("fa-check");
-            span_icon.addClass("fa-spin fa-circle-o-notch");
-
-            console.log("Item Counter");
-            let item_counter = $(this).data("counter");
-            console.log(item_counter);
-            let crypto_id = $("#crypto_id_"+item_counter).val();
-            let crypto_name = $("#crypto_name_"+item_counter).val();
-            let crypto_address = $("#crypto_address_"+item_counter).val();
-            let crypto_code = $("#crypto_code_"+item_counter).val();
-            console.log("crypto_id");
-            console.log(crypto_id);
-            console.log("crypto_name");
-            console.log(crypto_name);
-            console.log("crypto_address");
-            console.log(crypto_address);
-            console.log("crypto_code");
-            console.log(crypto_code);
-
-            console.log("GUARDAR item");
-            data = {
-                "csrfmiddlewaretoken": $('input[name=csrfmiddlewaretoken]').val(),
-                "crypto_id": crypto_id,
-                "crypto_name": crypto_name,
-                "crypto_code": crypto_code,
-                "crypto_address": crypto_address,
-            };
-            console.log(data);
-            $.ajax({
-                    url: "{% url 'profile_edit_cryptos' %}",
-                    method: "post",
-                    data: data,
-                    success: function(response){
-                        console.log("SUCCESS");
-                        span_icon.removeClass("fa-spin fa-circle-o-notch");
-                        span_icon.addClass("fa-check");
-                    },
-                    error: function(response){
-                        console.log("ERROR");
-                        console.log(response);
-                    }
-                });
+        $("#save_crypto_form").on("click", function(){
+            console.log("submit!");
+            console.log(this);
+            $("crypto_method_form").submit();
         });
 
-        $("#crypto_method_wrapper").on("focusout", ".address", function(){
-            let crypto_code = $(this).parent(".parent_data_div").find(".crypto_code").val();
+        $("#modal_crypto_address").on("focusout", function(){
+            let crypto_code = $("#modal_crypto_code").val();
             console.log(crypto_code);
             if(crypto_code === "ETH"){
                 console.log("address_input:");
@@ -166,32 +154,6 @@
                 }
             }
         });
-
-        $("#new_crypto_method").on("click", function(){
-            counter += 1;
-            console.log(counter);
-            $("#crypto_method_wrapper").append(
-                '<div id ="div_number">'.replace("number", counter) +
-                '<div class="input-group mb-3">' +
-                '<div class="input-group-prepend">' +
-                '<button data-counter="number"'.replace("number", counter) +
-                'type="button" class="btn btn-danger input-group-text delete"><i class="fa fa-times"></i></button></div>' +
-                '<div class="input-group-prepend">' +
-                '<button data-counter="number"'.replace("number", counter) +
-                'type="button" class="btn btn-success input-group-text save"><i class="fa fa-check"></i></button> </div>' +
-                '<input id="crypto_id_number"'.replace("number", counter) +
-                'type="hidden" value="0" class="hidden">' +
-                '<input type="text" class="form-control" id="crypto_name_number"'.replace("number", counter) +
-                'placeholder="Nombre">' +
-                '<input type="text" class="form-control" id="crypto_code_number"'.replace("number", counter) +
-                'placeholder="Código"></div>' +
-                '<input type="text" class="form-control" id="crypto_address_number"'.replace("number", counter) +
-                'placeholder="Dirección de tu billetera (copia y pégala aquí)"></textarea><hr></div>'
-            );
-            console.log("counter: " + counter)
-        });
-
-
     });
     </script>
 {% endblock extra_js %}
