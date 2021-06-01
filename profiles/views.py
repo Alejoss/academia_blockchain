@@ -319,7 +319,7 @@ def profile_edit_cryptos(request):
                     address=crypto_address
                 )
                 logger.info("new_accepted_crypto: %s" % new_accepted_crypto)
-                return HttpResponse("New Contact Method created")
+                return redirect("profile_edit_cryptos")
 
         return HttpResponse("SUCESSS")
     else:

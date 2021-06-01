@@ -15,7 +15,7 @@ urlpatterns = [
     path('profile_edit_picture/', views.profile_edit_picture, name="profile_edit_picture"),
     path('profile_edit_contact/', views.profile_edit_contact, name="profile_edit_contact"),
     path('profile_edit_cryptos/', views.profile_edit_cryptos, name="profile_edit_cryptos"),
-    path('profile_delete_crypto/<int:crypto_id>/', views.profile_delete_crypto, name="profile_delete_crypto"),
+    path('profile_delete_crypto/', views.profile_delete_crypto, name="profile_delete_crypto"),
     path('profile_bookmarks/', views.profile_bookmarks, name="profile_bookmarks"),
     path('profile_cert_requests/', views.profile_cert_requests, name="profile_cert_requests"),
     path('content/', views.content, name="content"),  # Proximamente
@@ -28,5 +28,5 @@ urlpatterns = [
     path('password_reset_done/', views.AcademiaPasswordResetDoneView.as_view(), name="password_reset_done"),
     path('password_reset_confirm/<uidb64>/<token>/', views.AcademiaPasswordResetConfirmView.as_view(), name="password_reset_confirm"),
     path('password_reset_complete/', views.AcademiaPasswordResetCompleteView.as_view(), name="password_reset_complete"),
-    path('resend_activation_email/', views.resend_activation_email, name="resend_activation_email"),
+    path('resend_activation_email/', views.resend_activation_email, name="resend_activation_email")
 ]
