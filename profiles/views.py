@@ -319,9 +319,9 @@ def profile_edit_cryptos(request):
                     address=crypto_address
                 )
                 logger.info("new_accepted_crypto: %s" % new_accepted_crypto)
-                return redirect("profile_edit_cryptos")
 
-        return HttpResponse("SUCESSS")
+        return redirect("profile_edit_cryptos")
+
     else:
         accepted_cryptos = AcceptedCrypto.objects.filter(user=request.user, deleted=False)
         logger.info("accepted_cryptos: %s" % accepted_cryptos)
