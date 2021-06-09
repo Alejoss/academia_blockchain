@@ -1,0 +1,162 @@
+{% extends 'profiles/profile_base.html' %}
+
+{% block profile_content %}
+
+<!-- ====================================
+———	BLOG GRID LEFT SIDEBAR
+===================================== -->
+<div class="col-md-8 col-lg-9 order-md-1">
+    <div class="row">
+        <div class="media-body">
+            <p class="font-size-20 font-weight-medium d-inline-block mb-1">Tus métodos de contacto</p>
+            <small id="" class="form-text text-muted">
+                Edita la forma en que prefieres que te contacten, incluye un link o un número y un mensaje (opcional).
+            </small>
+            <hr>
+        </div>
+    </div>
+
+        <div class="row">
+            <form method="post" id = "contact_method_form">
+                {% csrf_token %}
+                <div id="contact_method_wrapper">
+                {% if contact_methods %}
+                    {% for c in contact_methods %}
+                        <div id="input_wrapper_{{ c.id }}">
+                          <div class="input-group mb-3">
+                            <input disabled type="hidden" value="{{ c.id }}" class="hidden">
+                            <input type="text" class="form-control contactm_name" disabled
+                                   value="{{ c.name }}" placeholder="Facebook, Telegram ...">
+                            <input type="text" class="form-control contactm_url" disabled title="{{ c.url_link }}"
+                                   value="{{ c.url_link }}" placeholder="@ / url / mail / número">
+                            <div class="input-group-append">
+                              <button type="button" class="btn btn-danger input-group-text delete" data-id="{{ c.id }}"
+                                      data-toggle="tooltip" data-placement="left" data-original-title="Eliminar">
+                                  <i class="fa fa-times"></i>
+                              </button>
+                            </div>
+                            <div class="input-group-append">
+                              <button type="button" class="btn btn-warning input-group-text edit" data-id="{{ c.id }}"
+                                      data-toggle="tooltip" data-placement="right" data-original-title="Editar">
+                                  <i class="fa fa-edit"></i>
+                              </button>
+                            </div>
+                          </div>
+                          <textarea type="text" class="form-control contactm_description" disabled
+                                    placeholder="Envíame un mensaje, estoy conectado en las tardes">{{ c.description }}
+                          </textarea>
+                          <hr>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+                </div>
+            </form>
+        </div>
+        <button id="new_contact_method" class="btn btn-success text-uppercase" data-toggle="modal"
+                data-target="#modalAddContactMethod">
+                Sumar Nuevo Método de Contacto
+        </button>
+
+        <div class="modal fade mb-8" id="modalAddContactMethod" tabindex="-1" role="dialog" style="display: none;" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Sumar Nueva Criptomoneda Preferida</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">×</span>
+              </button>
+            </div>
+              <form action="{% url 'profile_edit_contactm' %}" method="post" id="contactm_form">
+                  {% csrf_token %}
+                <div class="modal-body">
+                      <div class="input-group mb-3">
+                        <input name="contactm_id" id="modal_contactm_id" type="hidden" value="0" class="hidden">
+                        <input name="contactm_name" id="modal_contactm_name" type="text" class="form-control"
+                               placeholder="Nombre">
+                        <input name="contactm_url" id="modal_contactm_url" type="text" class="form-control"
+                               placeholder="URL / EMAIL / # ">
+                      </div>
+                      <input name="contactm_description" id="modal_contactm_description" type="text" class="form-control"
+                                placeholder="Ej. Envíame un mensaje, estoy conectado durante las tardes" value="">
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                  <button type="submit" id="save_crypto_form" class="btn btn-success">Guardar</button>
+                </div>
+              </form>
+          </div>
+        </div>
+        </div>
+</div>
+{% endblock profile_content %}
+
+
+{% block extra_js %}
+    <script>
+    $( document ).ready(function() {
+
+        $("#contact_method_wrapper").on("click", ".delete", function(){
+            let contactm_id = $(this).data("id");
+            let item_div = $("#input_wrapper_{{ contactm_id }}");
+            item_div.hide();
+            console.log("Contact ID");
+            console.log(contactm_id);
+            data = {
+                "csrfmiddlewaretoken": $('input[name=csrfmiddlewaretoken]').val(),
+                "contactm_id": contactm_id,
+            };
+            console.log(data);
+            $.ajax({
+                url: "{% url 'profile_delete_contactm' %}",
+                method: "post",
+                data: data,
+                success: function(response){
+                    console.log("SUCCESS");
+                },
+                error: function(response){
+                    console.log("ERROR");
+                    console.log(response);
+                }
+            });
+        });
+
+        $("#contact_method_wrapper").on("click", ".edit", function(){
+
+            let contactm_id = $(this).data("id");
+            let item_div = $("#input_wrapper_"+contactm_id);
+            let contactm_name = item_div.find(".contactm_name").val();
+            let contactm_url = item_div.find(".contactm_url").val();
+            let contactm_description = item_div.find(".contactm_description").val();
+
+            console.log("contactm_id");
+            console.log(contactm_id);
+            console.log("contactm_name");
+            console.log(contactm_name);
+            console.log("contactm_url");
+            console.log(contactm_url);
+            console.log("contactm_description");
+            console.log(contactm_description);
+
+            $("#modal_contactm_id").val(contactm_id);
+            $("#modal_contactm_name").val(contactm_name);
+            $("#modal_contactm_url").val(contactm_url);
+            $("#modal_contactm_description").val(contactm_description);
+            $("#modalAddContactMethod").modal("show");
+        });
+
+        $("#new_contact_method").on("click", function(){
+            $("#modal_contactm_id").val("");
+            $("#modal_contactm_name").val("");
+            $("#modal_contactm_url").val("");
+            $("#modal_contactm_description").val("");
+            $("#modalAddCrypto").modal("show");
+        });
+
+        $("#save_crypto_form").on("click", function(){
+            console.log("submit!");
+            console.log(this);
+            $("crypto_method_form").submit();
+        });
+    });
+    </script>
+{% endblock extra_js %}

@@ -52,7 +52,7 @@
             </form>
         </div>
 
-        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#modalAddCrypto">
+        <button id="new_preferred_crypto" type="button" class="btn btn-success" data-toggle="modal" data-target="#modalAddCrypto">
             Sumar nueva cripto preferida
         </button>
 
@@ -148,6 +148,14 @@
             $("#modal_crypto_address").val(crypto_address);
             $("#modalAddCrypto").modal("show");
         })
+
+        $("#new_preferred_crypto").on("click", function(){
+            $("#modal_crypto_id").val("");
+            $("#modal_crypto_name").val("");
+            $("#modal_crypto_code").val("");
+            $("#modal_crypto_address").val("");
+            $("#modalAddCrypto").modal("show");
+        });
 
         $("#save_crypto_form").on("click", function(){
             console.log("submit!");

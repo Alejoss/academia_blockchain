@@ -13,8 +13,9 @@ urlpatterns = [
     path('profile_activate/<str:uid>/<str:token>/', views.activate_account, name="activate_account"),
 
     path('profile_edit_picture/', views.profile_edit_picture, name="profile_edit_picture"),
-    path('profile_edit_contact/', views.profile_edit_contact, name="profile_edit_contact"),
+    path('profile_edit_contactm/', views.profile_edit_contactm, name="profile_edit_contactm"),
     path('profile_edit_cryptos/', views.profile_edit_cryptos, name="profile_edit_cryptos"),
+    path('profile_delete_contactm/', views.profile_delete_contactm, name="profile_delete_contactm"),
     path('profile_delete_crypto/', views.profile_delete_crypto, name="profile_delete_crypto"),
     path('profile_bookmarks/', views.profile_bookmarks, name="profile_bookmarks"),
     path('profile_cert_requests/', views.profile_cert_requests, name="profile_cert_requests"),

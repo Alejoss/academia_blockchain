@@ -204,43 +204,44 @@ def user_profile(request, profile_id):
 
 
 @login_required
-def profile_edit_contact(request):
-    template = "profiles/profile_edit_contact.html"
+def profile_edit_contactm(request):
+    template = "profiles/profile_edit_contactm.html"
 
     if request.method == "POST":
-        contact_id = request.POST.get("contact_id")
-        contact_name = request.POST.get("contact_name")
-        contact_url = request.POST.get("contact_url")
-        contact_description = request.POST.get("contact_text")
+        contactm_id = request.POST.get("contactm_id")
+        contactm_name = request.POST.get("contactm_name")
+        contactm_url = request.POST.get("contactm_url")
+        contactm_description = request.POST.get("contactm_description")
 
-        logger.info("contact_id: %s" % contact_id)
-        logger.info("contact_name: %s" % contact_name)
-        logger.info("contact_url: %s" % contact_url)
-        logger.info("contact_description: %s" % contact_description)
+        logger.info("contactm_id: %s" % contactm_id)
+        logger.info("contactm_name: %s" % contactm_name)
+        logger.info("contactm_url: %s" % contactm_url)
+        logger.info("contactm_description: %s" % contactm_description)
 
-        if int(contact_id) > 0:  # ContactMethod existente
+        # TODO test this
+        if int(contactm_id) > 0:  # ContactMethod existente
             try:
-                obj = ContactMethod.objects.get(id=contact_id)
+                obj = ContactMethod.objects.get(id=contactm_id)
             except Exception as e:
-                logger.warning("contact_id not found: %s" % contact_id)
+                logger.warning("contactm_id not found: %s" % contactm_id)
                 return HttpResponse("Contact Method not found", status=404)
-            if contact_name == "0":
+            if contactm_name == "0":
                 # Delete ContactMethod - Esto puede mejorar
                 logger.info("delete contact_method")
                 obj.deleted = True
                 obj.save()
             else:
-                obj.name = contact_name
-                obj.url_link = contact_url
-                obj.description = contact_description
+                obj.name = contactm_name
+                obj.url_link = contactm_url
+                obj.description = contactm_description
                 obj.save()
         else:  # Crear nuevo ContactMethod
-            if len(contact_name) > 1:
+            if len(contactm_name) > 1:
                 new_contact_method = ContactMethod.objects.create(
                     user=request.user,
-                    name=contact_name,
-                    url_link=contact_url,
-                    description=contact_description
+                    name=contactm_name,
+                    url_link=contactm_url,
+                    description=contactm_description
                 )
                 logger.info("new_contact_method: %s" % new_contact_method)
                 return HttpResponse("New Contact Method created")
@@ -328,6 +329,18 @@ def profile_edit_cryptos(request):
 
         context = {"accepted_cryptos": accepted_cryptos}
         return render(request, template, context)
+
+
+@login_required
+def profile_delete_contactm(request):
+    if request.method == "POST":
+        contactm_id = request.POST.get("contactm_id")
+        contactm = get_object_or_404(ContactMethod, id=contactm_id)
+        contactm.deleted = True
+        contactm.save()
+        return HttpResponse(status=201)
+    else:
+        return HttpResponse(status=400)
 
 
 @login_required
