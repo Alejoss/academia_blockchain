@@ -97,7 +97,7 @@
 
         $("#contact_method_wrapper").on("click", ".delete", function(){
             let contactm_id = $(this).data("id");
-            let item_div = $("#input_wrapper_{{ contactm_id }}");
+            let item_div = $("#input_wrapper_"+contactm_id);
             item_div.hide();
             console.log("Contact ID");
             console.log(contactm_id);
@@ -145,7 +145,7 @@
         });
 
         $("#new_contact_method").on("click", function(){
-            $("#modal_contactm_id").val("");
+            $("#modal_contactm_id").val("0");
             $("#modal_contactm_name").val("");
             $("#modal_contactm_url").val("");
             $("#modal_contactm_description").val("");

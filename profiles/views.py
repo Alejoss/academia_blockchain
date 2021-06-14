@@ -218,35 +218,26 @@ def profile_edit_contactm(request):
         logger.info("contactm_url: %s" % contactm_url)
         logger.info("contactm_description: %s" % contactm_description)
 
-        # TODO test this
         if int(contactm_id) > 0:  # ContactMethod existente
             try:
                 obj = ContactMethod.objects.get(id=contactm_id)
             except Exception as e:
                 logger.warning("contactm_id not found: %s" % contactm_id)
                 return HttpResponse("Contact Method not found", status=404)
-            if contactm_name == "0":
-                # Delete ContactMethod - Esto puede mejorar
-                logger.info("delete contact_method")
-                obj.deleted = True
-                obj.save()
-            else:
-                obj.name = contactm_name
-                obj.url_link = contactm_url
-                obj.description = contactm_description
-                obj.save()
-        else:  # Crear nuevo ContactMethod
-            if len(contactm_name) > 1:
-                new_contact_method = ContactMethod.objects.create(
-                    user=request.user,
-                    name=contactm_name,
-                    url_link=contactm_url,
-                    description=contactm_description
-                )
-                logger.info("new_contact_method: %s" % new_contact_method)
-                return HttpResponse("New Contact Method created")
 
-        return HttpResponse("SUCESSS")
+            obj.name = contactm_name
+            obj.url_link = contactm_url
+            obj.description = contactm_description
+            obj.save()
+        else:  # Crear nuevo ContactMethod
+            new_contact_method = ContactMethod.objects.create(
+                user=request.user,
+                name=contactm_name,
+                url_link=contactm_url,
+                description=contactm_description
+            )
+            logger.info("new_contact_method: %s" % new_contact_method)
+        return redirect('profile_edit_contactm')
     else:
         contact_methods = ContactMethod.objects.filter(user=request.user, deleted=False)
         logger.info("contact_methods: %s" % contact_methods)
