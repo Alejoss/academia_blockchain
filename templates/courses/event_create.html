@@ -54,18 +54,20 @@
 
             <div class="form-group">
                 <label for="title">
-                    Titulo
+                    Titulo*
                 </label>
                 <input type="text" class="form-control" id="title" name="title"/>
             </div>
             <div class="form-group">
                 <label for="description">
-                    Descripción
+                    Descripción*
                 </label>
                 <textarea class="form-control" id="description" rows="7" name="description"></textarea>
             </div>
 
-            <label class="my-1 mr-2" for="">Plataforma</label>
+            <label class="my-1 mr-2" for="">
+                Plataforma
+            </label>
               <select class="custom-select my-1 mr-sm-2" id="platform_select" name="platform_name">
                     {% for platform in platforms %}
                         <option value="{{ platform.name }}">{{ platform.name }}</option>
@@ -135,13 +137,13 @@
                 <label for="title">
                     Tags
                 </label>
-                <div data-tags-input-name="tags" id="tagBox"></div>
+                <div data-tags-input-name="tags" id="tagBox" class=""></div>
                 <small id="" class="form-text text-muted">
                     Tags separados por comas.
                 </small>
             </div>
 
-            <div class="input-group">
+            <div class="form-group">
               <label for="id_profile_picture">Imagen del Evento: </label>
                 <input type="file" name="event_picture" accept="image/*" id="id_event_picture">
             </div>
@@ -159,7 +161,9 @@
             {% if user_contact_methods %}
                 Por ahora son:
                 {% for c in user_contact_methods %}
-                    "{{ c.name }}"
+                    {% if not c.deleted %}
+                        "{{ c.name }}"
+                    {% endif %}
                 {% endfor %}
             {% else %}
                 <strong>Por ahora no tienes métodos de contacto guardados, es importante que compartas una forma para contactarte!</strong>
@@ -181,62 +185,79 @@
 {% block extra_js %}
 <script src="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.js"></script>
 <script src='{% static 'assets/js/tagging.min.js' %}'></script>
+<script src='{% static 'assets/js/jquery.validate.js' %}'></script>
 
-    <script>
-        $( document ).ready(function() {
-            $('.datepicker').datepicker({
-                format: 'dd/mm/yyyy',
-            });
-
-            $('#radio_live_course').prop("checked", true);
-            $("#event_recurrent").hide();
-            $('#input_record_date').hide()
-
-            $("#submit_form").on("click", function () {
-                console.log("SUBMIT!!")
-                $("#event_create_form").submit();
-            })
-
-            $('.timepicker').timepicker({
-                timeFormat: 'h:mm p',
-                interval: 30,
-                minTime: '6',
-                defaultTime: '12',
-                dynamic: false,
-                dropdown: true,
-                scrollbar: true
-            });
-            tinymce.init({
-              selector: '#description'
-            });
-
-            $('#radio_pre_recorded').on("click", function(){
-                // Es un video grabado.
-                $("#input_date_start").hide();
-                $("#input_date_end").hide();
-                $("#input_time_day").hide();
-                $("#event_recurrent").hide();
-                $('#input_record_date').show();
-            });
-
-            $('#radio_event_single').on("click", function(){
-                $("#input_date_start").show();
-                $("#input_date_end").show();
-                $("#input_time_day").show();
-                $("#event_recurrent").show();
-                $('#input_record_date').hide();
-            });
-
-            $('#radio_live_course').on("click", function(){
-                $("#input_date_start").show();
-                $("#input_date_end").show();
-                $("#input_time_day").show();
-                $("#event_recurrent").hide();
-                $('#input_record_date').hide();
-            });
-
-            var t = $( "#tagBox" ).tagging();
-            t[0].addClass( "form-control" );
+<script>
+    $( document ).ready(function() {
+        $('.datepicker').datepicker({
+            format: 'dd/mm/yyyy',
         });
-    </script>
+
+        $('#radio_live_course').prop("checked", true);
+        $("#event_recurrent").hide();
+        $('#input_record_date').hide();
+
+        $('.timepicker').timepicker({
+            timeFormat: 'h:mm p',
+            interval: 30,
+            minTime: '6',
+            defaultTime: '12',
+            dynamic: false,
+            dropdown: true,
+            scrollbar: true
+        });
+        tinymce.init({
+          selector: '#description'
+        });
+
+        $('#radio_pre_recorded').on("click", function(){
+            // Es un video grabado.
+            $("#input_date_start").hide();
+            $("#input_date_end").hide();
+            $("#input_time_day").hide();
+            $("#event_recurrent").hide();
+            $('#input_record_date').show();
+        });
+
+        $('#radio_event_single').on("click", function(){
+            $("#input_date_start").show();
+            $("#input_date_end").show();
+            $("#input_time_day").show();
+            $("#event_recurrent").show();
+            $('#input_record_date').hide();
+        });
+
+        $('#radio_live_course').on("click", function(){
+            $("#input_date_start").show();
+            $("#input_date_end").show();
+            $("#input_time_day").show();
+            $("#event_recurrent").hide();
+            $('#input_record_date').hide();
+        });
+
+        var t = $( "#tagBox" ).tagging();
+        t[0].addClass( "form-control" );
+        $("#tagBox").find(".type-zone").attr("name", "tag");
+
+        $("#event_create_form").validate({
+            rules: {
+                title : {
+                    required: true,
+                    minlength: 2
+                },
+                description: {
+                    required: true,
+                    minlength: 10
+                }
+            },
+            messages: {
+                title: "¿Cuál es el título del evento?",
+            },
+            submitHandler: function(form) {
+                console.log("submit!");
+                form.submit();
+            }
+        });
+    });
+</script>
 {% endblock %}

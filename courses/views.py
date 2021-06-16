@@ -154,8 +154,10 @@ def event_create(request):
         profile = Profile.objects.get(user=request.user)
         logger.info("platforms: %s" % platforms)
         logger.info("profile.email_confirmed: %s" % profile.email_confirmed)
+        user_contact_methods = ContactMethod.objects.filter(user=request.user)
 
-        context = {"event_index_active": "active", "platforms": platforms, "profile": profile}
+        context = {"event_index_active": "active", "platforms": platforms, "profile": profile,
+                   "user_contact_methods": user_contact_methods}
         return render(request, template, context)
 
     elif request.method == "POST":
