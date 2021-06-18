@@ -19,37 +19,50 @@
     {% if profile.email_confirmed %}
         <form method="post" id="event_create_form" role="form" action="{% url 'event_create' %}" enctype="multipart/form-data">
             {% csrf_token %}
-            <div class="form-group">
-                <label for="Tipo">
-                    ¿Qué quieres crear?
-                </label>
-                <div class="form-check">
-                  <input class="form-check-input" type="radio" name="event_type_description" id="radio_pre_recorded" value="pre_recorded">
-                  <label class="form-check-label" for="event_type_description">
-                    CURSO PRE GRABADO - <strong>Ya grabaste el curso.</strong>
-                  </label>
+            <div class="col-md-8">
+                <div class="form-group">
+                    <label for="Tipo">
+                        ¿Qué quieres crear?
+                    </label>
+                    <div class="form-check">
+                      <input class="form-check-input" type="radio" name="event_type_description" id="radio_pre_recorded" value="pre_recorded">
+                      <label class="form-check-label" for="event_type_description">
+                        CURSO PRE GRABADO - <strong>Ya grabaste el curso.</strong>
+                      </label>
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input" type="radio" name="event_type_description" id="radio_live_course" value="live_course">
+                      <label class="form-check-label" for="event_type_description">
+                        CURSO ONLINE - <strong>Vas a dar el curso.</strong>
+                      </label>
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input" type="radio" name="event_type_description" id="radio_live_course" value="live_course">
+                      <label class="form-check-label" for="event_type_description">
+                        EXAMEN - <strong>Vas a evaluar conocimiento y entregar un certificado.</strong>
+                      </label>
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input" type="radio" name="event_type_description" id="radio_event_single" value="event_single">
+                      <label class="form-check-label" for="event_type_description">
+                        EVENTO - <strong> Se viene una conferencia, una conversación, una clase maestra.</strong>
+                      </label>
+                    </div>
                 </div>
-                <div class="form-check">
-                  <input class="form-check-input" type="radio" name="event_type_description" id="radio_live_course" value="live_course">
-                  <label class="form-check-label" for="event_type_description">
-                    CURSO ONLINE - <strong>Vas a dar el curso.</strong>
-                  </label>
-                </div>
-                <div class="form-check">
-                  <input class="form-check-input" type="radio" name="event_type_description" id="radio_event_single" value="event_single">
-                  <label class="form-check-label" for="event_type_description">
-                    EVENTO - <strong> Se viene una conferencia, una conversación, una clase maestra.</strong>
-                  </label>
+
+                <div class="form-check" id="event_recurrent">
+                    <input type="checkbox" class="form-check-input" name="event_recurrent"/>
+                    <label class="form-check-label" for="event_recurrent">
+                        Evento Recurrente - <strong> Un evento que se repite, y se repite y ...</strong>
+                    </label>
                 </div>
             </div>
-
-            <div class="form-check" id="event_recurrent">
-                <input type="checkbox" class="form-check-input" name="event_recurrent"/>
-                <label class="form-check-label" for="event_recurrent">
-                    Evento Recurrente - <strong> Un evento que se repite, y se repite y ...</strong>
-                </label>
+            <div class="col-md-4">
+                <img id="diamante_amarillo" title="Evento" src="{% static 'assets/img/diamante_amarillo.png' %}" class="" alt="">
+                <img id="diamante_naranja" title="Evento" src="{% static 'assets/img/diamante_naranja.png' %}" class="" alt="">
+                <img id="diamante_magenta" title="Evento" src="{% static 'assets/img/diamante_magenta.png' %}" class="" alt="">
+                <img id="diamante_verde" title="Evento" src="{% static 'assets/img/diamante_verde.png' %}" class="" alt="">
             </div>
-
             <hr>
 
             <div class="form-group">
@@ -194,6 +207,12 @@
         });
 
         $('#radio_live_course').prop("checked", true);
+        $('#diamante_amarillo').hide();
+        $('#diamante_naranja').hide();
+        $('#diamante_magenta').show();
+        $('#diamante_verde').hide();
+
+
         $("#event_recurrent").hide();
         $('#input_record_date').hide();
 
@@ -217,22 +236,39 @@
             $("#input_time_day").hide();
             $("#event_recurrent").hide();
             $('#input_record_date').show();
+
+            $('#diamante_amarillo').hide();
+            $('#diamante_naranja').show();
+            $('#diamante_magenta').hide();
+            $('#diamante_verde').hide();
         });
 
         $('#radio_event_single').on("click", function(){
+            // es un evento que se va a dar online en vivo
             $("#input_date_start").show();
             $("#input_date_end").show();
             $("#input_time_day").show();
             $("#event_recurrent").show();
             $('#input_record_date').hide();
+
+            $('#diamante_amarillo').hide();
+            $('#diamante_naranja').hide();
+            $('#diamante_magenta').hide();
+            $('#diamante_verde').show();
         });
 
         $('#radio_live_course').on("click", function(){
+            // es un curso que se va a dar online
             $("#input_date_start").show();
             $("#input_date_end").show();
             $("#input_time_day").show();
             $("#event_recurrent").hide();
             $('#input_record_date').hide();
+
+            $('#diamante_amarillo').hide();
+            $('#diamante_naranja').hide();
+            $('#diamante_magenta').show();
+            $('#diamante_verde').hide();
         });
 
         var t = $( "#tagBox" ).tagging();

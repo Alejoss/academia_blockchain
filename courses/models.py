@@ -17,7 +17,8 @@ class Event(models.Model):
     Puede ser un Curso grabado o en vivo, Conferencia, Actividad Recurrente y otros.
     """
     EVENT_TYPES = (("COURSE", "Course"),
-                   ("EVENT", "Event"))
+                   ("EVENT", "Event"),
+                   ("EXAM", "Exam"))
     is_recurrent = models.BooleanField(default=False, null=True)
     is_recorded = models.BooleanField(default=False, null=True)
     event_type = models.CharField(max_length=50, choices=EVENT_TYPES, blank=True)

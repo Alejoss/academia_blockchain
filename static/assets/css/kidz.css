@@ -45,7 +45,7 @@
 }
 
 html {
-  font-family: sans-serif;
+  font-family: 'Poppins', sans-serif;
   line-height: 1.15;
   -webkit-text-size-adjust: 100%;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
@@ -57,7 +57,7 @@ article, aside, figcaption, figure, footer, header, hgroup, main, nav, section {
 
 body {
   margin: 0;
-  font-family: "Open Sans", sans-serif;
+  font-family: "Poppins", sans-serif;
   font-size: 0.875rem;
   font-weight: 400;
   /*line-height: 1.5;*/
@@ -7480,7 +7480,7 @@ button.bg-stone:focus {
     display: flex !important;
   }
   .d-md-inline-flex {
-    display: -webkit-inline-box !important;
+    /*display: -webkit-inline-box !important;*/
     display: inline-flex !important;
   }
 }
@@ -7544,7 +7544,7 @@ button.bg-stone:focus {
     display: flex !important;
   }
   .d-xl-inline-flex {
-    display: -webkit-inline-box !important;
+    /*display: -webkit-inline-box !important;*/
     display: inline-flex !important;
   }
 }
@@ -12216,8 +12216,8 @@ a:hover {
 }
 
 /* Font Family */
-.font-dosis {
-  font-family: "Dosis", sans-serif;
+.font-Poppins {
+  font-family: "Poppins", sans-serif;
 }
 
 .font-inherit {
@@ -12489,7 +12489,7 @@ a:hover {
   text-align: center;
   font-weight: 600;
   font-size: 2.5rem;
-  font-family: "Dosis", sans-serif;
+  font-family: "Poppins", sans-serif;
   background-color: rgba(60, 60, 60, 0.5);
 }
 
@@ -13179,7 +13179,7 @@ a:hover {
 
 @media (min-width: 992px) {
   .navbar-expand-lg .dropdown-menu.row.show .list-unstyled li:first-child {
-    font-family: "Dosis", sans-serif;
+    font-family: "Poppins", sans-serif;
     font-size: 1.5rem;
     font-weight: 700;
     margin: 0 auto 0.625rem;
@@ -13520,7 +13520,7 @@ a:hover {
 @media (min-width: 768px) {
   .dropdown-menu.row.show .list-unstyled li:first-child {
     margin-bottom: 0.625rem;
-    font-family: "Dosis", sans-serif;
+    font-family: "Poppins", sans-serif;
     font-size: 1.5rem;
     font-weight: 700;
   }
@@ -14094,19 +14094,19 @@ a:hover {
 
 .card .card-header-lg h3 {
   font-size: 2.15rem;
-  font-family: "Dosis", sans-serif;
+  font-family: "Poppins", sans-serif;
   font-weight: 600;
 }
 
 .card .card-body .card-title {
   font-size: 1.5rem;
-  font-family: "Dosis", sans-serif;
+  font-family: "Poppins", sans-serif;
   font-weight: 700;
 }
 
 .card .card-body .pricing-price {
   font-size: 2.13rem;
-  font-family: "Dosis", sans-serif;
+  font-family: "Poppins", sans-serif;
   font-weight: 600;
   line-height: 28px;
 }
@@ -14151,7 +14151,7 @@ a:hover {
 
 .card-border .card-body h5 {
   font-size: 1.125rem;
-  font-family: "Dosis", sans-serif;
+  font-family: "Poppins", sans-serif;
   font-weight: 700;
 }
 
@@ -14331,7 +14331,7 @@ a:hover {
   color: #fff;
   font-weight: bold;
   font-size: 1.25rem;
-  font-family: "Dosis", sans-serif;
+  font-family: "Poppins", sans-serif;
 }
 
 @media (min-width: 1200px) {
@@ -14457,7 +14457,7 @@ a:hover {
 }
 
 .section-title h2 {
-  font-family: "Dosis", sans-serif;
+  font-family: "Poppins", sans-serif;
   font-size: 2.25rem;
   text-transform: capitalize;
   font-weight: 700;
@@ -14500,7 +14500,7 @@ a:hover {
 
 /* Media */
 .media .media-body h3 {
-  font-family: "Dosis", sans-serif;
+  font-family: "Poppins", sans-serif;
   font-weight: 700;
   text-transform: capitalize;
   font-size: 1.5rem;
@@ -14855,13 +14855,13 @@ a:hover {
 
 .pricing-list .pricing-plan h3 {
   font-size: 2.13rem;
-  font-family: "Dosis", sans-serif;
+  font-family: "Poppins", sans-serif;
   font-weight: 600;
 }
 
 .pricing-list .pricing-plan .pricing-price {
   font-size: 2.13rem;
-  font-family: "Dosis", sans-serif;
+  font-family: "Poppins", sans-serif;
   font-weight: 600;
   line-height: 28px;
 }
@@ -15594,7 +15594,7 @@ a:hover {
 
 .list-item-lg li {
   font-size: 1.13rem;
-  font-family: "Dosis", sans-serif;
+  font-family: "Poppins", sans-serif;
   margin-bottom: 1rem;
   color: #666;
 }
@@ -15809,7 +15809,7 @@ a:hover {
 /* Badge Wide */
 .badge-large {
   position: absolute;
-  font-family: "Dosis", sans-serif;
+  font-family: "Poppins", sans-serif;
   font-size: 1.25rem;
   color: #fff;
   text-transform: capitalize;
@@ -16219,7 +16219,7 @@ a:hover {
   border-radius: 7px;
   background-color: #f8f8f8;
   box-shadow: 0 4px 0 rgba(0, 0, 0, 0.1);
-  font-family: dosis,sans-serif;
+  font-family: Poppins,sans-serif;
 }
 
 .comming-soon-count .timer-body-block .table-cell.day {
@@ -16890,7 +16890,7 @@ img.lazyestload {
 
 .progress-wizard .progress-info {
   text-align: center;
-  font-family: 'Dosis', sans-serif;
+  font-family: 'Poppins', sans-serif;
   font-weight: 600;
   font-size: 1rem;
   color: #222222;
@@ -16916,7 +16916,7 @@ img.lazyestload {
 
 /* Tables */
 .table td span {
-  font-family: "Dosis", sans-serif;
+  font-family: "Poppins", sans-serif;
 }
 
 .table tr th i {
@@ -17262,8 +17262,8 @@ html[dir="rtl"] .team-slider .card .card-img-wrapper .card-img-overlay .list-uns
 
 .card_main {
   height: 390px;
+  position: relative;
 }
-
 
 @media (max-width: 1200px) {
   .card_main{
@@ -17284,4 +17284,19 @@ html[dir="rtl"] .team-slider .card .card-img-wrapper .card-img-overlay .list-uns
   align-items: center;
   padding-top: 20px;
   padding-left:15px;
+}
+
+.diamond {
+  width: 20px;
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  z-index: 9;
+}
+
+html {
+  font-family: 'Poppins', sans-serif;
+  line-height: 1.15;
+  -webkit-text-size-adjust: 100%;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
