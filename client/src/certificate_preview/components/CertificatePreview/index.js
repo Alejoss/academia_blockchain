@@ -6,7 +6,7 @@ import './index.sass';
 
 const CertificatePreview = ({ certificateData }) => {
 	const certificateNode = useRef(null);
-	const styleFlexCenterColumn = 'd-flex justify-content-center align-items-center flex-column';
+	const styleFlexCenterColumn = 'd-flex justify-content-center align-items-center flex-column mt-3';
 	const handleDownload = (ref) => {
 		html2canvas(ref.current).then((canvas) => {
 			const link = document.createElement('a');
@@ -34,13 +34,7 @@ const CertificatePreview = ({ certificateData }) => {
 							<div className="certificate__pre-title text-center">ha completado exitosamente la certificación en</div>
 							<div className="certificate__title">{certificateData.event_title}</div>
 							<div className="certificate__author text-center">Dictado por: {certificateData.event_owner_username}</div>
-							<div className="certificate__description text-center">{certificateData.event_description}</div>
 						</main>
-						<footer className={styleFlexCenterColumn}>
-							<div className="certificate__footer text-break mt-3">
-								Este certificado todavía no figura en la blockchain
-							</div>
-						</footer>
 					</div>
 				</div>
 			</div>
