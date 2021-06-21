@@ -37,7 +37,7 @@
                       </label>
                     </div>
                     <div class="form-check">
-                      <input class="form-check-input" type="radio" name="event_type_description" id="radio_live_course" value="live_course">
+                      <input class="form-check-input" type="radio" name="event_type_description" id="radio_exam" value="exam">
                       <label class="form-check-label" for="event_type_description">
                         EXAMEN - <strong>Vas a evaluar conocimiento y entregar un certificado.</strong>
                       </label>
@@ -208,8 +208,8 @@
 
         $('#radio_live_course').prop("checked", true);
         $('#diamante_amarillo').hide();
-        $('#diamante_naranja').hide();
-        $('#diamante_magenta').show();
+        $('#diamante_naranja').show();
+        $('#diamante_magenta').hide();
         $('#diamante_verde').hide();
 
 
@@ -238,13 +238,43 @@
             $('#input_record_date').show();
 
             $('#diamante_amarillo').hide();
-            $('#diamante_naranja').show();
+            $('#diamante_naranja').hide();
+            $('#diamante_magenta').show();
+            $('#diamante_verde').hide();
+        });
+
+
+        $('#radio_live_course').on("click", function(){
+            // es un curso que se va a dar online
+            $("#input_date_start").show();
+            $("#input_date_end").show();
+            $("#input_time_day").show();
+            $("#event_recurrent").hide();
+            $('#input_record_date').hide();
+
+            $('#diamante_amarillo').hide();
+            $('#diamante_naranja').show(); // Azul
             $('#diamante_magenta').hide();
             $('#diamante_verde').hide();
         });
 
+        $('#radio_exam').on("click", function(){
+            // es un examen que se toma una vez
+            $("#input_date_start").show();
+            $("#input_date_end").show();
+            $("#input_time_day").show();
+            $("#event_recurrent").show();
+            $('#input_record_date').hide();
+
+            $('#diamante_amarillo').show();
+            $('#diamante_naranja').hide();
+            $('#diamante_magenta').hide();
+            $('#diamante_verde').hide();
+        });
+
+
         $('#radio_event_single').on("click", function(){
-            // es un evento que se va a dar online en vivo
+            // es un evento que se va a dar online en vivo, puede ser marcado como recurrente
             $("#input_date_start").show();
             $("#input_date_end").show();
             $("#input_time_day").show();
@@ -257,19 +287,6 @@
             $('#diamante_verde').show();
         });
 
-        $('#radio_live_course').on("click", function(){
-            // es un curso que se va a dar online
-            $("#input_date_start").show();
-            $("#input_date_end").show();
-            $("#input_time_day").show();
-            $("#event_recurrent").hide();
-            $('#input_record_date').hide();
-
-            $('#diamante_amarillo').hide();
-            $('#diamante_naranja').hide();
-            $('#diamante_magenta').show();
-            $('#diamante_verde').hide();
-        });
 
         var t = $( "#tagBox" ).tagging();
         t[0].addClass( "form-control" );
