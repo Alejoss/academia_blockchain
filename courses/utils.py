@@ -74,6 +74,7 @@ def get_event_data_request(request):
         platform_obj = ConnectionPlatform.objects.get(name=platform_name)
     except Exception as e:
         logger.warning("ERROR saving platform name")
+        logger.warning(e)
         platform_obj = None
 
     event_data = {

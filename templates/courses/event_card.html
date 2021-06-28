@@ -4,9 +4,13 @@
     {% if event.event_type == 'EVENT' %}
         <img title="Evento" src="{% static 'assets/img/diamante_verde.png' %}" class="diamond" alt="">
     {% elif event.event_type == 'COURSE' %}
-        <img title="Curso Online" src="{% static 'assets/img/diamante_amarillo.png' %}" class="diamond" alt="">
+        {% if event.is_recorded %}
+            <img title="Curso Pre Grabado" src="{% static 'assets/img/diamante_magenta.png' %}" class="diamond" alt="">
+        {% else %}
+            <img title="Curso Online" src="{% static 'assets/img/diamante_amarillo.png' %}" class="diamond" alt="">
+        {% endif %}
     {% elif event.event_type == 'EXAM' %}
-        <img title="Examen" src="{% static 'assets/img/diamante_naranja.png' %}" class="diamond" alt="">
+        <img title="Examen" src="{% static 'assets/img/diamante_azul.png' %}" class="diamond" alt="">
     {% endif %}
       <a href="{% url 'event_detail' event.id %}" class="position-relative">
           {% if event.image %}
@@ -27,8 +31,25 @@
                 <i class="fa fa-user-circle-o mr-2" aria-hidden="true"></i>{{ event.owner.username }}
             </li>
             <li class="mb-2">
-                {% if event.is_recorded %}
+                {% if event.event_type == "COURSE" %}
                     {% if event.is_recorded %}
+                        <i class="fa fa-play-circle mr-2" aria-hidden="true"></i>Curso Pre Grabado
+                    {% else %}
+                        <i class="fa fa-video-camera mr-2" aria-hidden="true"></i>Curso en Vivo
+                    {% endif %}
+                {% elif event.event_type == "EVENT" %}
+                    {% if event.is_recurrent %}
+                        <i class="fa fa-calendar mr-2" aria-hidden="true"></i>Evento Recurrente
+                    {% else %}
+                        <i class="fa fa-tag mr-2" aria-hidden="true"></i>Evento
+                    {% endif %}
+                {% elif event.event_type == "EXAM" %}
+                    <i class="fa fa-certificate mr-2" aria-hidden="true"></i>Examen
+                {% endif %}
+            </li>
+            <li class="mb-2">
+                {% if event.is_recorded %}
+                    {% if event.date_recorded %}
                         <span title="Fecha de Grabación">
                             <i class="fa fa-clock-o mr-2" aria-hidden="true"></i>
                             {{ event.date_recorded|date:"SHORT_DATE_FORMAT" }}
@@ -46,21 +67,6 @@
                     {% endif %}
                     {% if event.date_end %}
                         - {{ event.date_end|date:"SHORT_DATE_FORMAT" }}
-                    {% endif %}
-                {% endif %}
-            </li>
-            <li class="mb-2">
-                {% if event.event_type == "COURSE" %}
-                    {% if event.is_recorded %}
-                        <i class="fa fa-play-circle mr-2" aria-hidden="true"></i>Curso Pre Grabado
-                    {% else %}
-                        <i class="fa fa-video-camera mr-2" aria-hidden="true"></i>Curso en Vivo
-                    {% endif %}
-                {% elif event.event_type == "EVENT" %}
-                    {% if event.is_recurrent %}
-                        <i class="fa fa-calendar mr-2" aria-hidden="true"></i>Evento Recurrente
-                    {% else %}
-                        <i class="fa fa-tag mr-2" aria-hidden="true"></i>Evento
                     {% endif %}
                 {% endif %}
             </li>

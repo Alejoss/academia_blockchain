@@ -105,10 +105,27 @@
                         <button id="event_bookmark" type="button" class="btn btn-info"><i class="fa fa-star"></i> Me Interesa - Guardar</button>
                     </div>
                     {% endif %}
-						<h3 class="card-title text-dark">{{ event.title }}</h3>
-						<p class="">{{ event.description|safe }}</p>
 
-						<h3 class="card-title text-warning">Contacta a <a href="{% url 'user_profile' event.owner.id %}">{{ event.owner.username }}:</a></h3>
+                    <div>
+                        {% if event.event_type == 'EVENT' %}
+                            <img title="Evento" src="{% static 'assets/img/diamante_verde.png' %}" class="diamond" alt="">
+                        {% elif event.event_type == 'COURSE' %}
+                            {% if event.is_recorded %}
+                                <img title="Curso Pre Grabado" src="{% static 'assets/img/diamante_magenta.png' %}" class="diamond" alt="">
+                            {% else %}
+                                <img title="Curso Online" src="{% static 'assets/img/diamante_amarillo.png' %}" class="diamond" alt="">
+                            {% endif %}
+                        {% elif event.event_type == 'EXAM' %}
+                            <img title="Examen" src="{% static 'assets/img/diamante_azul.png' %}" class="diamond" alt="">
+                        {% endif %}
+
+                        <h3 class="card-title text-dark">{{ event.title }}</h3>
+                        <p class="">{{ event.description|safe }}</p>
+                    </div>
+
+                    <h3 class="card-title text-warning">Contacta a <a href="{% url 'user_profile' event.owner.id %}">
+                        {{ event.owner.username }}:</a>
+                    </h3>
 
                     {% if user.is_authenticated %}
                         <div class="list-group">
@@ -245,7 +262,10 @@
                                     {% endif %}
 
                                     <p class="text-muted font-weight-bold">
-                                     {{ event.date_start|date:"h:i A" }} ({{ owner_profile.timezone }})
+                                     {{ event.date_start|date:"h:i A" }}
+                                        {% if owner_profile.timezone %}
+                                            ({{ owner_profile.timezone }})
+                                        {% endif %}
                                     </p>
 
                                     {% if event.schedule_description %}
@@ -310,11 +330,11 @@
                                 </p>
 							</div>
 						</div>
-			</div>
-		</div>
-	</div>
-    </div>
-    </div>
+			        </div>
+		        </div>
+	        </div>
+            </div>
+        </div>
     </div>
     </div>
 </section>

@@ -39,7 +39,7 @@
                     <div class="form-check">
                       <input class="form-check-input" type="radio" name="event_type_description" id="radio_exam" value="exam">
                       <label class="form-check-label" for="event_type_description">
-                        EXAMEN - <strong>Vas a evaluar conocimiento y entregar un certificado.</strong>
+                        EXAMEN - <strong>Vas a evaluar conocimiento.</strong>
                       </label>
                     </div>
                     <div class="form-check">
@@ -59,7 +59,7 @@
             </div>
             <div class="col-md-4">
                 <img id="diamante_amarillo" title="Evento" src="{% static 'assets/img/diamante_amarillo.png' %}" class="" alt="">
-                <img id="diamante_naranja" title="Evento" src="{% static 'assets/img/diamante_naranja.png' %}" class="" alt="">
+                <img id="diamante_azul" title="Evento" src="{% static 'assets/img/diamante_azul.png' %}" class="" alt="">
                 <img id="diamante_magenta" title="Evento" src="{% static 'assets/img/diamante_magenta.png' %}" class="" alt="">
                 <img id="diamante_verde" title="Evento" src="{% static 'assets/img/diamante_verde.png' %}" class="" alt="">
             </div>
@@ -207,8 +207,8 @@
         });
 
         $('#radio_live_course').prop("checked", true);
-        $('#diamante_amarillo').hide();
-        $('#diamante_naranja').show();
+        $('#diamante_azul').hide();
+        $('#diamante_amarillo').show();
         $('#diamante_magenta').hide();
         $('#diamante_verde').hide();
 
@@ -237,8 +237,8 @@
             $("#event_recurrent").hide();
             $('#input_record_date').show();
 
+            $('#diamante_azul').hide();
             $('#diamante_amarillo').hide();
-            $('#diamante_naranja').hide();
             $('#diamante_magenta').show();
             $('#diamante_verde').hide();
         });
@@ -252,8 +252,8 @@
             $("#event_recurrent").hide();
             $('#input_record_date').hide();
 
-            $('#diamante_amarillo').hide();
-            $('#diamante_naranja').show(); // Azul
+            $('#diamante_azul').hide();
+            $('#diamante_amarillo').show();
             $('#diamante_magenta').hide();
             $('#diamante_verde').hide();
         });
@@ -266,8 +266,8 @@
             $("#event_recurrent").hide();
             $('#input_record_date').hide();
 
-            $('#diamante_amarillo').show();
-            $('#diamante_naranja').hide();
+            $('#diamante_azul').show();
+            $('#diamante_amarillo').hide();
             $('#diamante_magenta').hide();
             $('#diamante_verde').hide();
         });
@@ -282,7 +282,7 @@
             $('#input_record_date').hide();
 
             $('#diamante_amarillo').hide();
-            $('#diamante_naranja').hide();
+            $('#diamante_azul').hide();
             $('#diamante_magenta').hide();
             $('#diamante_verde').show();
         });
