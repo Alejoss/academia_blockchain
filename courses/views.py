@@ -167,7 +167,6 @@ def event_create(request):
 
         created_event = Event.objects.create(
             event_type=event_data['event_type'],
-            is_recorded=event_data['is_recorded'],
             is_recurrent=event_data['event_recurrent'],
             owner=request.user,
             title=event_data['title'],
@@ -219,7 +218,6 @@ def event_edit(request, event_id):
         event_data = get_event_data_request(request)
 
         event.event_type = event_data['event_type']
-        event.is_recorded = event_data['is_recorded']
         event.is_recurrent = event_data['event_recurrent']
         event.owner = request.user
         event.title = event_data['title']
@@ -413,6 +411,8 @@ def accept_certificate(request, cert_request_id):
             if Certificate.objects.filter(event=certificate_request.event, user=certificate_request.user).exists():
                 logger.warning("certificate ya existe")
             else:
+                if certificate_request.event.event_type == "":
+                    pass
                 cert = Certificate.objects.create(event=certificate_request.event, user=certificate_request.user)
                 logger.info("cert: %s" % cert)
             certificate_request.accepted = True

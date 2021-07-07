@@ -235,6 +235,14 @@
             $('#input_record_date').hide()
         }
 
+        function isExam() {
+            // es un evento
+            $("#input_date_start").show();
+            $("#input_date_end").hide();
+            $("#input_time_day").show();
+            $("#event_recurrent").hide();
+            $('#input_record_date').hide()
+        }
 
         $('.datepicker').datepicker({
             format: 'dd/mm/yyyy',
@@ -242,31 +250,27 @@
 
         let event_type = "{{ event.event_type }}"
         let is_recurrent = "{{ event.is_recurrent }}"
-        let is_recorded = "{{ event.is_recorded }}"
-
-        console.log(event_type);
-        console.log(is_recorded);
 
         if (event_type === "COURSE"){
-            if (is_recorded === "True"){
-                $('#radio_pre_recorded').prop("checked", true);
-                isPreRecorded();
-            } else {
-                $('#radio_live_course').prop("checked", true);
-                isLiveCourse();
-            }
+            $('#radio_live_course').prop("checked", true);
+            isLiveCourse();
         } else if (event_type === "EVENT"){
             $('#radio_event_single').prop("checked", true);
             isEvent();
             if (is_recurrent === "True"){
                 $('#check_event_recurrent').prop("checked", true);
             }
+        } else if (event_type === "PRE_RECORDED"){
+            $('#radio_pre_recorded').prop("checked", true);
+            isPreRecorded();
+        } else if (event_type === "EXAM"){
+            isExam();
         }
 
         $("#submit_form").on("click", function () {
-            console.log("SUBMIT!!")
+            console.log("SUBMIT!!");
             $("#event_create_form").submit();
-        })
+        });
 
         $('.timepicker').timepicker({
             timeFormat: 'h:mm p',

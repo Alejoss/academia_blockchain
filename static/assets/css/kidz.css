@@ -17285,7 +17285,36 @@ html[dir="rtl"] .team-slider .card .card-img-wrapper .card-img-overlay .list-uns
   padding-top: 20px;
   padding-left:15px;
 }
+/*.certi_title{*/
+/*  padding-top: 5px;*/
+/*}*/
 
+.certi_col{
+
+  display: flex;
+  height: 70px;
+  align-items: center;
+  margin: 0px 5px;
+}
+.img_col{
+  width: 50%;
+}
+
+.certi_col h4{
+  padding-top: 12px;
+}
+.certi_col:nth-child(1){
+  background-color: #f0f7e1;
+}
+.certi_col:nth-child(2){
+  background-color: #fcf3db;
+}
+.certi_col:nth-child(3){
+  background-color: #e2e3e5;
+}
+.certi_col:nth-child(4){
+  background-color: #e6f2f7;
+}
 .diamond {
   width: 20px;
   position: absolute;

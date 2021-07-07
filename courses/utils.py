@@ -38,17 +38,15 @@ def get_event_data_request(request):
 
     # Event Type
     if event_type_description == "pre_recorded":
-        is_recorded = True
-    elif event_type_description in ["live_course", "event_single"]:
-        is_recorded = False
-    else:
-        is_recorded = False
-
-    if event_type_description in ["pre_recorded", "live_course"]:
+        event_type = "PRE_RECORDED"
+    elif event_type_description == "live_course":
         event_type = "COURSE"
-    elif event_type_description in ["event_single", "event_recurrent"]:
+    elif event_type_description == "event_single":
         event_type = "EVENT"
+    elif event_type_description == "exam":
+        event_type = "EXAM"
     else:
+        logger.warning("EVENT TYPE NOT RECOGNIZED: %s" % event_type_description)
         event_type = "COURSE"  # loggear exceptions
 
     # Date & Time
@@ -79,7 +77,6 @@ def get_event_data_request(request):
 
     event_data = {
             "event_type": event_type,
-            "is_recorded": is_recorded,
             "event_recurrent": event_recurrent,
             "title": title,
             "description": description,

@@ -4,11 +4,9 @@
     {% if event.event_type == 'EVENT' %}
         <img title="Evento" src="{% static 'assets/img/diamante_verde.png' %}" class="diamond" alt="">
     {% elif event.event_type == 'COURSE' %}
-        {% if event.is_recorded %}
-            <img title="Curso Pre Grabado" src="{% static 'assets/img/diamante_magenta.png' %}" class="diamond" alt="">
-        {% else %}
-            <img title="Curso Online" src="{% static 'assets/img/diamante_amarillo.png' %}" class="diamond" alt="">
-        {% endif %}
+        <img title="Curso Online" src="{% static 'assets/img/diamante_amarillo.png' %}" class="diamond" alt="">
+    {% elif event.event_type == "PRE_RECORDED" %}
+        <img title="Curso Pre Grabado" src="{% static 'assets/img/diamante_magenta.png' %}" class="diamond" alt="">
     {% elif event.event_type == 'EXAM' %}
         <img title="Examen" src="{% static 'assets/img/diamante_azul.png' %}" class="diamond" alt="">
     {% endif %}
@@ -32,11 +30,9 @@
             </li>
             <li class="mb-2">
                 {% if event.event_type == "COURSE" %}
-                    {% if event.is_recorded %}
-                        <i class="fa fa-play-circle mr-2" aria-hidden="true"></i>Curso Pre Grabado
-                    {% else %}
-                        <i class="fa fa-video-camera mr-2" aria-hidden="true"></i>Curso en Vivo
-                    {% endif %}
+                    <i class="fa fa-video-camera mr-2" aria-hidden="true"></i>Curso en Vivo
+                {% elif event.event_type == "PRE_RECORDED" %}
+                    <i class="fa fa-play-circle mr-2" aria-hidden="true"></i>Curso Pre Grabado
                 {% elif event.event_type == "EVENT" %}
                     {% if event.is_recurrent %}
                         <i class="fa fa-calendar mr-2" aria-hidden="true"></i>Evento Recurrente
@@ -48,7 +44,7 @@
                 {% endif %}
             </li>
             <li class="mb-2">
-                {% if event.is_recorded %}
+                {% if event.event_type == "PRE_RECORDED" %}
                     {% if event.date_recorded %}
                         <span title="Fecha de Grabación">
                             <i class="fa fa-clock-o mr-2" aria-hidden="true"></i>

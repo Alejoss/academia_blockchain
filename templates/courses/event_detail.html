@@ -110,11 +110,9 @@
                         {% if event.event_type == 'EVENT' %}
                             <img title="Evento" src="{% static 'assets/img/diamante_verde.png' %}" class="diamond" alt="">
                         {% elif event.event_type == 'COURSE' %}
-                            {% if event.is_recorded %}
+                            <img title="Curso Online" src="{% static 'assets/img/diamante_amarillo.png' %}" class="diamond" alt="">
+                        {% elif event.event_type == "PRE-RECORDED" %}
                                 <img title="Curso Pre Grabado" src="{% static 'assets/img/diamante_magenta.png' %}" class="diamond" alt="">
-                            {% else %}
-                                <img title="Curso Online" src="{% static 'assets/img/diamante_amarillo.png' %}" class="diamond" alt="">
-                            {% endif %}
                         {% elif event.event_type == 'EXAM' %}
                             <img title="Examen" src="{% static 'assets/img/diamante_azul.png' %}" class="diamond" alt="">
                         {% endif %}

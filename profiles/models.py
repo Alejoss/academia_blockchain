@@ -18,6 +18,10 @@ class Profile(models.Model):
     is_teacher = models.BooleanField(default=False)
     profile_picture = models.ImageField(upload_to=upload_profile_picture, null=True, blank=True)
     email_confirmed = models.BooleanField(default=False, blank=True)
+    green_diamonds = models.SmallIntegerField(default=0, blank=True)  # Events
+    yellow_diamonds = models.SmallIntegerField(default=0, blank=True)  # Online Live Course
+    purple_diamonds = models.SmallIntegerField(default=0, blank=True)  # Pre Recorded Course
+    blue_diamonds = models.SmallIntegerField(default=0, blank=True)  # Exam
 
     def __str__(self):
         return self.user.username

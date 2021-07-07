@@ -16,11 +16,11 @@ class Event(models.Model):
     """
     Puede ser un Curso grabado o en vivo, Conferencia, Actividad Recurrente y otros.
     """
-    EVENT_TYPES = (("COURSE", "Course"),
+    EVENT_TYPES = (("LIVE_COURSE", "Live_Course"),
                    ("EVENT", "Event"),
-                   ("EXAM", "Exam"))
+                   ("EXAM", "Exam"),
+                   ("PRE_RECORDED", "Pre_Recorded"))
     is_recurrent = models.BooleanField(default=False, null=True)
-    is_recorded = models.BooleanField(default=False, null=True)
     event_type = models.CharField(max_length=50, choices=EVENT_TYPES, blank=True)
     image = models.ImageField(upload_to=upload_event_picture, null=True, blank=True)
 
