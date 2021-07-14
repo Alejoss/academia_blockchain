@@ -20,8 +20,8 @@ class Event(models.Model):
                    ("EVENT", "Event"),
                    ("EXAM", "Exam"),
                    ("PRE_RECORDED", "Pre_Recorded"))
-    is_recurrent = models.BooleanField(default=False, null=True)
     event_type = models.CharField(max_length=50, choices=EVENT_TYPES, blank=True)
+    is_recurrent = models.BooleanField(default=False, null=True)
     image = models.ImageField(upload_to=upload_event_picture, null=True, blank=True)
 
     owner = models.ForeignKey(User, null=True, on_delete=models.CASCADE)

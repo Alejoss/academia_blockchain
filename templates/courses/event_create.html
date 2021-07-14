@@ -43,7 +43,7 @@
                       </label>
                     </div>
                     <div class="form-check">
-                      <input class="form-check-input" type="radio" name="event_type_description" id="radio_event_single" value="event_single">
+                      <input class="form-check-input" type="radio" name="event_type_description" id="radio_event" value="event_single">
                       <label class="form-check-label" for="event_type_description">
                         EVENTO - <strong> Se viene una conferencia, una conversación, una clase maestra.</strong>
                       </label>
@@ -58,10 +58,10 @@
                 </div>
             </div>
             <div class="col-md-4">
-                <img id="diamante_amarillo" title="Evento" src="{% static 'assets/img/diamante_amarillo.png' %}" class="" alt="">
-                <img id="diamante_azul" title="Evento" src="{% static 'assets/img/diamante_azul.png' %}" class="" alt="">
-                <img id="diamante_magenta" title="Evento" src="{% static 'assets/img/diamante_magenta.png' %}" class="" alt="">
-                <img id="diamante_verde" title="Evento" src="{% static 'assets/img/diamante_verde.png' %}" class="" alt="">
+                <img id="diamante_amarillo" title="Curso" src="{% static 'assets/img/diamante_amarillo.png' %}" class="" alt="Curso">
+                <img id="diamante_azul" title="Examen" src="{% static 'assets/img/diamante_azul.png' %}" class="" alt="Examen">
+                <img id="diamante_magenta" title="Pre-Grabado" src="{% static 'assets/img/diamante_magenta.png' %}" class="" alt="Pre-Grabado">
+                <img id="diamante_verde" title="Evento" src="{% static 'assets/img/diamante_verde.png' %}" class="" alt="Evento">
             </div>
             <hr>
 
@@ -274,7 +274,7 @@
         });
 
 
-        $('#radio_event_single').on("click", function(){
+        $('#radio_event').on("click", function(){
             // es un evento que se va a dar online en vivo, puede ser marcado como recurrente
             $("#input_date_start").show();
             $("#input_date_end").show();
@@ -287,7 +287,6 @@
             $('#diamante_magenta').hide();
             $('#diamante_verde').show();
         });
-
 
         var t = $( "#tagBox" ).tagging();
         t[0].addClass( "form-control" );

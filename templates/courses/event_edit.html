@@ -18,12 +18,14 @@
           </div>
     <div class="mb-4 mb-sm-0">
             <p>
-                Recuerda que en tu <a href="{% url 'profile_data' %}">perfil</a> puedes definir tus criptos preferidas y
+                Recuerda que en tu <a target="_blank" href="{% url 'profile_data' %}">perfil</a> puedes definir tus criptos preferidas y
                 los métodos con los que la gente puede contactarte.
                 {% if user_contact_methods %}
                     Por ahora son:
                     {% for c in user_contact_methods %}
+                       {% if not c.deleted %}
                         "{{ c.name }}"
+                        {% endif %}
                     {% endfor %}
                 {% else %}
                     <strong>Por ahora no tienes métodos de contacto guardados, es importante que compartas una forma para contactarte!</strong>
@@ -50,7 +52,13 @@
                   </label>
                 </div>
                 <div class="form-check">
-                  <input class="form-check-input" type="radio" name="event_type_description" id="radio_event_single" value="event_single">
+                  <input class="form-check-input" type="radio" name="event_type_description" id="radio_exam" value="exam">
+                  <label class="form-check-label" for="event_type_description">
+                    EXAMEN - <strong>Vas a evaluar conocimiento.</strong>
+                  </label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="event_type_description" id="radio_event" value="event_single">
                   <label class="form-check-label" for="event_type_description">
                     EVENTO - <strong> Se viene una conferencia, una conversación, una clase maestra.</strong>
                   </label>
@@ -62,6 +70,13 @@
                 <label class="form-check-label" for="event_recurrent">
                     Evento Recurrente - <strong> Un evento que se repite, y se repite y ...</strong>
                 </label>
+            </div>
+
+            <div class="col-md-4">
+                <img id="diamante_amarillo" title="Curso" src="{% static 'assets/img/diamante_amarillo.png' %}" class="" alt="Curso">
+                <img id="diamante_azul" title="Examen" src="{% static 'assets/img/diamante_azul.png' %}" class="" alt="Examen">
+                <img id="diamante_magenta" title="Pre-Grabado" src="{% static 'assets/img/diamante_magenta.png' %}" class="" alt="Pre-Grabado">
+                <img id="diamante_verde" title="Evento" src="{% static 'assets/img/diamante_verde.png' %}" class="" alt="Evento">
             </div>
 
             <hr>
@@ -162,7 +177,7 @@
                 </small>
             </div>
 
-            <div class="input-group">
+            <div class="form-group">
               <label for="id_profile_picture">Imagen del Evento: </label>
                 <input type="file" name="event_picture" accept="image/*" id="id_event_picture">
             </div>
@@ -208,6 +223,13 @@
 
 <script>
     $( document ).ready(function() {
+
+        // ocultar diamantes
+        $('#diamante_azul').hide();
+        $('#diamante_amarillo').hide();
+        $('#diamante_magenta').hide();
+        $('#diamante_verde').hide();
+
         function isPreRecorded(){
             // Es un video grabado.
             $("#input_date_start").hide();
@@ -215,7 +237,12 @@
             $("#input_time_day").hide();
             $("#event_recurrent").hide();
             $('#input_record_date').show();
-        }
+
+            $('#diamante_azul').hide();
+            $('#diamante_amarillo').hide();
+            $('#diamante_magenta').show();
+            $('#diamante_verde').hide();
+            }
 
         function isLiveCourse(){
             // es un curso
@@ -223,7 +250,12 @@
             $("#input_date_end").show();
             $("#input_time_day").show();
             $("#event_recurrent").hide();
-            $('#input_record_date').hide()
+            $('#input_record_date').hide();
+
+            $('#diamante_azul').hide();
+            $('#diamante_amarillo').show();
+            $('#diamante_magenta').hide();
+            $('#diamante_verde').hide();
         }
 
         function isEvent() {
@@ -233,15 +265,25 @@
             $("#input_time_day").show();
             $("#event_recurrent").show();
             $('#input_record_date').hide()
+
+            $('#diamante_amarillo').hide();
+            $('#diamante_azul').hide();
+            $('#diamante_magenta').hide();
+            $('#diamante_verde').show();
         }
 
         function isExam() {
-            // es un evento
+            // es un exam
             $("#input_date_start").show();
             $("#input_date_end").hide();
             $("#input_time_day").show();
             $("#event_recurrent").hide();
-            $('#input_record_date').hide()
+            $('#input_record_date').hide();
+
+            $('#diamante_azul').show();
+            $('#diamante_amarillo').hide();
+            $('#diamante_magenta').hide();
+            $('#diamante_verde').hide();
         }
 
         $('.datepicker').datepicker({
@@ -255,7 +297,7 @@
             $('#radio_live_course').prop("checked", true);
             isLiveCourse();
         } else if (event_type === "EVENT"){
-            $('#radio_event_single').prop("checked", true);
+            $('#radio_event').prop("checked", true);
             isEvent();
             if (is_recurrent === "True"){
                 $('#check_event_recurrent').prop("checked", true);
@@ -264,6 +306,7 @@
             $('#radio_pre_recorded').prop("checked", true);
             isPreRecorded();
         } else if (event_type === "EXAM"){
+            $('#radio_exam').prop("checked", true);
             isExam();
         }
 
@@ -290,7 +333,7 @@
             isPreRecorded();
         });
 
-        $('#radio_event_single').on("click", function(){
+        $('#radio_event').on("click", function(){
             // es un evento
             isEvent();
         });
@@ -299,6 +342,12 @@
             // es un curso
             isLiveCourse();
         });
+
+        $('#radio_exam').on("click", function(){
+            // es un evento
+            isExam();
+        });
+
 
         $("#delete_event").on("click", function(){
            // eliminar evento
@@ -314,8 +363,7 @@
             console.log(event_tag_list[i]);
             t[0].tagging("add", event_tag_list[i]);
         }
-
-
     });
+
 </script>
 {% endblock %}
