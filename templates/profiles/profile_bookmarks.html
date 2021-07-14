@@ -1,4 +1,5 @@
 {% extends 'profiles/profile_base.html' %}
+{% load static %}
 
 {% block profile_content %}
     <div class="col-md-8 col-lg-9 order-md-1">
@@ -86,7 +87,8 @@
                                 </li>
                             {% elif b.1.accepted == True %}  {# Ya obtuvo un certificado #}
                                 <li class="mr-3">
-                                    <i class="fa fa-smile-o" ></i> Tienes un <a href="{% url 'profile_certificates' %}">certificado</a> de este evento.
+                                    <img title="Evento" src="{% static 'assets/img/diamante_verde.png' %}"  width="20px" alt="">
+                                    Tienes un <a href="{% url 'profile_certificates' %}">certificado</a> de este evento.
                                 </li>
                             {% elif b.1.accepted == None %} {# Todavia no decide el profesor #}
                                 <li class="mr-3">
