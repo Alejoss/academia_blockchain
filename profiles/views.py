@@ -365,12 +365,23 @@ def profile_events(request):
 def profile_certificates(request):
     template = "profiles/profile_certificates.html"
     certificates = Certificate.objects.filter(user=request.user)
+    green_diamonds = certificates.filter(event__event_type="EVENT").count()
+    yellow_diamonds = certificates.filter(event__event_type="LIVE_COURSE").count()
+    magenta_diamonds = certificates.filter(event__event_type="PRE_RECORDED").count()
+    blue_diamonds = certificates.filter(event__event_type="EXAM").count()
+
     logger.info("certificates: %s" % certificates)
+    logger.info("green_diamonds: %s" % green_diamonds)
+    logger.info("yellow_diamonds: %s" % yellow_diamonds)
+    logger.info("magenta_diamonds: %s" % magenta_diamonds)
+    logger.info("blue_diamonds: %s" % blue_diamonds)
 
     courses_certificates = Certificate.objects.filter(event__owner=request.user)  # certificates awarded by user
 
     context = {"profile_index_active": "active", "underline_certificates": "text-underline",
-               "certificates": certificates, "courses_certificates": courses_certificates}
+               "certificates": certificates, "courses_certificates": courses_certificates,
+               "green_diamonds": green_diamonds, "yellow_diamonds": yellow_diamonds,
+               "magenta_diamonds": magenta_diamonds, "blue_diamonds": blue_diamonds}
     return render(request, template, context)
 
 
