@@ -93,31 +93,36 @@
                         {% endfor %}
                     </div>
 
+                    <div class="mb-8">
                     {% if event.owner == user %}
                         <div class="text-right">
-                            <button id="event_edit" type="button" class="btn btn-primary"><i class="fa fa-edit"></i> Editar</button>
+                            <button id="event_edit" type="button" class="btn btn-primary mb-2"><i class="fa fa-edit"></i> Editar</button>
                         </div>
                     {% else %}
-                    <div id="remove_bookmark_div" class="text-right">
-                        <button id="remove_bookmark" type="button" class="btn btn-warning"><i class="fa fa-star-o"></i> Ya no me interesa</button>
-                    </div>
-                    <div id="event_bookmark_div" class="text-right">
-                        <button id="event_bookmark" type="button" class="btn btn-info"><i class="fa fa-star"></i> Me Interesa - Guardar</button>
-                    </div>
-                    {% endif %}
+                        <div id="remove_bookmark_div" class="text-right">
+                            <button id="remove_bookmark" type="button" class="btn btn-warning mb-2"><i class="fa fa-star-o"></i> Ya no me interesa</button>
+                        </div>
+                        <div id="event_bookmark_div" class="text-right">
+                            <button id="event_bookmark" type="button" class="btn btn-info mb-2"><i class="fa fa-star"></i> Me Interesa - Guardar</button>
+                        </div>
 
-                    <div>
-                        {% if event.event_type == 'EVENT' %}
-                            <img title="Evento" src="{% static 'assets/img/diamante_verde.png' %}" class="diamond" alt="">
-                        {% elif event.event_type == 'COURSE' %}
-                            <img title="Curso Online" src="{% static 'assets/img/diamante_amarillo.png' %}" class="diamond" alt="">
-                        {% elif event.event_type == "PRE-RECORDED" %}
-                                <img title="Curso Pre Grabado" src="{% static 'assets/img/diamante_magenta.png' %}" class="diamond" alt="">
-                        {% elif event.event_type == 'EXAM' %}
-                            <img title="Examen" src="{% static 'assets/img/diamante_azul.png' %}" class="diamond" alt="">
+                        {% if user_certificate_request %}
+                            {% include 'courses/request_certificate_buttons.html' with cert_request=user_certificate_request %}
+                        {% else %}
+                            <div id="request_certificate_div" class="text-right">
+                                <button id="request_certificate" type="button" class="btn btn-success mb-2"><i class="fa fa-certificate"></i> Solicitar Certificado</button>
+                            </div>
                         {% endif %}
 
-                        <h3 class="card-title text-dark">{{ event.title }}</h3>
+                    {% endif %}
+                    </div>
+
+                    <div>
+
+                        <h3 class="card-title text-dark">
+                         <span class="diamond_title"><img title="Evento" src="{% static 'assets/img/diamante_verde.png' %}" width="22px" alt=""></span>
+                            {{ event.title }}!!
+                        </h3>
                         <p class="">{{ event.description|safe }}</p>
                     </div>
 
@@ -412,3 +417,14 @@
         });
     </script>
 {% endblock extra_js %}
+
+
+{#                        {% if event.event_type == 'EVENT' %}#}
+{#                            <img title="Evento" src="{% static 'assets/img/diamante_verde.png' %}" class="diamond" alt="">#}
+{#                        {% elif event.event_type == 'COURSE' %}#}
+{#                            <img title="Curso Online" src="{% static 'assets/img/diamante_amarillo.png' %}" class="diamond" alt="">#}
+{#                        {% elif event.event_type == "PRE-RECORDED" %}#}
+{#                                <img title="Curso Pre Grabado" src="{% static 'assets/img/diamante_magenta.png' %}" class="diamond" alt="">#}
+{#                        {% elif event.event_type == 'EXAM' %}#}
+{#                            <img title="Examen" src="{% static 'assets/img/diamante_azul.png' %}" class="diamond" alt="">#}
+{#                        {% endif %}#}

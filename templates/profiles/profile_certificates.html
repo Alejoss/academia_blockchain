@@ -53,18 +53,12 @@
 
                     {% for c in certificates %}
                         <div class="media media-list-view mb-5">
-{#                            {% if c.event.event_type == 'EVENT' %}#}
-{#                                <img title="Evento" src="{% static 'assets/img/diamante_verde.png' %}" class="diamond" alt="">#}
-{#                            {% elif c.event.event_type == 'COURSE' %}#}
-{#                                <img title="Curso" src="{% static 'assets/img/diamante_amarillo.png' %}" class="diamond" alt="">#}
-{#                            {% elif c.event.event_type == 'EXAM' %}#}
-{#                                <img title="Examen" src="{% static 'assets/img/diamante_naranja.png' %}" class="diamond" alt="">#}
-{#                            {% endif %}#}
-                            <a class="media-img" href="">
+                                <div class="media-img cert_div">
+                                <img title="Evento" src="{% static 'assets/img/diamante_verde.png' %}" class="diamond_certi_new"  alt="">
                                 {% if c.event.image %}
-                                    <img src="{{ c.event.image.url }}" alt="">
+                                    <img class="main_card_img" src="{{ c.event.image.url }}" alt="">
                                 {% endif %}
-                            </a>
+                                </div>
 
                             <div class="media-body">
                                 <h3>

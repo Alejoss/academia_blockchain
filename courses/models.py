@@ -72,6 +72,7 @@ class Certificate(models.Model):
     date_created = models.DateTimeField(auto_now_add=True)
     event = models.ForeignKey(Event, null=True, on_delete=models.CASCADE)
     user = models.ForeignKey(User, null=True, on_delete=models.CASCADE)
+    deleted = models.BooleanField(default=False)
 
     def __str__(self):
         return self.event.title + " - " + self.user.username

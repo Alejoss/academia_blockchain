@@ -17322,10 +17322,35 @@ html[dir="rtl"] .team-slider .card .card-img-wrapper .card-img-overlay .list-uns
   left: 10px;
   z-index: 9;
 }
-
+.diamond_title{
+  padding-right: 5px !important;
+}
 html {
   font-family: 'Poppins', sans-serif;
   line-height: 1.15;
   -webkit-text-size-adjust: 100%;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+
+.diamond_form {
+  width: 100px;
+}
+
+.diamond_certi_new{
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  z-index: 9;
+  width: 25px !important;
+  height: auto !important;
+}
+
+.cert_div{
+  position: relative;
+}
+.form_img{
+/*display: flex;*/
+/*justify-content: end;*/
+/*  background-color: red;*/
+  text-align: right;
 }

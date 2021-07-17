@@ -88,6 +88,7 @@ def event_detail(request, event_id):
     event_user_timezone = None
     logged_user_profile = None
     event_is_bookmarked = False
+    user_certificate_request = None
     if request.user.is_authenticated:
         logged_user_profile = Profile.objects.get(user=request.user)
         try:
@@ -97,6 +98,9 @@ def event_detail(request, event_id):
             pass
 
         event_is_bookmarked = Bookmark.objects.filter(event=event, user=request.user, deleted=False).exists()
+
+        if CertificateRequest.objects.filter(event=event, user=request.user).exists():
+            user_certificate_request = CertificateRequest.objects.filter(event=event, user=request.user)
 
     logger.info("event_user_timezone: %s" % event_user_timezone)
     logger.info("logged_user_profile: %s" % logged_user_profile)
@@ -120,13 +124,15 @@ def event_detail(request, event_id):
     if request.user.is_authenticated:
         has_certificate = Certificate.objects.filter(event=event, user=request.user).exists()
     logger.info("has_certificate: %s" % has_certificate)
+    logger.info("user_certificate_request: %s" % user_certificate_request)
 
     context = {"event": event, "contact_methods": contact_methods, "accepted_cryptos": accepted_cryptos,
                "owner_profile": owner_profile, "event_user_timezone": event_user_timezone,
                "logged_user_profile": logged_user_profile, "event_is_bookmarked": event_is_bookmarked,
                "is_event_owner": is_event_owner, "event_bookmarks": event_bookmarks,
                "certificate_requests": certificate_requests, "comments": comments, 'rating': rating,
-               'lack_certificate': not has_certificate, "preferred_cryptos": preferred_cryptos}
+               'lack_certificate': not has_certificate, "preferred_cryptos": preferred_cryptos,
+               "user_certificate_request": user_certificate_request}
     return render(request, template, context)
 
 
