@@ -54,7 +54,7 @@
                     {% for c in certificates %}
                         <div class="media media-list-view mb-5">
                                 <div class="media-img cert_div">
-                                <img title="Evento" src="{% static 'assets/img/diamante_verde.png' %}" class="diamond_certi_new"  alt="">
+                                <img title="Evento" src="{% static 'assets/img/diamante_verde.png' %}" class="diamond_certi_new" alt="">
                                 {% if c.event.image %}
                                     <img class="main_card_img" src="{{ c.event.image.url }}" alt="">
                                 {% endif %}

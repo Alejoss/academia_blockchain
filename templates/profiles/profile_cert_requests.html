@@ -9,7 +9,7 @@
                     Puedes aceptar o rechazar los pedidos de certificados de tus cursos y eventos.
                   </p>
                   <div class="text-white rounded bg-warning text-uppercase
-                  font-weight-medium px-6 py-3 mb-3">Pedidos de Certificado</div>
+                  font-weight-medium px-6 py-3 mb-3">Solicitudes de Certificados</div>
                   <hr>
                   {% for c in cert_requests %}
                       <div class="media media-list-view mb-5">
@@ -73,6 +73,9 @@
                         method: "post",
                         url: "{% url 'accept_certificate' 0 %}".replace("0", data["cert_request_id"]),
                         data: data,
+                        headers: {
+                            'X-CSRFToken': getCookie('{{ settings.CSRF_COOKIE_NAME }}')
+                        },
                         success: function(response){
                             location.reload();
                         },
@@ -90,6 +93,9 @@
                         method: "post",
                         url: "{% url 'reject_certificate' 0 %}".replace("0", data["cert_request_id"]),
                         data: data,
+                        headers: {
+                            'X-CSRFToken': getCookie('{{ settings.CSRF_COOKIE_NAME }}')
+                        },
                         success: function(response){
                             location.reload();
                         },

@@ -76,8 +76,8 @@ def event_detail(request, event_id):
 
     contact_methods = ContactMethod.objects.filter(user=event.owner, deleted=False)
     accepted_cryptos = AcceptedCrypto.objects.filter(user=event.owner, deleted=False)
-    preferred_cryptos = coins_value(accepted_cryptos,
-                                    event)  # llama al API CoinGeko y devuelve una lista con las monedas aceptadas por el usuario y sus valores.
+    preferred_cryptos = coins_value(accepted_cryptos, event)
+    # llama al API CoinGeko y devuelve una lista con las monedas aceptadas por el usuario y sus valores.
     owner_profile = Profile.objects.get(user=event.owner)
 
     logger.info("contact_methods: %s" % contact_methods)
@@ -98,25 +98,20 @@ def event_detail(request, event_id):
             pass
 
         event_is_bookmarked = Bookmark.objects.filter(event=event, user=request.user, deleted=False).exists()
-
         if CertificateRequest.objects.filter(event=event, user=request.user).exists():
-            user_certificate_request = CertificateRequest.objects.filter(event=event, user=request.user)
+            user_certificate_request = CertificateRequest.objects.get(event=event, user=request.user)
 
     logger.info("event_user_timezone: %s" % event_user_timezone)
     logger.info("logged_user_profile: %s" % logged_user_profile)
     logger.info("event_is_bookmarked: %s" % event_is_bookmarked)
 
     is_event_owner = (event.owner == request.user)
-    event_bookmarks = Bookmark.objects.none()
     certificate_requests = CertificateRequest.objects.none()
 
     logger.info("is_event_owner: %s" % is_event_owner)
     if is_event_owner:
-        event_bookmarks = Bookmark.objects.filter(event=event, deleted=False)
-        certificate_requests = CertificateRequest.objects.filter(event=event, deleted=False, accepted=False)
-        logger.info("event_bookmarks: %s" % event_bookmarks)
-
-    logger.info("certificate_requests: %s" % certificate_requests)
+        certificate_requests = CertificateRequest.objects.filter(event=event, deleted=False, accepted__isnull=True)
+        logger.info("certificate_requests: %s" % certificate_requests)
 
     comments = Comment.objects.filter(event=event, deleted=False)
     rating = Rating.objects.for_instance(event)
@@ -129,10 +124,9 @@ def event_detail(request, event_id):
     context = {"event": event, "contact_methods": contact_methods, "accepted_cryptos": accepted_cryptos,
                "owner_profile": owner_profile, "event_user_timezone": event_user_timezone,
                "logged_user_profile": logged_user_profile, "event_is_bookmarked": event_is_bookmarked,
-               "is_event_owner": is_event_owner, "event_bookmarks": event_bookmarks,
+               "is_event_owner": is_event_owner, "user_certificate_request": user_certificate_request,
                "certificate_requests": certificate_requests, "comments": comments, 'rating': rating,
-               'lack_certificate': not has_certificate, "preferred_cryptos": preferred_cryptos,
-               "user_certificate_request": user_certificate_request}
+               'lack_certificate': not has_certificate, "preferred_cryptos": preferred_cryptos}
     return render(request, template, context)
 
 

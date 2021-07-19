@@ -16,26 +16,6 @@
             <h3 class="card-title text-dark">Tu <strong>{{ event.title }}:</strong></h3>
             <div class="accordion mb-8" id="accordionExample">
 
-                {% if event_bookmarks %}
-                <div class="card">
-                  <div class="card-header" id="headingOne">
-                    <h5 class="mb-0">
-                      <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#bookmarked"
-                              aria-expanded="false" aria-controls="collapseOne">
-                        Hay {{ event_bookmarks.count }} usuarios que han demostrado su interés en tu curso.
-                      </button>
-                    </h5>
-                  </div>
-                  <div id="bookmarked" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample" style="">
-                    <div class="card-body">
-                        {% for b in event_bookmarks %}
-                            <a target="_blank" href="{% url 'user_profile' b.user.id %}">{{ b.user.username }}</a>
-                        {% endfor %}
-                    </div>
-                  </div>
-                </div>
-                {% endif %}
-
                 {% if certificate_requests %}
                 <div class="card">
                   <div class="card-header list-group-item-success" id="certificate_requests">
@@ -47,7 +27,8 @@
                   </div>
                 </div>
                 {% endif %}
-              </div>
+
+            </div>
         <hr>
         {% endif %}
 		<div class="row"> <!-- contenido -->
@@ -107,10 +88,13 @@
                         </div>
 
                         {% if user_certificate_request %}
+                            {{ user_certificate_request }}
                             {% include 'courses/request_certificate_buttons.html' with cert_request=user_certificate_request %}
                         {% else %}
                             <div id="request_certificate_div" class="text-right">
-                                <button id="request_certificate" type="button" class="btn btn-success mb-2"><i class="fa fa-certificate"></i> Solicitar Certificado</button>
+                                <button id="request_certificate" data-id="{{ event.id }}" type="button" class="btn btn-success mb-2">
+                                    <i class="fa fa-certificate"></i> Solicitar Certificado!
+                                </button>
                             </div>
                         {% endif %}
 
@@ -121,7 +105,7 @@
 
                         <h3 class="card-title text-dark">
                          <span class="diamond_title"><img title="Evento" src="{% static 'assets/img/diamante_verde.png' %}" width="22px" alt=""></span>
-                            {{ event.title }}!!
+                            {{ event.title }}
                         </h3>
                         <p class="">{{ event.description|safe }}</p>
                     </div>
@@ -349,12 +333,9 @@
     <script>
         $( document ).ready(function() {
 
-            console.log("{{ event_is_bookmarked }}");
             if ("{{ event_is_bookmarked }}" === "True"){
-                console.log("IS BOOKMARKED");
                 $("#event_bookmark_div").hide();
             } else {
-                console.log("IS NOT");
                 $("#remove_bookmark_div").hide();
             }
 
@@ -409,7 +390,30 @@
                             console.log(response);
                         }
                     });
-            })
+            });
+
+            $("#request_certificate").on("click", function(e){
+                console.log("DAFUQ");
+                data = {
+                        "event_id": $(this).data("id")
+                    }
+                console.log(data);
+                $.ajax({
+                        method: "post",
+                        url: "{% url 'request_certificate' 0 %}".replace("0", data["event_id"]),
+                        data: data,
+                        headers: {
+                            'X-CSRFToken': getCookie('{{ settings.CSRF_COOKIE_NAME }}')
+                        },
+                        success: function(response){
+                            location.reload();
+                        },
+                        error: function(response){
+                            console.log(response);
+                        }
+                    });
+            });
+
             $("#certificate_requests").on("click", function(e){
                 e.preventDefault();
                 window.location.href = "{% url 'profile_cert_requests' %}";

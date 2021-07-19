@@ -1,5 +1,6 @@
 {% load static %}
 
+<h3>Estado del cert_request: {{ cert_request.accepted }}</h3>
 {% if cert_request.deleted %}
     <div class="text-right">
         <button type="button" data-id="{{ cert_request.event.id }}" class="btn btn-primary mb-2 request_certificate">
@@ -13,7 +14,7 @@
 {% elif cert_request.accepted == None %} {# Todavia no decide el profesor #}
     <div class="text-right">
         <button type="button" data-id="{{ cert_request.event.id }}" class="btn btn-warning mb-2 cancel_cert_request">
-            <i class="fa fa-times"></i> Eliminar Solicitud de Certificado</button>
+            <i class="fa fa-times"></i> Eliminar Solicitud de Certificado!</button>
     </div>
 {% elif cert_request.accepted == False %}
     <div class="text-right">
