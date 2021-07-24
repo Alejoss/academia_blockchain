@@ -370,6 +370,7 @@
                     window.location.href = "{% url 'login' %}";
                 }
             });
+
             $("#remove_bookmark").on("click", function(e){
                 data = {
                         "event_id": {{ event.id }},
@@ -392,8 +393,35 @@
                     });
             });
 
-            $("#request_certificate").on("click", function(e){
-                console.log("DAFUQ");
+            $("#certificate_requests").on("click", function(e){
+                e.preventDefault();
+                window.location.href = "{% url 'profile_cert_requests' %}";
+            });
+
+
+             $(".delete_bookmark").on("click", function(e){
+                data = {
+                        "event_id": $(this).data("id")
+                    }
+                console.log(data);
+                $.ajax({
+                        method: "post",
+                        url: "{% url 'remove_bookmark' 0 %}".replace("0", data["event_id"]),
+                        data: data,
+                        headers: {
+                            'X-CSRFToken': getCookie('{{ settings.CSRF_COOKIE_NAME }}')
+                        },
+                        success: function(response){
+                            location.reload();
+                        },
+                        error: function(response){
+                            console.log(response);
+                        }
+                    });
+            });
+
+            // Cert Request Buttons
+            $(".request_certificate").on("click", function(e){
                 data = {
                         "event_id": $(this).data("id")
                     }
@@ -414,10 +442,48 @@
                     });
             });
 
-            $("#certificate_requests").on("click", function(e){
-                e.preventDefault();
-                window.location.href = "{% url 'profile_cert_requests' %}";
-            })
+            $(".cancel_cert_request").on("click", function(e){
+                data = {
+                        "event_id": $(this).data("id")
+                    }
+                console.log(data);
+                $.ajax({
+                        method: "post",
+                        url: "{% url 'cancel_cert_request' 0 %}".replace("0", data["event_id"]),
+                        data: data,
+                        headers: {
+                            'X-CSRFToken': getCookie('{{ settings.CSRF_COOKIE_NAME }}')
+                        },
+                        success: function(response){
+                            location.reload();
+                        },
+                        error: function(response){
+                            console.log(response);
+                        }
+                    });
+            });
+
+            $(".view_certificate").on("click", function(e){
+                data = {
+                        "event_id": $(this).data("id")
+                    }
+                console.log(data);
+                $.ajax({
+                        method: "post",
+                        url: "",  // TODO si da click en ver cert
+                        data: data,
+                        headers: {
+                            'X-CSRFToken': getCookie('{{ settings.CSRF_COOKIE_NAME }}')
+                        },
+                        success: function(response){
+                            location.reload();
+                        },
+                        error: function(response){
+                            console.log(response);
+                        }
+                    });
+            });
+
         });
     </script>
 {% endblock extra_js %}

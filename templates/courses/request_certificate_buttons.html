@@ -1,12 +1,8 @@
 {% load static %}
 
 <h3>Estado del cert_request: {{ cert_request.accepted }}</h3>
-{% if cert_request.deleted %}
-    <div class="text-right">
-        <button type="button" data-id="{{ cert_request.event.id }}" class="btn btn-primary mb-2 request_certificate">
-            <i class="fa fa-certificate"></i> Volver a Solicitar Certificado</button>
-    </div>
-{% elif cert_request.accepted == True %}  {# Ya obtuvo un certificado #}
+
+{% if cert_request.accepted == True %}  {# Ya obtuvo un certificado #}
     <div class="text-right">
         <img title="Evento" src="{% static 'assets/img/diamante_verde.png' %}"  width="20px" alt="">
         Tienes un <a href="{% url 'profile_certificates' %}">certificado</a> de este evento.
@@ -23,5 +19,10 @@
         <small class="form-text text-muted">
           Si tienes dudas por favor comunícate con el organizador del evento.
         </small>
+    </div>
+{% elif cert_request.deleted %}
+    <div class="text-right">
+        <button type="button" data-id="{{ cert_request.event.id }}" class="btn btn-primary mb-2 request_certificate">
+            <i class="fa fa-certificate"></i> Volver a Solicitar Certificado</button>
     </div>
 {% endif %}

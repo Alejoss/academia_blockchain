@@ -9,7 +9,7 @@ from taggit.managers import TaggableManager
 
 
 def upload_event_picture(instance, filename):
-    return "event_pictures/"+instance.title+"_"+datetime.today().strftime('%h-%d-%y')+".jpeg"
+    return "event_pictures/" + instance.title + "_" + datetime.today().strftime('%h-%d-%y') + ".jpeg"
 
 
 class Event(models.Model):
@@ -89,11 +89,15 @@ class Bookmark(models.Model):
 
 
 class CertificateRequest(models.Model):
+    CERTIFICATE_STATES = (("ACCEPTED", "accepted"),
+                          ("REJECTED", "rejected"),
+                          ("DELETED", "deleted"),
+                          ("PENDING", "pending"))
+
     event = models.ForeignKey(Event, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+    state = models.CharField(max_length=50, choices=CERTIFICATE_STATES, blank=True, default="PENDING")
     date = models.DateTimeField(auto_now_add=True, null=True, blank=True)
-    accepted = models.BooleanField(default=None, null=True, blank=True)
-    deleted = models.BooleanField(default=False, null=True, blank=True)
 
     def __str__(self):
         return self.user.username + " - " + self.event.title

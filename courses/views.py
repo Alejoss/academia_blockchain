@@ -370,16 +370,17 @@ def request_certificate(request, event_id):
     if request.is_ajax() and request.method == "POST":
         event = get_object_or_404(Event, id=event_id)
         logger.info("event: %s" % event)
-        if CertificateRequest.objects.filter(event=event, user=request.user, deleted=False).exists():
+        if CertificateRequest.objects.filter(event=event, user=request.user).exists():
+            logger.warning("CERTIFICATE REQUEST ALREADY EXISTS: %s" % event.id)
             return HttpResponse(status=200)
         else:
-            if CertificateRequest.objects.filter(event=event, user=request.user, deleted=True).exists():
-                certificate_request = CertificateRequest.objects.get(event=event, user=request.user, deleted=True)
+            if CertificateRequest.objects.filter(event=event, user=request.user, state="DELETED").exists():
+                certificate_request = CertificateRequest.objects.get(event=event, user=request.user, state="DELETED")
                 logger.info("certificate_request: %s" % certificate_request)
-                certificate_request.deleted = False
+                certificate_request.state = "PENDING"
                 certificate_request.save()
             else:
-                CertificateRequest.objects.create(event=event, user=request.user)
+                CertificateRequest.objects.create(event=event, user=request.user, state="PENDING")
             return HttpResponse(status=201)
     else:
         return HttpResponse(status=403)
@@ -387,9 +388,11 @@ def request_certificate(request, event_id):
 
 @login_required
 def cancel_cert_request(request, event_id):
+    # TODO replace certificate request states.
     if request.is_ajax() and request.method == "POST":
         event = get_object_or_404(Event, id=event_id)
         logger.info("event: %s" % event)
+        print("GRAN WADEFUK")
         if CertificateRequest.objects.filter(event=event, user=request.user, deleted=False).exists():
             certificate_request = CertificateRequest.objects.get(event=event, user=request.user, deleted=False)
             logger.info("certificate_request: %s" % certificate_request)
