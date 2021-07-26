@@ -99,5 +99,8 @@ class CertificateRequest(models.Model):
     state = models.CharField(max_length=50, choices=CERTIFICATE_STATES, blank=True, default="PENDING")
     date = models.DateTimeField(auto_now_add=True, null=True, blank=True)
 
+    class Meta:
+        unique_together = ["user", "event"]
+
     def __str__(self):
         return self.user.username + " - " + self.event.title

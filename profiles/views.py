@@ -352,8 +352,7 @@ def profile_events(request):
     events = Event.objects.filter(owner=request.user, deleted=False)
     logger.info("events: %s" % events)
 
-    certificate_requests = CertificateRequest.objects.filter(event__owner=request.user, deleted=False,
-                                                             accepted__isnull=True)
+    certificate_requests = CertificateRequest.objects.filter(event__owner=request.user, state="PENDING")
     logger.info("certificate_requests: %s" % certificate_requests)
 
     context = {"profile_index_active": "active", "underline_events": "text-underline",
@@ -388,12 +387,10 @@ def profile_certificates(request):
 @login_required
 def profile_cert_requests(request):
     template = "profiles/profile_cert_requests.html"
-    cert_requests = CertificateRequest.objects.filter(event__owner=request.user, accepted__isnull=True,
-                                                      deleted=False).order_by("event")
+    cert_requests = CertificateRequest.objects.filter(event__owner=request.user, state="PENDING").order_by("event")
     logger.info("cert_requests: %s" % cert_requests)
 
-    cert_requests_rejected = CertificateRequest.objects.filter(event__owner=request.user, accepted=False,
-                                                               deleted=False).order_by("event")
+    cert_requests_rejected = CertificateRequest.objects.filter(event__owner=request.user, state="REJECTED").order_by("event")
     logger.info("cert_requests_rejected: %s" % cert_requests_rejected)
     context = {"cert_requests": cert_requests, "cert_requests_rejected": cert_requests_rejected}
     return render(request, template, context)
