@@ -10,7 +10,6 @@
                   </p>
                   <div class="text-white rounded bg-warning text-uppercase
                   font-weight-medium px-6 py-3 mb-3">Solicitudes de Certificados</div>
-                  <hr>
                   {% for c in cert_requests %}
                       <div class="media media-list-view mb-5">
                         <div class="media-body">
@@ -37,9 +36,10 @@
                                     </small>
                                 {% endif %}
                             {% endif %}
-                          <a target="_blank" class="text-info text-capitalize font-weight-bold" href="">
+                          <a target="_blank" class="text-info small text-capitalize font-weight-bold" href="">
                             {{ c.user.username }} <i class="fa fa-user-circle-o mr-2" aria-hidden="true"></i>
                           </a>
+
                           </h3>
                         <ul class="list-unstyled d-flex text-muted mb-2">
                             <li class="mr-3">
@@ -54,50 +54,41 @@
                         </div>
                       </div>
                   {% endfor %}
+              <hr>
+            </div>
 
-              {% for c in cert_requests_rejected %}
-{#                  TODO esto debe estar colapsado, sin mostrarse por default#}
-                      <div class="media media-list-view mb-5">
-                        <div class="media-body">
-                          <h3 class="mb-3 mb-lg-2 mb-xl-3 text-muted">
-                            {{ c.event.title }}
-                            {% if c.event.event_type == "COURSE" %}
-                                {% if c.event.is_recorded %}
-                                    <small class="text-muted">
-                                        <i class="fa fa-play-circle mr-2" aria-hidden="true"></i>
-                                    </small>
-                                {% else %}
-                                    <small class="text-muted">
-                                        <i class="fa fa-video-camera mr-2" aria-hidden="true"></i>
-                                    </small>
-                                {% endif %}
-                            {% elif c.event.event_type == "EVENT" %}
-                                {% if c.event.is_recurrent %}
-                                    <small class="text-muted">
-                                        <i class="fa fa-calendar mr-2" aria-hidden="true"></i>
-                                    </small>
-                                {% else %}
-                                    <small class="text-muted">
-                                        <i class="fa fa-tag mr-2" aria-hidden="true"></i>
-                                    </small>
-                                {% endif %}
-                            {% endif %}
-                          <a target="_blank" class="text-info text-capitalize font-weight-bold" href="">
-                            {{ c.user.username }} <i class="fa fa-user-circle-o mr-2" aria-hidden="true"></i>
-                          </a>
-                          </h3>
-                        <ul class="list-unstyled d-flex text-muted mb-2">
-                            <li class="mr-3">
-                                <button type="button" data-id="{{ c.id }}" class="btn btn-success accept_certificate">
-                                <i class="fa fa-certificate"></i> Aceptar</button>
-                            </li>
-                        </ul>
+            </div>
+
+            {% if cert_requests_rejected %}
+              <div class="col-lg-6">
+                <div class="accordion mb-8" id="accordionExample">
+                    <div class="card">
+                      <div class="card-header" id="headingOne">
+                        <h5 class="mb-0">
+                          <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseOne"
+                                  aria-expanded="true" aria-controls="collapseOne">
+                            Solicitudes Rechazadas
+                          </button>
+                        </h5>
+                      </div>
+
+                      <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample" style="">
+                        <div class="card-body">
+                          <ul class="list-group">
+                              {% for c in cert_requests_rejected %}
+                              <li class="list-group-item d-flex justify-content-between align-items-center small">
+                                {{ c.event.title }} - {{ c.user.username }} |
+                                  <a data-id="{{ c.id }}" href="#" class="delete_certificate">eliminar</a> -
+                                  <a data-id="{{ c.id }}" href="#" class="restore_cert_request">restaurar</a>
+                              </li>
+                              {% endfor %}
+                          </ul>
                         </div>
                       </div>
-                  {% endfor %}
-
-
+                    </div>
+                </div>
               </div>
+              {% endif %}
             </div>
         </div>
     </div>
@@ -114,7 +105,7 @@
                 console.log(data);
                 $.ajax({
                         method: "post",
-                        url: "{% url 'accept_certificate' 0 %}".replace("0", data["cert_request_id"]),
+                        url: "{% url 'accept_cert_request' 0 %}".replace("0", data["cert_request_id"]),
                         data: data,
                         headers: {
                             'X-CSRFToken': getCookie('{{ settings.CSRF_COOKIE_NAME }}')
@@ -127,6 +118,7 @@
                         }
                     });
             });
+
             $(".reject_certificate").on("click", function(e){
                 data = {
                         "cert_request_id": $(this).data("id")
@@ -134,7 +126,7 @@
                 console.log(data);
                 $.ajax({
                         method: "post",
-                        url: "{% url 'reject_certificate' 0 %}".replace("0", data["cert_request_id"]),
+                        url: "{% url 'reject_cert_request' 0 %}".replace("0", data["cert_request_id"]),
                         data: data,
                         headers: {
                             'X-CSRFToken': getCookie('{{ settings.CSRF_COOKIE_NAME }}')
@@ -147,6 +139,49 @@
                         }
                     });
             });
+
+            $(".delete_certificate").on("click", function(e){
+                data = {
+                        "cert_request_id": $(this).data("id")
+                    }
+                console.log(data);
+                $.ajax({
+                        method: "post",
+                        url: "{% url 'cancel_cert_request' 0 %}".replace("0", data["cert_request_id"]),
+                        data: data,
+                        headers: {
+                            'X-CSRFToken': getCookie('{{ settings.CSRF_COOKIE_NAME }}')
+                        },
+                        success: function(response){
+                            location.reload();
+                        },
+                        error: function(response){
+                            console.log(response);
+                        }
+                    });
+            });
+
+            $(".restore_cert_request").on("click", function(e){
+                data = {
+                        "cert_request_id": $(this).data("id")
+                    }
+                console.log(data);
+                $.ajax({
+                        method: "post",
+                        url: "{% url 'restore_cert_request' 0 %}".replace("0", data["cert_request_id"]),
+                        data: data,
+                        headers: {
+                            'X-CSRFToken': getCookie('{{ settings.CSRF_COOKIE_NAME }}')
+                        },
+                        success: function(response){
+                            location.reload();
+                        },
+                        error: function(response){
+                            console.log(response);
+                        }
+                    });
+            });
+
         })
     </script>
 {% endblock extra_js %}

@@ -20,7 +20,8 @@ urlpatterns = [
     path('remove_bookmark/<int:event_id>', views.remove_bookmark, name="remove_bookmark"),
     path('certificate_detail/<int:certificate_id>', views.certificate_detail, name="certificate_detail"),
     path('request_certificate/<int:event_id>', views.request_certificate, name="request_certificate"),
-    path('cancel_cert_request/<int:event_id>', views.cancel_cert_request, name="cancel_cert_request"),
-    path('accept_certificate/<int:cert_request_id>', views.accept_certificate, name="accept_certificate"),
-    path('reject_certificate/<int:cert_request_id>', views.reject_certificate, name="reject_certificate"),
+    path('cancel_cert_request/<int:cert_request_id>', views.cancel_cert_request, name="cancel_cert_request"),
+    path('accept_cert_request/<int:cert_request_id>', views.accept_cert_request, name="accept_cert_request"),
+    path('reject_cert_request/<int:cert_request_id>', views.reject_cert_request, name="reject_cert_request"),
+    path('restore_cert_request/<int:cert_request_id>', views.restore_cert_request, name="restore_cert_request")
 ]
