@@ -54,9 +54,25 @@
                     {% for c in certificates %}
                         <div class="media media-list-view mb-5">
                                 <div class="media-img cert_div">
-                                <img title="Evento" src="{% static 'assets/img/diamante_verde.png' %}" class="diamond_certi_new" alt="">
+
+                                {% if c.event.event_type == 'EVENT' %}
+                                    <img alt="" title="Evento" src="{% static 'assets/img/diamante_verde.png' %}"
+                                                                         class="diamond_certi_new" width="22px">
+                                {% elif c.event.event_type == 'COURSE' %}
+                                    <img alt="" title="Curso Online" src="{% static 'assets/img/diamante_amarillo.png' %}"
+                                                                         class="diamond_certi_new" width="22px">
+                                {% elif c.event.event_type == "PRE-RECORDED" %}
+                                    <img alt="" title="Curso Pre Grabado" src="{% static 'assets/img/diamante_magenta.png' %}"
+                                                                         class="diamond_certi_new" width="22px">
+                                {% elif c.event.event_type == 'EXAM' %}
+                                    <img alt="" title="Examen" src="{% static 'assets/img/diamante_azul.png' %}"
+                                                                         class="diamond_certi_new" width="22px">
+                                {% endif %}
+
                                 {% if c.event.image %}
                                     <img class="main_card_img" src="{{ c.event.image.url }}" alt="">
+                                {% else %}
+                                    <img class="card-img-top" src="https://picsum.photos/500" alt="Event Image">
                                 {% endif %}
                                 </div>
 
@@ -110,57 +126,7 @@
                                         onclick="location.href = '{% url 'certificate_preview' c.id %}' ">
                                         <i class="fa fa-certificate mr-2" aria-hidden="true"></i>Ver Certificado
                                     </button>
-{#                                    <button data-id="{{ c.event.id }}" class="send_to_blockchain btn btn-sm btn-info#}
-{#                                    text-uppercase mb-1 mr-2 btn-hover-white">#}
-{#                                        <i class="fa fa-link mr-2" aria-hidden="true"></i>Enviar a la Blockchain#}
-{#                                    </button>#}
                                 </div>
-
-{#                                    Modal confirmacion enviar certificado a la blockchain#}
-                                    <div class="modal fade mb-8" id="modal_send_blockchain" tabindex="-1" role="dialog"
-                                         aria-labelledby="exampleModalLabel" style="display: none;" aria-hidden="true">
-                                    <div class="modal-dialog" role="document">
-                                      <div class="modal-content">
-                                        <div class="modal-header">
-                                          <h5 class="modal-title">Guardar Certificado en la Blockchain</h5>
-                                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                            <span aria-hidden="true">×</span>
-                                          </button>
-                                        </div>
-                                        <div class="modal-body">
-                                          <p>Guardar datos en una blockchain tiene costo. <a href="">(leer más...)</a>
-                                              <br>
-                                              ¡Y también tiene beneficios!
-                                              <br>
-                                              <ul>
-                                                <li>
-                                                    Tu certificado será guardado permanentemente en una base de datos descentralizada.
-                                                </li>
-                                                <li>
-                                                    Tu certificado será visible para terceras personas (opcional).
-                                                </li>
-                                                <li>
-                                                    Ganarás el emblema Bibliotecario del Futuro.
-                                                </li>
-                                                <li>
-                                                    Ganarás 5 puntos de actividad.
-                                                </li>
-                                              </ul>
-                                              <br>
-                                          </p>
-                                            <p>
-                                                Presiona Continuar para revisar el hash del certificado, establecer conexión con
-                                                la blockchain de Ethereum y alistar los datos.
-                                            </p>
-                                        </div>
-                                        <div class="modal-footer">
-                                          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                                          <button id="confirm_send_blockchain" type="button"
-                                                  data-id="" class="btn btn-primary">Continuar</button>
-                                        </div>
-                                      </div>
-                                    </div>
-                                    </div>
                             </div>
                         </div>
 

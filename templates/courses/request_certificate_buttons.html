@@ -1,11 +1,16 @@
 {% load static %}
 
-<h3>Estado del cert_request: {{ cert_request.accepted }}</h3>
-
-
 {% if cert_request.state == "ACCEPTED" %}  {# Ya obtuvo un certificado #}
     <div class="text-right">
-        <img title="Evento" src="{% static 'assets/img/diamante_verde.png' %}"  width="20px" alt="">
+        {% if cert_request.event.event_type == 'EVENT' %}
+            <span class="diamond_title"><img title="Evento" src="{% static 'assets/img/diamante_verde.png' %}" class="" width="22px"></span>
+        {% elif cert_request.event.event_type == 'COURSE' %}
+            <span class="diamond_title"><img title="Curso Online" src="{% static 'assets/img/diamante_amarillo.png' %}" class="" width="22px"></span>
+        {% elif cert_request.event.event_type == "PRE-RECORDED" %}
+            <span class="diamond_title"><img title="Curso Pre Grabado" src="{% static 'assets/img/diamante_magenta.png' %}" class="" width="22px"></span>
+        {% elif cert_request.event.event_type == 'EXAM' %}
+            <span class="diamond_title"><img title="Examen" src="{% static 'assets/img/diamante_azul.png' %}" class="" width="22px"></span>
+        {% endif %}
         Tienes un <a href="{% url 'profile_certificates' %}">certificado</a> de este evento.
     </div>
 {% elif cert_request.state == "PENDING" %} {# Todavia no decide el profesor #}

@@ -88,7 +88,6 @@
                         </div>
 
                         {% if user_certificate_request %}
-                            {{ user_certificate_request }}
                             {% include 'courses/request_certificate_buttons.html' with cert_request=user_certificate_request %}
                         {% else %}
                             <div id="request_certificate_div" class="text-right">
@@ -97,14 +96,21 @@
                                 </button>
                             </div>
                         {% endif %}
-
                     {% endif %}
                     </div>
 
                     <div>
 
                         <h3 class="card-title text-dark">
-                         <span class="diamond_title"><img title="Evento" src="{% static 'assets/img/diamante_verde.png' %}" width="22px" alt=""></span>
+                        {% if event.event_type == 'EVENT' %}
+                            <span class="diamond_title"><img alt="" title="Evento" src="{% static 'assets/img/diamante_verde.png' %}" class="" width="22px"></span>
+                        {% elif event.event_type == 'COURSE' %}
+                            <span class="diamond_title"><img alt="" title="Curso Online" src="{% static 'assets/img/diamante_amarillo.png' %}" class="" width="22px"></span>
+                        {% elif event.event_type == "PRE-RECORDED" %}
+                            <span class="diamond_title"><img alt="" title="Curso Pre Grabado" src="{% static 'assets/img/diamante_magenta.png' %}" class="" width="22px"></span>
+                        {% elif event.event_type == 'EXAM' %}
+                            <span class="diamond_title"><img alt="" title="Examen" src="{% static 'assets/img/diamante_azul.png' %}" class="" width="22px"></span>
+                        {% endif %}
                             {{ event.title }}
                         </h3>
                         <p class="">{{ event.description|safe }}</p>
