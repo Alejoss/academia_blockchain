@@ -50,79 +50,8 @@
 
                   </div>
 
-                  {% for event in events %}
-                    <div class="media media-list-view mb-5">
-                        <div class="media-img cert_div">
+                {% include 'courses/events_list_section.html' with events=events %}
 
-                            {% if event.event_type == 'EVENT' %}
-                                <img alt="" title="Evento" src="{% static 'assets/img/diamante_verde.png' %}"
-                                                                     class="diamond_certi_new" width="22px">
-                            {% elif event.event_type == 'COURSE' %}
-                                <img alt="" title="Curso Online" src="{% static 'assets/img/diamante_amarillo.png' %}"
-                                                                     class="diamond_certi_new" width="22px">
-                            {% elif event.event_type == "PRE-RECORDED" %}
-                                <img alt="" title="Curso Pre Grabado" src="{% static 'assets/img/diamante_magenta.png' %}"
-                                                                     class="diamond_certi_new" width="22px">
-                            {% elif event.event_type == 'EXAM' %}
-                                <img alt="" title="Examen" src="{% static 'assets/img/diamante_azul.png' %}"
-                                                                     class="diamond_certi_new" width="22px">
-                            {% endif %}
-
-                            {% if event.image %}
-                                <img class="main_card_img" src="{{ event.image.url }}" alt="">
-                            {% else %}
-                                <img class="card-img-top" src="https://picsum.photos/500" alt="Event Image">
-                            {% endif %}
-                        </div>
-
-                        <div class="media-body">
-                            <h3>
-                                <a class="text-warning" href="{% url 'event_detail' event.id %}">{{ event.title }}</a>
-                            </h3>
-                            <ul class="list-unstyled d-flex text-muted mb-3">
-                                <li class="mr-3">
-                                    {% if event.event_type == "COURSE" %}
-                                        {% if event.is_recorded %}
-                                            <i class="fa fa-play-circle mr-2" aria-hidden="true"></i>Curso Grabado
-                                        {% else %}
-                                            <i class="fa fa-video-camera mr-2" aria-hidden="true"></i>Curso en Línea
-                                        {% endif %}
-                                    {% elif event.event_type == "EVENT" %}
-                                        {% if event.is_recurrent %}
-                                            <i class="fa fa-calendar mr-2" aria-hidden="true"></i>Evento Recurrente
-                                        {% else %}
-                                            <i class="fa fa-tag mr-2" aria-hidden="true"></i>Evento
-                                        {% endif %}
-                                    {% endif %}
-                                </li>
-                                <li>
-                                    {% if event.is_recorded %}
-                                        {% if event.is_recorded %}
-                                            <i class="fa fa-clock-o mr-2" aria-hidden="true"></i>
-                                            {{ event.date_recorded|date:"SHORT_DATE_FORMAT" }}
-                                        {% endif %}
-                                    {% elif event.is_recurrent %}
-                                        {% if event.schedule_description %}
-                                            <i class="fa fa-clock-o mr-2" aria-hidden="true"></i>
-                                            {{ event.schedule_description }}
-                                        {% endif %}
-                                    {% else %}
-                                        {% if event.date_start %}
-                                            <i class="fa fa-clock-o mr-2" aria-hidden="true"></i>
-                                            {{ event.date_start|date:"SHORT_DATE_FORMAT" }}
-                                        {% endif %}
-                                        {% if event.date_end %}
-                                            - {{ event.date_end|date:"SHORT_DATE_FORMAT" }}
-                                        {% endif %}
-                                    {% endif %}
-                                </li>
-                            </ul>
-
-                            <p class="text-justify mb-lg-2">{{ event.description|truncatewords:20|safe }}</p>
-
-                        </div>
-                    </div>
-                  {% endfor %}
               </div>
             </div>
 

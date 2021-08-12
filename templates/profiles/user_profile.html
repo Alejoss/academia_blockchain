@@ -1,18 +1,86 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block content %}
-<section class="py-8 pt-md-10">
+
+<section class="py-8 py-md-10">
 	<div class="container">
-            <div class="row">
-                <div class="media media-avator-view flex-column flex-sm-row">
-                <div class="media-img mb-5 mb-sm-0 mr-md-5 mr-lg-6 rounded-sm shadow-sm">
-                    {% if profile.profile_picture %}
-                        <img id="profile_picture" class="rounded-sm" src="{{ profile.profile_picture.url }}">
-                    {% else %}
-                        <img id="profile_picture" class="rounded-sm" src="https://picsum.photos/200">
-                    {% endif %}
+		<div class="row">
+
+    <div class="col-md-4 col-lg-3">
+        <div class="card shadow-none bg-transparent">
+            <h4 class="card-header font-weight-bold bg-warning rounded-top text-white">Contacto</h4>
+            <div class="border border-top-0 rounded-bottom">
+{#            TODO esto genera overflow en chrome#}
+            {% for c in contact_methods %}
+                <div class="media p-3 border-bottom">
+                        {% if c.has_contact_url %}
+                            <p class="text-muted">
+                                {{ c.name }} | <a class="" target="_blank" href="{{ c.url_link }}">{{ c.url_link }}</a>:
+                                "{{ c.description }}"
+                            </p>
+                        {% else %}
+                            <p class="text-muted">
+                                {{ c.name }} | <strong class="text-muted">{{ c.url_link }}</strong>: "{{ c.description }}"
+                            </p>
+                        {% endif %}
                 </div>
-                  <div class="media-body">
+            {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-8 col-lg-9 order-md-1">
+        <div class="container">
+            <div class="row">
+                <div class="col-md certi_col">
+                    <div class="img_col">
+                        <img title="Evento" src="{% static 'assets/img/diamante_verde.png' %}"  width="20px" alt="">
+                    </div>
+                    <div>
+                        <h4>{{ green_diamonds }}</h4>
+                    </div>
+                </div>
+                <div class="col-md  certi_col">
+                     <div class="img_col">
+                        <img title="Evento" src="{% static 'assets/img/diamante_amarillo.png' %}"  width="20px" alt="">
+                    </div>
+                    <div>
+                        <h4>{{ yellow_diamonds }}</h4>
+                    </div>
+                </div>
+                <div class="col-md certi_col">
+                     <div class="img_col">
+                        <img title="Evento" src="{% static 'assets/img/diamante_magenta.png' %}"  width="20px" alt="">
+                    </div>
+                    <div>
+                        <h4>{{ magenta_diamonds }}</h4>
+                    </div>
+                </div>
+                <div class="col-md certi_col">
+                     <div class="img_col">
+                        <img title="Evento" src="{% static 'assets/img/diamante_azul.png' %}"  width="20px" alt="">
+                    </div>
+                    <div>
+                        <h4>{{ blue_diamonds }}</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="container">
+        <hr>
+        <div class="row">
+            <div class="media media-avator-view flex-column flex-sm-row">
+                <a class="media-img mb-5 mb-sm-0 mr-md-5 mr-lg-6 rounded-sm shadow-sm">
+                {% if profile.profile_picture %}
+                    <img id="profile_picture" class="rounded-sm" src="{{ profile.profile_picture.url }}">
+                {% else %}
+                    <img id="profile_picture" class="rounded-sm" src="https://picsum.photos/200">
+                {% endif %}
+                </a>
+                <div class="media-body">
                     <p class="font-size-20 font-weight-medium d-inline-block mb-1">{{ profile.user.username }}</p>
                       <br>
                     <p class="font-size-15 text-muted font-weight-medium d-inline-block mb-1">{{ profile.user.get_full_name }}</p>
@@ -31,21 +99,6 @@
                            <strong>Criptos preferidas</strong>:
                             {{ cryptos_string }}
                         </p>
-
-                        <strong>Métodos de Contacto</strong>:
-                        <ul class="text-muted">
-                            {% for c in contact_methods %}
-                                {% if c.has_contact_url %}
-                                    <li>
-                                        {{ c.name }} | <a class="" target="_blank" href="{{ c.url_link }}">{{ c.url_link }}</a>: {{ c.description }}
-                                    </li>
-                                {% else %}
-                                    <li>
-                                        {{ c.name }} | <strong class="text-muted">{{ c.url_link }}</strong>: {{ c.description }}
-                                    </li>
-                                {% endif %}
-                            {% endfor %}
-                        </ul>
                     </span>
                     <span class="text-muted font-size-15 mb-1 d-block">
                         <strong>
@@ -53,79 +106,23 @@
                         </strong>
                         {{ profile.timezone }}
                     </span>
-                  </div>
-                </div>
+               </div>
             </div>
-        <hr>
-        <div class="row">
-        <div class="media-body">
-            <p>
-             <strong>Cursos y Eventos: </strong>
-              <br>
-            </p>
-            {% for event in events %}
-              <div class="media media-list-view mb-5">
-                <div class="media-body">
-                <h3 class="mb-3 mb-lg-2 mb-xl-3">
-                    {% if event.event_type == "COURSE" %}
-                        <a class="text-info text-capitalize font-weight-bold" href="{% url 'event_detail' event.id %}">
-                        {{ event.title }}</a>
-                    {% elif event.event_type == "EVENT" %}
-                        <a class="text-success text-capitalize font-weight-bold" href="{% url 'event_detail' event.id %}">
-                        {{ event.title }}</a>
-                    {% endif %}
-                </h3>
-                <ul class="list-unstyled d-flex text-muted mb-2">
-                    <li class="mr-3">
-                        {% if event.event_type == "COURSE" %}
-                            {% if event.is_recorded %}
-                                <i class="fa fa-play-circle mr-2" aria-hidden="true"></i>Curso Grabado
-                            {% else %}
-                                <i class="fa fa-video-camera mr-2" aria-hidden="true"></i>Curso en Línea
-                            {% endif %}
-                        {% elif event.event_type == "EVENT" %}
-                            {% if event.is_recurrent %}
-                                <i class="fa fa-calendar mr-2" aria-hidden="true"></i>Evento Recurrente
-                            {% else %}<i class="fa fa-tag mr-2" aria-hidden="true"></i>Evento
-                            {% endif %}
-                        {% endif %}
-                    </li>
-                    <li>
-                        {% if event.is_recorded %}
-                            {% if event.is_recorded %}
-                                <i class="fa fa-clock-o mr-2" aria-hidden="true"></i>
-                                {{ event.date_recorded|date:"SHORT_DATE_FORMAT" }}
-                            {% endif %}
-                        {% elif event.is_recurrent %}
-                            {% if event.schedule_description %}
-                                <i class="fa fa-clock-o mr-2" aria-hidden="true"></i>
-                                {{ event.schedule_description }}
-                            {% endif %}
-                        {% else %}
-                            {% if event.date_start %}
-                                <i class="fa fa-clock-o mr-2" aria-hidden="true"></i>
-                                {{ event.date_start|date:"SHORT_DATE_FORMAT" }}
-                            {% endif %}
-                            {% if event.date_end %}
-                                - {{ event.date_end|date:"SHORT_DATE_FORMAT" }}
-                            {% endif %}
-                        {% endif %}
-                    </li>
-                </ul>
-                </div>
-              </div>
-            {% endfor %}
-        </div>
+
+            <hr>
+
         </div>
 
-        <div class="row">
-            <div class="media-body">
-                <p>
-                    <strong>Certificados: </strong>
-                    <br>
-                </p>
-            </div>
+        <hr>
+
+        <div class="media-body">
+            {% include 'courses/events_list_section.html' with events=events %}
         </div>
+
+        </div>
+
+    </div>
+   </div>
     </div>
 </section>
 {% endblock content %}

@@ -196,12 +196,6 @@
            window.location.href = "{% url 'profile_edit_contactm' %}";
         });
 
-        // timezone en form. Selecciona el timezone del usuario
-        {#let user_timezone = "{{ profile.timezone }}";#}
-        {#console.log(user_timezone);#}
-        {#if(user_timezone.length > 1){#}
-        {#    $("#Europe/Madrid").prop("selected", true);#}
-
         $("#profile_picture").on("click", function(e){
             e.preventDefault();
             $("#EditProfilePicModal").modal("show")
