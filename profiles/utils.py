@@ -16,6 +16,7 @@ from django.conf import settings
 from django.template import loader
 
 from profiles.models import Profile
+from courses.models import Certificate
 
 
 logger = logging.getLogger('app_logger')
@@ -166,3 +167,22 @@ def send_confirmation_email(request, user, user_email):
     logger.debug("current_site: %s" % current_site)
     logger.debug("uid: %s" % uid)
     logger.debug("activation_token: %s" % activation_token)
+
+
+def get_user_diamonds(user, certificates=None):
+    if not certificates:
+        certificates = Certificate.objects.filter(user=user, deleted=False)
+
+    green_diamonds = certificates.filter(event__event_type="EVENT").count()
+    yellow_diamonds = certificates.filter(event__event_type="LIVE_COURSE").count()
+    magenta_diamonds = certificates.filter(event__event_type="PRE_RECORDED").count()
+    blue_diamonds = certificates.filter(event__event_type="EXAM").count()
+
+    logger.info("certificates: %s" % certificates)
+    logger.info("green_diamonds: %s" % green_diamonds)
+    logger.info("yellow_diamonds: %s" % yellow_diamonds)
+    logger.info("magenta_diamonds: %s" % magenta_diamonds)
+    logger.info("blue_diamonds: %s" % blue_diamonds)
+
+    return {"green_diamonds": green_diamonds, "yellow_diamonds": yellow_diamonds, "magenta_diamonds": magenta_diamonds,
+            "blue_diamonds": blue_diamonds}

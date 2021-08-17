@@ -18,7 +18,7 @@ from django.conf import settings
 
 from profiles.utils import AcademiaUserCreationForm, AcademiaLoginForm, ProfilePictureForm, \
     get_cryptos_string, academia_blockchain_timezones, send_email_message, AcademiaPasswordResetForm,\
-    AcademiaSetPasswordForm, send_confirmation_email
+    AcademiaSetPasswordForm, send_confirmation_email, get_user_diamonds
 
 from profiles.models import Profile, AcceptedCrypto, ContactMethod, CryptoCurrency
 from courses.models import Event, Bookmark, CertificateRequest, Certificate
@@ -196,10 +196,14 @@ def user_profile(request, profile_id):
     logger.info("contact_methods: %s" % contact_methods)
     cryptos_string = get_cryptos_string(profile)
     events = Event.objects.filter(owner=profile.user)
+    certificates = Certificate.objects.filter(user=profile.user, deleted=False)
     logger.info("events: %s" % events)
 
+    user_diamonds = get_user_diamonds(request.user, certificates=certificates)
+
     context = {"profile": profile, "events": events, "contact_methods": contact_methods,
-               "cryptos_string": cryptos_string}
+               "cryptos_string": cryptos_string, "certificates": certificates,
+               "user_diamonds": user_diamonds}
     return render(request, template, context)
 
 
@@ -363,24 +367,15 @@ def profile_events(request):
 @login_required
 def profile_certificates(request):
     template = "profiles/profile_certificates.html"
-    certificates = Certificate.objects.filter(user=request.user)
-    green_diamonds = certificates.filter(event__event_type="EVENT").count()
-    yellow_diamonds = certificates.filter(event__event_type="LIVE_COURSE").count()
-    magenta_diamonds = certificates.filter(event__event_type="PRE_RECORDED").count()
-    blue_diamonds = certificates.filter(event__event_type="EXAM").count()
 
-    logger.info("certificates: %s" % certificates)
-    logger.info("green_diamonds: %s" % green_diamonds)
-    logger.info("yellow_diamonds: %s" % yellow_diamonds)
-    logger.info("magenta_diamonds: %s" % magenta_diamonds)
-    logger.info("blue_diamonds: %s" % blue_diamonds)
+    certificates = Certificate.objects.filter(user=request.user, deleted=False)
+    user_diamonds = get_user_diamonds(request.user, certificates=certificates)
 
     courses_certificates = Certificate.objects.filter(event__owner=request.user)  # certificates awarded by user
 
     context = {"profile_index_active": "active", "underline_certificates": "text-underline",
                "certificates": certificates, "courses_certificates": courses_certificates,
-               "green_diamonds": green_diamonds, "yellow_diamonds": yellow_diamonds,
-               "magenta_diamonds": magenta_diamonds, "blue_diamonds": blue_diamonds}
+               "user_diamonds": user_diamonds}
     return render(request, template, context)
 
 

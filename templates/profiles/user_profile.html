@@ -9,9 +9,22 @@
 
     <div class="col-md-4 col-lg-3">
         <div class="card shadow-none bg-transparent">
+            <h4 class="card-header font-weight-bold bg-success rounded-top text-white">Certificados</h4>
+            <div class="border border-top-0 rounded-bottom">
+            {% for cert in certificates %}
+                <div class="media p-3 border-bottom">
+                    <p class="text-muted">
+                        {{ cert.event.owner.username }} |
+                        <a class="" target="_blank" href="{% url 'certificate_preview' cert.id %}">{{ cert.event.title }}</a>
+                    </p>
+                </div>
+            {% endfor %}
+            </div>
+        </div>
+
+        <div class="card shadow-none bg-transparent">
             <h4 class="card-header font-weight-bold bg-warning rounded-top text-white">Contacto</h4>
             <div class="border border-top-0 rounded-bottom">
-{#            TODO esto genera overflow en chrome#}
             {% for c in contact_methods %}
                 <div class="media p-3 border-bottom">
                         {% if c.has_contact_url %}
@@ -28,6 +41,7 @@
             {% endfor %}
             </div>
         </div>
+
     </div>
 
     <div class="col-md-8 col-lg-9 order-md-1">
@@ -38,7 +52,7 @@
                         <img title="Evento" src="{% static 'assets/img/diamante_verde.png' %}"  width="20px" alt="">
                     </div>
                     <div>
-                        <h4>{{ green_diamonds }}</h4>
+                        <h4>{{ user_diamonds.green_diamonds }}</h4>
                     </div>
                 </div>
                 <div class="col-md  certi_col">
@@ -46,7 +60,7 @@
                         <img title="Evento" src="{% static 'assets/img/diamante_amarillo.png' %}"  width="20px" alt="">
                     </div>
                     <div>
-                        <h4>{{ yellow_diamonds }}</h4>
+                        <h4>{{ user_diamonds.yellow_diamonds }}</h4>
                     </div>
                 </div>
                 <div class="col-md certi_col">
@@ -54,7 +68,7 @@
                         <img title="Evento" src="{% static 'assets/img/diamante_magenta.png' %}"  width="20px" alt="">
                     </div>
                     <div>
-                        <h4>{{ magenta_diamonds }}</h4>
+                        <h4>{{ user_diamonds.magenta_diamonds }}</h4>
                     </div>
                 </div>
                 <div class="col-md certi_col">
@@ -62,7 +76,7 @@
                         <img title="Evento" src="{% static 'assets/img/diamante_azul.png' %}"  width="20px" alt="">
                     </div>
                     <div>
-                        <h4>{{ blue_diamonds }}</h4>
+                        <h4>{{ user_diamonds.blue_diamonds }}</h4>
                     </div>
                 </div>
             </div>
