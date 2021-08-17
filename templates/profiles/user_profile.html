@@ -11,14 +11,14 @@
         <div class="card shadow-none bg-transparent">
             <h4 class="card-header font-weight-bold bg-success rounded-top text-white">Certificados</h4>
             <div class="border border-top-0 rounded-bottom">
-            {% for cert in certificates %}
-                <div class="media p-3 border-bottom">
-                    <p class="text-muted">
-                        {{ cert.event.owner.username }} |
-                        <a class="" target="_blank" href="{% url 'certificate_preview' cert.id %}">{{ cert.event.title }}</a>
-                    </p>
-                </div>
-            {% endfor %}
+                {% for cert in certificates %}
+                    <div class="media p-3 border-bottom">
+                        <p class="text-muted">
+                            {{ cert.event.owner.username }} |
+                            <a class="" target="_blank" href="{% url 'certificate_preview' cert.id %}">{{ cert.event.title }}</a>
+                        </p>
+                    </div>
+                {% endfor %}
             </div>
         </div>
 
@@ -29,12 +29,18 @@
                 <div class="media p-3 border-bottom">
                         {% if c.has_contact_url %}
                             <p class="text-muted">
-                                {{ c.name }} | <a class="" target="_blank" href="{{ c.url_link }}">{{ c.url_link }}</a>:
-                                "{{ c.description }}"
+                                {{ c.name }} | <a class="" target="_blank" href="{{ c.url_link }}">{{ c.url_link }}</a>
+                                {% if c.description %}
+                                    :"{{ c.description }}"
+                                {% endif %}
                             </p>
                         {% else %}
                             <p class="text-muted">
-                                {{ c.name }} | <strong class="text-muted">{{ c.url_link }}</strong>: "{{ c.description }}"
+                                {{ c.name }} | <strong class="text-muted">{{ c.url_link }}</strong>
+{#                                TODO esto causa overflow en google chrome #}
+                                {% if c.description %}
+                                    : "{{ c.description }}"
+                                {% endif %}
                             </p>
                         {% endif %}
                 </div>
