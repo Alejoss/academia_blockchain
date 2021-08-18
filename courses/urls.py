@@ -3,6 +3,7 @@ from courses import views
 
 urlpatterns = [
     path('', views.event_index, name="event_index"),
+    path('about/', views.about, name="about"),
     path('events_tag/<int:tag_id>', views.events_tag, name="events_tag"),
     path('events_all/', views.events_all, name="events_all"),
     path('event_search/', views.event_search, name="event_search"),
@@ -14,6 +15,7 @@ urlpatterns = [
     path('certificate_preview/<int:cert_id>', views.certificate_preview, name="certificate_preview"),
     path('send_cert_blockchain/<int:cert_id>', views.send_cert_blockchain, name="send_cert_blockchain"),
     path('add_cert_hash/<int:cert_id>', views.add_cert_hash, name="add_cert_hash"),
+
 
     # API
     path('event_bookmark/<int:event_id>', views.event_bookmark, name="event_bookmark"),

@@ -37,6 +37,12 @@ def event_index(request):
     return render(request, template, context)
 
 
+def about(request):
+    template = "courses/about.html"
+    context = {}
+    return render(request, template, context)
+
+
 def events_tag(request, tag_id):
     template = "courses/events_tag.html"
     tag = get_object_or_404(Tag, id=tag_id)
