@@ -3,10 +3,10 @@
     <div class="card card_main">
     {% if event.event_type == 'EVENT' %}
         <img title="Evento" src="{% static 'assets/img/diamante_verde.png' %}" class="diamond" alt="">
-    {% elif event.event_type == 'COURSE' %}
-        <img title="Curso Online" src="{% static 'assets/img/diamante_amarillo.png' %}" class="diamond" alt="">
+    {% elif event.event_type == 'LIVE_COURSE' %}
+        <img title="Curso en Vivo" src="{% static 'assets/img/diamante_amarillo.png' %}" class="diamond" alt="">
     {% elif event.event_type == "PRE_RECORDED" %}
-        <img title="Curso Pre Grabado" src="{% static 'assets/img/diamante_magenta.png' %}" class="diamond" alt="">
+        <img title="Curso Grabado" src="{% static 'assets/img/diamante_magenta.png' %}" class="diamond" alt="">
     {% elif event.event_type == 'EXAM' %}
         <img title="Examen" src="{% static 'assets/img/diamante_azul.png' %}" class="diamond" alt="">
     {% endif %}
@@ -29,7 +29,7 @@
                 <i class="fa fa-user-circle-o mr-2" aria-hidden="true"></i>{{ event.owner.username }}
             </li>
             <li class="mb-2">
-                {% if event.event_type == "COURSE" %}
+                {% if event.event_type == "LIVE_COURSE" %}
                     <i class="fa fa-video-camera mr-2" aria-hidden="true"></i>Curso en Vivo
                 {% elif event.event_type == "PRE_RECORDED" %}
                     <i class="fa fa-play-circle mr-2" aria-hidden="true"></i>Curso Pre Grabado

@@ -19,7 +19,7 @@
                             </div>
                             <div class="col-md  certi_col">
                                  <div class="img_col">
-                                    <img title="Evento" src="{% static 'assets/img/diamante_amarillo.png' %}"  width="20px" alt="">
+                                    <img title="Curso en Vivo" src="{% static 'assets/img/diamante_amarillo.png' %}"  width="20px" alt="">
                                 </div>
                                 <div>
                                     <h4>{{ user_diamonds.yellow_diamonds }}</h4>
@@ -27,7 +27,7 @@
                             </div>
                             <div class="col-md certi_col">
                                  <div class="img_col">
-                                    <img title="Evento" src="{% static 'assets/img/diamante_magenta.png' %}"  width="20px" alt="">
+                                    <img title="Curso Grabado" src="{% static 'assets/img/diamante_magenta.png' %}"  width="20px" alt="">
                                 </div>
                                 <div>
                                     <h4>{{ user_diamonds.magenta_diamonds }}</h4>
@@ -35,7 +35,7 @@
                             </div>
                             <div class="col-md certi_col">
                                  <div class="img_col">
-                                    <img title="Evento" src="{% static 'assets/img/diamante_azul.png' %}"  width="20px" alt="">
+                                    <img title="Examen" src="{% static 'assets/img/diamante_azul.png' %}"  width="20px" alt="">
                                 </div>
                                 <div>
                                     <h4>{{ user_diamonds.blue_diamonds }}</h4>
@@ -59,7 +59,7 @@
                                     <img alt="" title="Evento" src="{% static 'assets/img/diamante_verde.png' %}"
                                                                          class="diamond_certi_new" width="22px">
                                 {% elif c.event.event_type == 'LIVE_COURSE' %}
-                                    <img alt="" title="Curso Online" src="{% static 'assets/img/diamante_amarillo.png' %}"
+                                    <img alt="" title="Curso en Vivo" src="{% static 'assets/img/diamante_amarillo.png' %}"
                                                                          class="diamond_certi_new" width="22px">
                                 {% elif c.event.event_type == "PRE-RECORDED" %}
                                     <img alt="" title="Curso Pre Grabado" src="{% static 'assets/img/diamante_magenta.png' %}"
