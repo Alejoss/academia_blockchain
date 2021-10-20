@@ -4,6 +4,7 @@ from courses import views
 urlpatterns = [
     path('', views.event_index, name="event_index"),
     path('about/', views.about, name="about"),
+    path('descentralize_education/', views.descentralize_education, name="descentralize_education"),
     path('events_tag/<int:tag_id>', views.events_tag, name="events_tag"),
     path('events_all/', views.events_all, name="events_all"),
     path('event_search/', views.event_search, name="event_search"),

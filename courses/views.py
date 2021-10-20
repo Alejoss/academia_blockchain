@@ -39,7 +39,13 @@ def event_index(request):
 
 def about(request):
     template = "courses/about.html"
-    context = {}
+    context = {"info_index_active": "active"}
+    return render(request, template, context)
+
+
+def descentralize_education(request):
+    template = "courses/descentralize_education.html"
+    context = {"info_index_active": "active"}
     return render(request, template, context)
 
 

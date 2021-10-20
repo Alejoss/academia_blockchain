@@ -101,6 +101,15 @@
         <div class="collapse navbar-collapse" id="navbarContent">
           <ul class="navbar-nav ml-lg-auto">
 
+
+            <li class="nav-item dropdown bg-info">
+              <a class="nav-link dropdown-toggle {{ info_index_active }}" href="{% url 'about' %}">
+                <i class="fa fa-group nav-icon" aria-hidden="true"></i>
+                <span>Info</span>
+              </a>
+            </li>
+
+
             <li class="nav-item dropdown bg-warning">
               <a class="nav-link dropdown-toggle {{ event_index_active }}" href="{% url 'event_index' %}">
                 <i class="fa fa-pencil-square-o nav-icon" aria-hidden="true"></i>
@@ -108,14 +117,14 @@
               </a>
             </li>
 
-            <li class="nav-item dropdown bg-info">
+            <li class="nav-item dropdown bg-success">
               <a class="nav-link dropdown-toggle {{ content_index_active }}" href="{% url 'content' %}">
                 <i class="fa fa-cubes nav-icon" aria-hidden="true"></i>
                 <span>Contenido</span>
               </a>
             </li>
 
-            <li class="nav-item dropdown bg-success">
+            <li class="nav-item dropdown bg-info">
                 {% if user.is_authenticated %}
                  <a title="{{ user.username }}" class="nav-link dropdown-toggle {{ profile_index_active }}" href="{% url 'profile_certificates' %}">
                     <i class="fa fa-user nav-icon" aria-hidden="true"></i>
