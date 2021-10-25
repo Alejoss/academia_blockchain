@@ -6,9 +6,15 @@
         <div class="row">
           <div class="col-sm-6 offset-lg-2 col-lg-4">
             <div class="mb-4 mb-sm-0">
+            {% if user.is_authenticated %}
+                <div class="bg-warning rounded-top p-2">
+                    <h3 class="text-white font-weight-bold mb-0 ml-2">Ya estás registrado como {{ user.username }}.</h3>
+                </div>
+            {% else %}
               <div class="bg-warning rounded-top p-2">
                 <h3 class="text-white font-weight-bold mb-0 ml-2">Crea una Cuenta</h3>
               </div>
+
               <div class="border rounded-bottom-sm border-top-0">
                 <div class="p-3">
                   <form action="{% url 'profile_register' %}" method="POST" role="form">
@@ -52,6 +58,7 @@
                   </form>
                 </div>
               </div>
+            {% endif %}
             </div>
           </div>
         </div>
