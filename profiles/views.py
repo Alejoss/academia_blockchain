@@ -15,6 +15,7 @@ from django.template.loader import render_to_string
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.utils.encoding import force_bytes, force_text
 from django.conf import settings
+from django.contrib.auth.forms import SetPasswordForm
 
 from profiles.utils import AcademiaUserCreationForm, AcademiaLoginForm, ProfilePictureForm, \
     get_cryptos_string, academia_blockchain_timezones, send_email_message, AcademiaPasswordResetForm,\
@@ -270,26 +271,29 @@ def profile_edit_cryptos(request):
     template = "profiles/profile_edit_cryptos.html"
 
     if request.method == "POST":
-        crypto_id = request.POST.get("crypto_id")
+        accepted_crypto_id = request.POST.get("crypto_id")
         crypto_name = request.POST.get("crypto_name")
         crypto_code = request.POST.get("crypto_code")
         crypto_address = request.POST.get("crypto_address")
 
-        logger.info("crypto_id: %s" % crypto_id)
+        logger.info("accepted_crypto_id: %s" % accepted_crypto_id)
         logger.info("crypto_name: %s" % crypto_name)
         logger.info("crypto_code: %s" % crypto_code)
         logger.info("crypto_address: %s" % crypto_address)
 
-        if int(crypto_id) > 0:  # EDIT AcceptedCrypto existente
+        if int(accepted_crypto_id) > 0:  # EDIT AcceptedCrypto existente
             try:
-                obj = AcceptedCrypto.objects.get(id=crypto_id)
+                obj = AcceptedCrypto.objects.get(id=accepted_crypto_id)
             except Exception as e:
-                logger.warning("accepted_crypto not found: %s" % crypto_id)
+                logger.warning("accepted_crypto not found: %s" % accepted_crypto_id)
                 return HttpResponse("Accepted Crypto not found", status=404)
+
             if CryptoCurrency.objects.filter(name=crypto_name).exists():
                 crypto_obj = CryptoCurrency.objects.get(name=crypto_name)
-                logger.info("crypto_obj: %s" % crypto_obj)
+                logger.info("crypto_obj_b1: %s" % crypto_obj)
                 obj.crypto = crypto_obj
+                obj.address = crypto_address
+                obj.save()
             else:
                 # Crear una nueva criptomoneda
                 new_crypto = CryptoCurrency.objects.create(name=crypto_name,
@@ -307,7 +311,7 @@ def profile_edit_cryptos(request):
                     # Crear una nueva criptomoneda
                     crypto_obj = CryptoCurrency.objects.create(name=crypto_name,
                                                                code=crypto_code)
-                logger.info("crypto_obj: %s" % crypto_obj)
+                logger.info("crypto_obj_b2: %s" % crypto_obj)
 
                 new_accepted_crypto = AcceptedCrypto.objects.create(
                     user=request.user,
@@ -421,5 +425,18 @@ def profile_content(request):
 @login_required
 def profile_security(request):
     template = "profiles/profile_security.html"
-    context = {"profile_index_active": "active", "underline_security": "text-underline"}
-    return render(request, template, context)
+
+    if request.method == "POST":
+        form = AcademiaSetPasswordForm(request.user, request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect("password_reset_complete")
+        else:
+            logger.info("form.errors: %s" % form.errors)
+            context = {"profile_index_active": "active", "underline_security": "text-underline", "form": form}
+            return render(request, template, context)
+
+    else:
+        form = AcademiaSetPasswordForm(request.user)
+        context = {"profile_index_active": "active", "underline_security": "text-underline", "form": form}
+        return render(request, template, context)

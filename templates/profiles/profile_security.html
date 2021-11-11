@@ -4,38 +4,23 @@
 
     <div class="col-md-8 col-lg-9 order-md-1">
         <div class="row">
-        <form>
-            <div class="row">
-              <div class="col-12">
-                <div class="form-group form-group-icon">
-                  <i class="fa fa-envelope"></i>
-                  <input type="text" class="form-control border-info" placeholder="aamaya@gmail.com">
-                </div>
-              </div>
-
-              <div class="col-sm-6 col-xs-12">
-                <div class="form-group form-group-icon">
-                  <i class="fa fa-user-secret"></i>
-                  <input type="password" class="form-control border-info" placeholder="Cambiar Contraseña">
-                </div>
-              </div>
-
-              <div class="col-sm-6 col-xs-12">
-                <div class="form-group form-group-icon">
-                  <i class="fa fa-user-secret"></i>
-                  <input type="password" class="form-control border-info" placeholder="Repetir Contraseña">
-                </div>
-              </div>
-
-              <div class="col-12">
-                <div class="text-sm-center mt-6">
-                  <button type="submit" class="btn btn-danger text-uppercase">
-                    Guardar Cambios
-                  </button>
-                </div>
-              </div>
+        <div class="p-3">
+                <form action="{% url 'profile_security' %}" method="post">{% csrf_token %}
+                    <div class="form-group field-password1">
+                        {{ form.new_password1.errors }}
+                        <label for="id_new_password1">Nueva Contraseña</label>
+                        {{ form.new_password1 }}
+                    </div>
+                    <div class="form-group field-password2">
+                        {{ form.new_password2.errors }}
+                        <label for="id_new_password2">Repite la Contraseña</label>
+                        {{ form.new_password2 }}
+                    </div>
+                    <div class="form-group">
+                        <input class="btn btn-success text-uppercase w-100" type="submit" value="Guardar nueva contraseña">
+                    </div>
+                </form>
             </div>
-          </form>
         </div>
     </div>
 
