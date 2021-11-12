@@ -116,7 +116,7 @@
                     Otra Plataforma
                 </label>
                 <input type="text" class="form-control" id="other_platform" name="other_platform"
-                    data-date-format="dd/mm/yyyy"/>
+                    data-date-format="dd/mm/yyyy" value="{{ event.other_platform }}"/>
                 <small class="form-text text-muted">
                   Utilizas alguna otra plataforma en el curso / evento?
                 </small>
@@ -162,7 +162,9 @@
                 <label for="title">
                     Detalles sobre la fecha y el horario.
                 </label>
-                <input type="text" class="form-control" id="" name="schedule_description"/>
+                <input type="text" class="form-control" id="" name="schedule_description"
+                    value="{{ event.schedule_description }}"
+                />
                 <small id="" class="form-text text-muted">
                     Una descripción extra sobre el calendario (opcional).
                 </small>

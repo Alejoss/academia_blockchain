@@ -104,7 +104,7 @@
                         <h3 class="card-title text-dark">
                         {% if event.event_type == 'EVENT' %}
                             <span class="diamond_title"><img alt="" title="Evento" src="{% static 'assets/img/diamante_verde.png' %}" class="" width="22px"></span>
-                        {% elif event.event_type == 'COURSE' %}
+                        {% elif event.event_type == 'LIVE_COURSE' %}
                             <span class="diamond_title"><img alt="" title="Curso Online" src="{% static 'assets/img/diamante_amarillo.png' %}" class="" width="22px"></span>
                         {% elif event.event_type == "PRE-RECORDED" %}
                             <span class="diamond_title"><img alt="" title="Curso Pre Grabado" src="{% static 'assets/img/diamante_magenta.png' %}" class="" width="22px"></span>
@@ -155,39 +155,45 @@
                     </div>
 
                 <div class="card shadow-none bg-transparent">
-                <div class="bg-light shadow-sm rounded px-3 pt-3 pb-6 mb-4">
-					<h3 class="mb-4 text-danger font-weight-bold">Deja un Comentario</h3>
-					<form id="comment_form" method="post" action="{% url 'event_comment' event.id %}">
-                        {% csrf_token %}
-						<div class="row">
-							<div class="col">
-								<div class="form-group form-group-icon">
-                                <i class="fa fa-comments"></i>
-                                    <textarea name="comment_text" class="form-control border-info"
-                                              placeholder="Escribe un comentario" rows="6"></textarea>
-		        	            </div>
-							</div>
-						</div>
 
-                        <div class="text-right">
-						    <button class="btn btn-danger text-uppercase">Enviar</button>
-                        </div>
-					</form>
-
-                {% if comments %}
-					<h3 class="mb-4 text-danger font-weight-bold">{{ comments.count }} Comentarios:</h3>
-                        {% for comment in comments %}
-                            <hr>
-                            <div class="media py-1">
-                              <div class="media-body">
-                                <span class="mb-3 font-weight-medium text-muted d-inline-block">{{ comment.user.username }}</span>
-                                    <time class="d-block text-muted font-size-13 mb-3">{{ comment.date_created|date:"SHORT_DATE_FORMAT" }}</time>
-                                        <p class="font-size-13 line-hight-21">{{ comment.text }} </p>
-                              </div>
+                    {% if user.is_authenticated %}
+                    <div class="bg-light shadow-sm rounded px-3 pt-3 pb-6 mb-4">
+                        <h3 class="mb-4 text-danger font-weight-bold">Deja un Comentario</h3>
+                        <form id="comment_form" method="post" action="{% url 'event_comment' event.id %}">
+                            {% csrf_token %}
+                            <div class="row">
+                                <div class="col">
+                                    <div class="form-group form-group-icon">
+                                    <i class="fa fa-comments"></i>
+                                        <textarea name="comment_text" class="form-control border-info"
+                                                  placeholder="Escribe un comentario" rows="6"></textarea>
+                                    </div>
+                                </div>
                             </div>
-                        {% endfor %}
-                {% endif %}
-                </div>
+
+                            <div class="text-right">
+                                <button class="btn btn-danger text-uppercase">Enviar</button>
+                            </div>
+                        </form>
+                    </div>
+                    {% endif %}
+
+                    {% if comments %}
+                    <div class="bg-light shadow-sm rounded px-3 pt-3 pb-6 mb-4">
+
+                            <h3 class="mb-4 text-danger font-weight-bold">{{ comments.count }} Comentarios:</h3>
+                                {% for comment in comments %}
+                                    <hr>
+                                    <div class="media py-1">
+                                      <div class="media-body">
+                                        <span class="mb-3 font-weight-medium text-muted d-inline-block">{{ comment.user.username }}</span>
+                                            <time class="d-block text-muted font-size-13 mb-3">{{ comment.date_created|date:"SHORT_DATE_FORMAT" }}</time>
+                                                <p class="font-size-13 line-hight-21">{{ comment.text }} </p>
+                                      </div>
+                                    </div>
+                                {% endfor %}
+                    </div>
+                    {% endif %}
                 </div>
 
 				</div>
