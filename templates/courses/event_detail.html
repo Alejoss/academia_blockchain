@@ -133,7 +133,7 @@
                                 {% else %}
                                     <p class="list-group-item list-group-item-action list-group-item-light">
                                         <span class="badge badge-primary badge-pill">{{ contact_method.name }}</span>
-                                        {{ contact_method.description }} | {{ contact_method.url_link }}
+                                        {{ contact_method.url_link }} | {{ contact_method.description }}
                                     </p>
                                 {% endif %}
                             {% endfor %}
@@ -271,7 +271,7 @@
                                     {% endif %}
 
                                     {% if event.schedule_description %}
-                                        <p class="text-muted font-weight-bold">
+                                        <p class="text-muted">
                                             * {{ event.schedule_description }}
                                         </p>
                                     {% endif %}
@@ -436,7 +436,8 @@
             });
 
             // Cert Request Buttons
-            $(".request_certificate").on("click", function(e){
+            $("#request_certificate").on("click", function(e){
+                e.preventDefault();
                 data = {
                         "event_id": $(this).data("id")
                     }
