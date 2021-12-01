@@ -254,18 +254,21 @@
                                     <p class="text-muted font-weight-bold">Grabado el {{ event.date_recorded|date:"SHORT_DATE_FORMAT" }}</p>
                                 {% else %}
                                     {% if event.date_start %}
-                                        <p class="text-muted font-weight-bold">{{ event.date_start|date:"SHORT_DATE_FORMAT" }}</p>
-                                    {% endif %}
-                                    {% if event.date_end %}
-                                        <p class="text-muted font-weight-bold">hasta el {{ event.date_end|date:"SHORT_DATE_FORMAT" }}</p>
+                                        <p class="text-muted font-weight-bold">Comienza el {{ event.date_start|date:"SHORT_DATE_FORMAT" }}</p>
+                                        <p class="text-muted font-weight-bold">
+                                         {{ event.date_start|date:"h:i A" }}
+                                            {% if owner_profile.timezone %}
+                                                ({{ owner_profile.timezone }})
+                                            {% endif %}
+                                        </p>
                                     {% endif %}
 
-                                    <p class="text-muted font-weight-bold">
-                                     {{ event.date_start|date:"h:i A" }}
-                                        {% if owner_profile.timezone %}
-                                            ({{ owner_profile.timezone }})
-                                        {% endif %}
-                                    </p>
+                                    {% if event.date_end %}
+                                        <p class="text-muted font-weight-bold">Hasta el {{ event.date_end|date:"SHORT_DATE_FORMAT" }}</p>
+                                        <p class="text-muted font-weight-bold">
+                                         {{ event.date_end|date:"h:i A" }}
+                                        </p>
+                                    {% endif %}
 
                                     {% if event.schedule_description %}
                                         <p class="text-muted font-weight-bold">
