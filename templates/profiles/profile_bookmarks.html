@@ -80,36 +80,14 @@
                     </p>
                     <ul class="list-unstyled d-flex text-muted mb-2">
                         {% if b.1 %}  {# Ya solicito un certificado #}
-                            {% if b.1.deleted %}
-                                <li class="mr-3">
-                                    <button type="button" data-id="{{ b.0.event.id }}" class="btn btn-success request_certificate">
-                                        <i class="fa fa-certificate"></i> Volver a Solicitar Certificado</button>
-                                </li>
-                            {% elif b.1.accepted == True %}  {# Ya obtuvo un certificado #}
-                                <li class="mr-3">
-                                    <img title="Evento" src="{% static 'assets/img/diamante_verde.png' %}"  width="20px" alt="">
-                                    Tienes un <a href="{% url 'profile_certificates' %}">certificado</a> de este evento.
-                                </li>
-                            {% elif b.1.accepted == None %} {# Todavia no decide el profesor #}
-                                <li class="mr-3">
-                                    <button type="button" data-id="{{ b.0.event.id }}" class="btn btn-success cancel_cert_request">
-                                        <i class="fa fa-times"></i> Eliminar Solicitud de Certificado</button>
-                                </li>
-                            {% elif b.1.accepted == False %}
-                                <li class="mr-3">
-                                    <button type="button" data-id="{{ b.0.event.id }}" class="btn btn-disabled disabled">
-                                        <i class="fa fa-times"></i> Certificado Rechazado</button>
-                                    <small class="form-text text-muted">
-                                      Si tienes dudas por favor comunícate con el organizador del evento.
-                                    </small>
-                                </li>
-                            {% endif %}
+                            {% include 'courses/request_certificate_buttons.html' with cert_request=b.1 %}
                         {% else %}
                         <li class="mr-3">
                             <button id="request_certificate" type="button" data-id="{{ b.0.event.id }}" class="btn btn-success request_certificate">
                                 <i class="fa fa-certificate"></i> Solicitar Certificado</button>
                         </li>
                         {% endif %}
+
                         <li class="mr-3">
                             <button id="edit_event" type="button" data-id="{{ b.0.event.id }}" class="btn btn-danger delete_bookmark">
                                 <i class="fa fa-times-circle"></i> Eliminar de Favoritos</button>

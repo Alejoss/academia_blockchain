@@ -382,18 +382,15 @@ def request_certificate(request, event_id):
     if request.is_ajax() and request.method == "POST":
         event = get_object_or_404(Event, id=event_id)
         logger.info("event: %s" % event)
-        if CertificateRequest.objects.filter(event=event, user=request.user).exists():
-            logger.warning("CERTIFICATE REQUEST ALREADY EXISTS: %s" % event.id)
-            return HttpResponse(status=200)
+        if CertificateRequest.objects.filter(event=event, user=request.user, state="DELETED").exists():
+            certificate_request = CertificateRequest.objects.get(event=event, user=request.user, state="DELETED")
+            logger.info("certificate_request: %s" % certificate_request)
+            certificate_request.state = "PENDING"
+            certificate_request.save()
         else:
-            if CertificateRequest.objects.filter(event=event, user=request.user, state="DELETED").exists():
-                certificate_request = CertificateRequest.objects.get(event=event, user=request.user, state="DELETED")
-                logger.info("certificate_request: %s" % certificate_request)
-                certificate_request.state = "PENDING"
-                certificate_request.save()
-            else:
-                CertificateRequest.objects.create(event=event, user=request.user, state="PENDING")
-            return HttpResponse(status=201)
+            CertificateRequest.objects.create(event=event, user=request.user, state="PENDING")
+        return HttpResponse(status=201)
+
     else:
         return HttpResponse(status=403)
 
@@ -403,18 +400,20 @@ def cancel_cert_request(request, cert_request_id):
     if request.is_ajax() and request.method == "POST":
         certificate_request = get_object_or_404(CertificateRequest, id=cert_request_id)
         logger.info("certificate_request: %s" % certificate_request)
-        if request.user == certificate_request.event.owner:
+        if request.user == certificate_request.user:
             if Certificate.objects.filter(event=certificate_request.event, user=certificate_request.user).exists():
                 logger.warning("Intento de cancelar certificado existente: %s" % certificate_request.id)
-                certificate_request.state = "ACCEPTED"  # si existe el certificado, el state debe ser ACCEPTED
+                certificate_request.state = "ACCEPTED"
+                # si existe el certificado, el state del certificate request debe ser ACCEPTED
                 certificate_request.save()
             else:
-                cert = Certificate.objects.create(event=certificate_request.event, user=certificate_request.user)
-                logger.info("cert: %s" % cert)
-            certificate_request.state = "DELETED"
-            certificate_request.save()
+                certificate_request.state = "DELETED"
+                certificate_request.save()
             return HttpResponse(status=201)
         else:
+            logger.warning("request.user: %s" % request.user)
+            logger.warning("certificate_request.event.owner: %s" % certificate_request.event.owner)
+            logger.warning("request.user =! certificate_request.event.owner")
             return HttpResponse(status=403)
     else:
         return HttpResponse(status=400)

@@ -91,7 +91,7 @@
                             {% include 'courses/request_certificate_buttons.html' with cert_request=user_certificate_request %}
                         {% else %}
                             <div id="request_certificate_div" class="text-right">
-                                <button id="request_certificate" data-id="{{ event.id }}" type="button" class="btn btn-success mb-2">
+                                <button data-id="{{ event.id }}" type="button" class="btn btn-success mb-2 request_certificate">
                                     <i class="fa fa-certificate"></i> Solicitar Certificado
                                 </button>
                             </div>
@@ -436,13 +436,14 @@
             });
 
             // Cert Request Buttons
-            $("#request_certificate").on("click", function(e){
-                e.preventDefault();
-                data = {
-                        "event_id": $(this).data("id")
-                    }
-                console.log(data);
-                $.ajax({
+            $(".request_certificate").on("click", function(e){
+                if ("{{ user.is_authenticated }}" === "True"){
+                    e.preventDefault();
+                    data = {
+                            "event_id": $(this).data("id")
+                        }
+                    console.log(data);
+                    $.ajax({
                         method: "post",
                         url: "{% url 'request_certificate' 0 %}".replace("0", data["event_id"]),
                         data: data,
@@ -456,6 +457,9 @@
                             console.log(response);
                         }
                     });
+                } else {
+                    window.location.href = "{% url 'login' %}";
+                }
             });
 
             $(".cancel_cert_request").on("click", function(e){
