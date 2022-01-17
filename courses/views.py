@@ -6,6 +6,11 @@ from pycoingecko import CoinGeckoAPI
 from http import HTTPStatus
 from datetime import datetime
 from hashlib import sha256
+import requests
+from PIL import Image, ImageDraw, ImageFont
+import base64
+from io import BytesIO
+from urllib.request import urlopen
 
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, get_object_or_404, redirect
@@ -295,7 +300,57 @@ def event_comment(request, event_id):
 
 def certificate_preview(request, cert_id):
     template = "courses/certificate_preview.html"
-    return render(request, template)
+
+    certificate = get_object_or_404(Certificate, id=cert_id)
+
+    certificate_image_base = requests.get("https://criptolibertad.s3.us-west-2.amazonaws.com/img/base_cert.jpg")
+    img = Image.open(BytesIO(certificate_image_base.content))
+
+    font_title_event = ImageFont.truetype(
+        urlopen("https://criptolibertad.s3.us-west-2.amazonaws.com/img/fonts/Roboto-Medium.ttf"), size=70)
+    font_title_event_medium = ImageFont.truetype(
+        urlopen("https://criptolibertad.s3.us-west-2.amazonaws.com/img/fonts/Roboto-Medium.ttf"), size=38)
+
+
+    font_owner_event = ImageFont.truetype(
+        urlopen("https://criptolibertad.s3.us-west-2.amazonaws.com/img/fonts/Roboto-LightItalic.ttf"), size=38)
+    font_owner_certificate = ImageFont.truetype(
+        urlopen("https://criptolibertad.s3.us-west-2.amazonaws.com/img/fonts/Roboto-Black.ttf"), size=40)
+    font_date = ImageFont.truetype(
+        urlopen("https://criptolibertad.s3.us-west-2.amazonaws.com/img/fonts/Roboto-LightItalic.ttf"), size=24)
+
+    img_draw = ImageDraw.Draw(img)
+
+    # titulo del evento
+    if len(certificate.event.title) < 33:
+        img_draw.multiline_text((450, 350), certificate.event.title, font=font_title_event, fill=(96, 96, 96))
+    else:
+        img_draw.multiline_text((450, 350), certificate.event.title, font=font_title_event_medium, fill=(96, 96, 96))
+
+
+    # creador del evento
+    img_draw.multiline_text((545, 505), certificate.event.owner.username, font=font_owner_event, fill=(96, 96, 96))
+
+    # nombre de usuario para el certificado
+    img_draw.multiline_text((310, 800), certificate.user.username, font=font_owner_certificate,
+                            fill=(96, 96, 96))
+
+    # fecha
+    img_draw.multiline_text((310, 935), certificate.date_created.strftime("%d %b %Y"), font=font_date,
+                            fill=(96, 96, 96))
+
+    buffered = BytesIO()
+    img.save(buffered, format="JPEG")
+    print("img: %s" % img)
+    img_bytes = buffered.getvalue()  # bytes
+    print("img_bytes: %s" % img_bytes)
+    img_base64 = base64.b64encode(img_bytes)  # Base64 - encoded bytes
+    print("img_base64: %s" % img_base64)
+    img_str = img_base64.decode('utf-8')
+    print("img_str: %s" % img_str)
+
+    context = {"img_str": img_str}
+    return render(request, template, context)
 
 
 def send_cert_blockchain(request, cert_id):

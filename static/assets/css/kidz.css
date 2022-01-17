@@ -17358,3 +17358,8 @@ html {
 .transparent_background{
   background-color: rgba(60, 60, 60, 0.5);
 }
+
+.certificate{
+  max-height: 900px;
+  width: 900px !important;
+}
