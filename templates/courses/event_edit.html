@@ -35,6 +35,8 @@
         <form method="post" id="event_create_form" role="form" action="{% url 'event_edit' event.id %}"
             enctype="multipart/form-data">
             {% csrf_token %}
+            <div class="row">
+            <div class="col-md-8">
             <div class="form-group">
                 <label for="Tipo">
                     ¿Qué quieres crear?
@@ -63,20 +65,21 @@
                     EVENTO - <strong> Se viene una conferencia, una conversación, una clase maestra.</strong>
                   </label>
                 </div>
+                </div>
+                <div class="form-check" id="event_recurrent">
+                    <input type="checkbox" class="form-check-input" name="event_recurrent" id="check_event_recurrent"/>
+                    <label class="form-check-label" for="event_recurrent">
+                        Evento Recurrente - <strong> Un evento que se repite, y se repite y ...</strong>
+                    </label>
+                </div>
             </div>
 
-            <div class="form-check" id="event_recurrent">
-                <input type="checkbox" class="form-check-input" name="event_recurrent" id="check_event_recurrent"/>
-                <label class="form-check-label" for="event_recurrent">
-                    Evento Recurrente - <strong> Un evento que se repite, y se repite y ...</strong>
-                </label>
+            <div class="col-md-4 form_img">
+                <img id="diamante_amarillo" title="Curso" src="{% static 'assets/img/diamante_amarillo.png' %}" class="diamond_form" alt="Curso">
+                <img id="diamante_azul" title="Examen" src="{% static 'assets/img/diamante_azul.png' %}" class="diamond_form" alt="Examen">
+                <img id="diamante_magenta" title="Pre-Grabado" src="{% static 'assets/img/diamante_magenta.png' %}" class="diamond_form" alt="Pre-Grabado">
+                <img id="diamante_verde" title="Evento" src="{% static 'assets/img/diamante_verde.png' %}" class="diamond_form" alt="Evento">
             </div>
-
-            <div class="col-md-4">
-                <img id="diamante_amarillo" title="Curso" src="{% static 'assets/img/diamante_amarillo.png' %}" class="" alt="Curso">
-                <img id="diamante_azul" title="Examen" src="{% static 'assets/img/diamante_azul.png' %}" class="" alt="Examen">
-                <img id="diamante_magenta" title="Pre-Grabado" src="{% static 'assets/img/diamante_magenta.png' %}" class="" alt="Pre-Grabado">
-                <img id="diamante_verde" title="Evento" src="{% static 'assets/img/diamante_verde.png' %}" class="" alt="Evento">
             </div>
 
             <hr>
