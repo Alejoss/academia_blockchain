@@ -17364,9 +17364,7 @@ html {
 }
 
 .event_list_link{
-  border-color: red !important;
   margin-top: 60px;
-  color: red;
   border-width: thick;
   border-style: dashed;
 }
