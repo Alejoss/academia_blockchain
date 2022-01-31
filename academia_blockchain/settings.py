@@ -164,7 +164,7 @@ if HEROKU:
 LOGGING = {
     "version": 1,
     "loggers": {"app_logger": {"level": "INFO", "handlers": ["console"]}},
-    "handlers": {"console": {"class": "logging.StreamHandler", "formatter": "verbose"}},
+    "handlers": {"console": {"class": "logging.StreamHandler", "formatter": "verbose", "stream": "ext://sys.stdout"}},
     "formatters": {"verbose": {"format": "[%(asctime)s] %(levelname)s [%(name)s.%(funcName)s:%(lineno)d] %(message)s"}}
 }
 
