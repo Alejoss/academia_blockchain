@@ -358,8 +358,7 @@ def profile_delete_crypto(request):
 def profile_events(request):
     template = "profiles/profile_events.html"
     events = Event.objects.filter(owner=request.user, deleted=False)
-    logger.warning("WARNING!!")
-    logger.warning("events: %s" % events)
+    logger.info("events: %s" % events)
 
     certificate_requests = CertificateRequest.objects.filter(event__owner=request.user, state="PENDING")
     logger.info("certificate_requests: %s" % certificate_requests)
