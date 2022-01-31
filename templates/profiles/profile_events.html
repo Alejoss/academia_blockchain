@@ -4,7 +4,6 @@
 {% block profile_content %}
     <div class="col-md-8 col-lg-9 order-md-1">
         <div class="row">
-
             <div class="media media-avator-view flex-column flex-sm-row">
               <div class="media-body">
                 <div class="row">
@@ -47,26 +46,20 @@
                   </div>
 
               </div> {#     Media Body       #}
-            </div>{#     Media       #}
+            </div> {#     Media       #}
+            <hr>
+              <div class="row">
+                  <p class="text-left">
+                     <strong>Tus Cursos y Eventos: </strong>
+                      <br>
+                  </p>
+              </div>
+        </div> {#     Row       #}
 
-                  <div class="col-12">
-                      <hr>
-                      <div class="row">
-
-                      <p class="text-left">
-                         <strong>Tus Cursos y Eventos: </strong>
-                          <br>
-                      </p>
-
-                      </div>
-                  </div>
-
-            <div class="row">
-                {% include 'courses/events_list_section.html' with events=events %}
-            </div>
-
-
+        <div class="row">
+            {% include 'courses/events_list_section.html' with events=events %}
         </div>
+
     </div>
 
 {% endblock profile_content %}
