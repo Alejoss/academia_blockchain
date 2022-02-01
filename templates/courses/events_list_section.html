@@ -3,7 +3,6 @@
 {% for event in events %}
     <div class="media media-list-view mb-5">
         <div class="media-img cert_div">
-
             {% if event.event_type == 'EVENT' %}
                 <img alt="" title="Evento" src="{% static 'assets/img/diamante_verde.png' %}"
                                                      class="diamond_certi_new" width="22px">
@@ -69,7 +68,7 @@
             </ul>
 
             <p class="text-justify mb-lg-2">{{ event.description|truncatewords:20|safe }}</p>
-
         </div>
+
     </div>
   {% endfor %}
