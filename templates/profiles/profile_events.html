@@ -4,57 +4,45 @@
 {% block profile_content %}
     <div class="col-md-8 col-lg-9 order-md-1">
         <div class="row">
-            <div class="media media-avator-view flex-column flex-sm-row">
-              <div class="media-body">
-                <div class="row">
-                    <div class="col-12">
-                    {% if certificate_requests %}
-                        <div class="card">
-                          <div class="card-header list-group-item-success certificate_requests">
-                            <h5 class="mb-0">
-                              <button class="btn btn-link cert_requests" type="button">
-                                  {% if certificate_requests.count == 1 %}
-                                      Hay {{ certificate_requests.count }} usuario que ha solicitado un certificado de tu curso / evento.
-                                  {% else %}
-                                      Hay {{ certificate_requests.count }} usuarios que han solicitado certificados de tu cursos / eventos.
-                                  {% endif %}
-                              </button>
-                            </h5>
-                          </div>
-                        </div>
-                    {% else %}
-                        <div class="card">
-                          <div class="card-header list-group-item-info">
-                            <h5 class="mb-0">
-                              <button class="btn btn-link cert_requests certificate_requests" type="button">
-                                <i class="fa fa-certificate"></i> No tienes nuevas solicitudes de certificados en tus cursos.
-                              </button>
-                            </h5>
-                          </div>
-                        </div>
-                    {% endif %}
-                    </div>
-                </div>
-
-                  <div class="col-12">
-                    <div class="text-sm-center mt-6">
-                      <button type="submit" class="btn btn-warning text-uppercase"
-                              onclick="location.href = '{% url 'event_create' %}' ">
-                        Crear Nuevo Curso o Evento
+            <div class="col-12">
+            {% if certificate_requests %}
+                <div class="card">
+                  <div class="card-header list-group-item-success certificate_requests">
+                    <h5 class="mb-0">
+                      <button class="btn btn-link cert_requests" type="button">
+                          {% if certificate_requests.count == 1 %}
+                              Hay {{ certificate_requests.count }} usuario que ha solicitado un certificado de tu curso / evento.
+                          {% else %}
+                              Hay {{ certificate_requests.count }} usuarios que han solicitado certificados de tu cursos / eventos.
+                          {% endif %}
                       </button>
-                    </div>
+                    </h5>
                   </div>
-
-              </div> {#     Media Body       #}
-            </div> {#     Media       #}
-            <hr>
-              <div class="row">
+                </div>
+            {% else %}
+                <div class="card">
+                  <div class="card-header list-group-item-info">
+                    <h5 class="mb-0">
+                      <button class="btn btn-link cert_requests certificate_requests" type="button">
+                        <i class="fa fa-certificate"></i> No tienes nuevas solicitudes de certificados en tus cursos.
+                      </button>
+                    </h5>
+                  </div>
+                </div>
+            {% endif %}
+                <div class="text-sm-center mt-6">
+                  <button type="submit" class="btn btn-warning text-uppercase"
+                          onclick="location.href = '{% url 'event_create' %}' ">
+                    Crear Nuevo Curso o Evento
+                  </button>
+                </div>
+                <hr>
                   <p class="text-left">
                      <strong>Tus Cursos y Eventos: </strong>
                       <br>
                   </p>
-              </div>
-        </div> {#     Row       #}
+            </div> {#     col-12       #}
+        </div>  {#     Row       #}
 
         <div class="row">
             {% include 'courses/events_list_section.html' with events=events %}
