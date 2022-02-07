@@ -8,7 +8,7 @@
     {% elif event.event_type == "PRE_RECORDED" %}
         <img title="Curso Grabado" src="{% static 'assets/img/diamante_magenta.png' %}" class="diamond" alt="">
     {% elif event.event_type == 'EXAM' %}
-        <img title="Examen" src="{% static 'assets/img/diamante_azul.png' %}" class="diamond" alt="">
+        <img title="Examen" src="{% static 'assets/img /diamante_azul.png' %}" class="diamond" alt="">
     {% endif %}
       <a href="{% url 'event_detail' event.id %}" class="position-relative">
           {% if event.image %}

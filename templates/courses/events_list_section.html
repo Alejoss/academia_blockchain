@@ -2,44 +2,7 @@
 
 {% for event in events %}
     <div class="media media-list-view mb-5">
-        <a class="media-img" href="course-single.html">
-            <img src="assets/img/courses/courses-img1.jpg" alt="Image">
-            <div class="media-img-overlay">
-                <span class="badge badge-warning badge-rounded-circle">$50</span>
-            </div>
-        </a>
-
-        <div class="media-body">
-            <h3>
-                <a class="text-warning" href="course-single.html">Phasellus convallis eros.</a>
-            </h3>
-
-            <ul class="list-unstyled d-flex text-muted mb-3">
-                <li class="mr-3">
-                    <i class="fa fa-calendar-o mr-2" aria-hidden="true"></i>Age 2 to 4 Years
-                </li>
-                <li>
-                    <i class="fa fa-clock-o mr-2" aria-hidden="true"></i>9.00AM-11.00AM
-                </li>
-            </ul>
-
-            <p class="text-justify mb-lg-2">They must explain to you how all this mistaken idea of denouncing pleasure and
-                praising pain was born and I will give you a complete account of the system, and expound the actual teachings of
-                the great explorer.</p>
-
-            <div class="">
-                <a href="product-cart.html" class="btn btn-sm btn-white text-uppercase mb-1 mr-2 btn-hover-warning">
-                    <i class="fa fa-shopping-basket mr-2" aria-hidden="true"></i>Add to Cart
-                </a>
-                <a class="btn btn-link text-hover-warning text-underline pl-0" href="course-single.html">
-                    <i class="fa fa-angle-double-right mr-1" aria-hidden="true"></i> More
-                </a>
-            </div>
-        </div>
-    </div>
-
-    <div class="media media-list-view mb-5">
-        <div class="media-img cert_div">
+        <div class="media-img">
             {% if event.event_type == 'EVENT' %}
                 <img alt="" title="Evento" src="{% static 'assets/img/diamante_verde.png' %}"
                                                      class="diamond_certi_new" width="22px">
@@ -65,20 +28,21 @@
             <h3>
                 <a class="text-warning" href="{% url 'event_detail' event.id %}">{{ event.title }}</a>
             </h3>
+
             <ul class="list-unstyled d-flex text-muted mb-3">
                 <li class="mr-3">
-                    {% if event.event_type == "COURSE" %}
-                        {% if event.is_recorded %}
-                            <i class="fa fa-play-circle mr-2" aria-hidden="true"></i>Curso Grabado
-                        {% else %}
-                            <i class="fa fa-video-camera mr-2" aria-hidden="true"></i>Curso en Línea
-                        {% endif %}
+                    {% if event.event_type == "LIVE_COURSE" %}
+                        <i class="fa fa-video-camera mr-2" aria-hidden="true"></i>Curso en Vivo
+                    {% elif event.event_type == "PRE_RECORDED" %}
+                        <i class="fa fa-play-circle mr-2" aria-hidden="true"></i>Curso Pre Grabado
                     {% elif event.event_type == "EVENT" %}
                         {% if event.is_recurrent %}
                             <i class="fa fa-calendar mr-2" aria-hidden="true"></i>Evento Recurrente
                         {% else %}
                             <i class="fa fa-tag mr-2" aria-hidden="true"></i>Evento
                         {% endif %}
+                    {% elif event.event_type == "EXAM" %}
+                        <i class="fa fa-certificate mr-2" aria-hidden="true"></i>Examen
                     {% endif %}
                 </li>
                 <li>
@@ -104,8 +68,10 @@
                 </li>
             </ul>
 
-            <p class="text-justify mb-lg-2">{{ event.description|truncatewords:20|safe }}</p>
+            <p class="text-justify mb-lg-2">
+                {{ event.description|safe|truncatewords:50 }}
+            </p>
         </div>
-
     </div>
+
   {% endfor %}
