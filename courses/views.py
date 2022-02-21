@@ -37,7 +37,7 @@ def event_index(request):
     template = "courses/events.html"
     events = Event.objects.filter(deleted=False)
     tags = Tag.objects.all()
-    logger.info("events: %s" % events)
+    logger.warning("events: %s" % events)
     context = {"events": events, "event_index_active": "active", "tags": tags}
     return render(request, template, context)
 
@@ -75,11 +75,11 @@ def event_search(request):
     template = "courses/events_result.html"
     if request.method == "POST":
         query = request.POST.get("q")
-        logger.info("query: %s" % query)
+        logger.warning("query: %s" % query)
 
         events = Event.objects.filter(title__icontains=query)
 
-        logger.info("events: %s" % events)
+        logger.warning("events: %s" % events)
         context = {"events": events, "query": query}
         return render(request, template, context)
     else:
@@ -89,7 +89,7 @@ def event_search(request):
 def event_detail(request, event_id):
     template = "courses/event_detail.html"
     event = get_object_or_404(Event, id=event_id)
-    logger.info("event: %s" % event)
+    logger.warning("event: %s" % event)
 
     contact_methods = ContactMethod.objects.filter(user=event.owner, deleted=False)
     accepted_cryptos = AcceptedCrypto.objects.filter(user=event.owner, deleted=False)
@@ -97,8 +97,8 @@ def event_detail(request, event_id):
     # llama al API CoinGeko y devuelve una lista con las monedas aceptadas por el usuario y sus valores.
     owner_profile = Profile.objects.get(user=event.owner)
 
-    logger.info("contact_methods: %s" % contact_methods)
-    logger.info("preferred_cryptos: %s" % preferred_cryptos)
+    logger.warning("contact_methods: %s" % contact_methods)
+    logger.warning("preferred_cryptos: %s" % preferred_cryptos)
 
     academia_blockchain_timezones()
 
@@ -118,25 +118,25 @@ def event_detail(request, event_id):
         if CertificateRequest.objects.filter(event=event, user=request.user).exists():
             user_certificate_request = CertificateRequest.objects.get(event=event, user=request.user)
 
-    logger.info("event_user_timezone: %s" % event_user_timezone)
-    logger.info("logged_user_profile: %s" % logged_user_profile)
-    logger.info("event_is_bookmarked: %s" % event_is_bookmarked)
+    logger.warning("event_user_timezone: %s" % event_user_timezone)
+    logger.warning("logged_user_profile: %s" % logged_user_profile)
+    logger.warning("event_is_bookmarked: %s" % event_is_bookmarked)
 
     is_event_owner = (event.owner == request.user)
     certificate_requests = CertificateRequest.objects.none()
 
-    logger.info("is_event_owner: %s" % is_event_owner)
+    logger.warning("is_event_owner: %s" % is_event_owner)
     if is_event_owner:
         certificate_requests = CertificateRequest.objects.filter(event=event, state="PENDING")
-        logger.info("certificate_requests: %s" % certificate_requests)
+        logger.warning("certificate_requests: %s" % certificate_requests)
 
     comments = Comment.objects.filter(event=event, deleted=False)
     rating = Rating.objects.for_instance(event)
     has_certificate = False
     if request.user.is_authenticated:
         has_certificate = Certificate.objects.filter(event=event, user=request.user).exists()
-    logger.info("has_certificate: %s" % has_certificate)
-    logger.info("user_certificate_request: %s" % user_certificate_request)
+    logger.warning("has_certificate: %s" % has_certificate)
+    logger.warning("user_certificate_request: %s" % user_certificate_request)
 
     context = {"event": event, "contact_methods": contact_methods, "accepted_cryptos": accepted_cryptos,
                "owner_profile": owner_profile, "event_user_timezone": event_user_timezone,
@@ -171,8 +171,8 @@ def event_create(request):
         template = "courses/event_create.html"
         platforms = ConnectionPlatform.objects.filter(deleted=False)
         profile = Profile.objects.get(user=request.user)
-        logger.info("platforms: %s" % platforms)
-        logger.info("profile.email_confirmed: %s" % profile.email_confirmed)
+        logger.warning("platforms: %s" % platforms)
+        logger.warning("profile.email_confirmed: %s" % profile.email_confirmed)
         user_contact_methods = ContactMethod.objects.filter(user=request.user)
 
         context = {"event_index_active": "active", "platforms": platforms, "profile": profile,
@@ -203,12 +203,12 @@ def event_create(request):
         # Guardar imagen
         if "event_picture" in request.FILES:
             event_picture = request.FILES['event_picture']
-            logger.info("event_picture: %s" % event_picture)
+            logger.warning("event_picture: %s" % event_picture)
             created_event.image.save(event_picture.name, event_picture)
 
         # Sumar Tags
         for tag in event_data['tags']:
-            logger.info("tag_added: %s" % tag)
+            logger.warning("tag_added: %s" % tag)
             created_event.tags.add(tag)
 
         return redirect("event_detail", event_id=created_event.id)
@@ -219,12 +219,12 @@ def event_edit(request, event_id):
     if request.method == "GET":
         template = "courses/event_edit.html"
         event = get_object_or_404(Event, id=event_id)
-        logger.info("event: %s" % event)
+        logger.warning("event: %s" % event)
         platforms = ConnectionPlatform.objects.filter(deleted=False)
         user_contact_methods = ContactMethod.objects.filter(user=event.owner)
         event_tags = [e.name for e in event.tags.all()]
-        logger.info("platforms: %s" % platforms)
-        logger.info("user_contact_methods: %s" % user_contact_methods)
+        logger.warning("platforms: %s" % platforms)
+        logger.warning("user_contact_methods: %s" % user_contact_methods)
 
         context = {"event": event, "platforms": platforms, "user_contact_methods": user_contact_methods,
                    "event_tags": json.dumps(event_tags)}
@@ -250,7 +250,7 @@ def event_edit(request, event_id):
         # Guardar imagen
         if "event_picture" in request.FILES:
             event_picture = request.FILES['event_picture']
-            logger.info("event_picture: %s" % event_picture)
+            logger.warning("event_picture: %s" % event_picture)
             event.image.save(event_picture.name, event_picture)
 
         # Actualizar tags
@@ -258,11 +258,11 @@ def event_edit(request, event_id):
         for tag in event_data['tags']:
             if tag not in event_tags:
                 event.tags.add(tag.strip())
-                logger.info("new_tag: %s" % tag)
+                logger.warning("new_tag: %s" % tag)
         for existing_tag in event_tags:
             if existing_tag not in event_data['tags']:
                 event.tags.remove(existing_tag)
-                logger.info("remove_tag: %s" % existing_tag)
+                logger.warning("remove_tag: %s" % existing_tag)
 
         return redirect("event_detail", event_id=event.id)
 
@@ -270,7 +270,7 @@ def event_edit(request, event_id):
 @login_required
 def event_delete(request, event_id):
     deleted_event = get_object_or_404(Event, id=event_id)
-    logger.info("deleted_event: %s" % deleted_event)
+    logger.warning("deleted_event: %s" % deleted_event)
     if not request.user == deleted_event.owner:
         return HttpResponse(status=403)
 
@@ -284,15 +284,15 @@ def event_comment(request, event_id):
     if request.method == "POST":
         event = get_object_or_404(Event, id=event_id)
         comment_text = request.POST.get("comment_text", None)
-        logger.info("event: %s" % event)
-        logger.info("comment_text: %s" % comment_text)
+        logger.warning("event: %s" % event)
+        logger.warning("comment_text: %s" % comment_text)
         if comment_text:
             comment = Comment.objects.create(
                 event=event,
                 user=request.user,
                 text=comment_text
             )
-            logger.info("comment: %s" % comment)
+            logger.warning("comment: %s" % comment)
         return redirect("event_detail", event_id=event.id)
     else:
         return HttpResponse(status=400)
@@ -358,9 +358,9 @@ def send_cert_blockchain(request, cert_id):
     certificate = get_object_or_404(Certificate, id=cert_id)
     cert_text = (certificate.user.username + certificate.user.first_name + certificate.user.last_name +
                  certificate.event.title + certificate.event.owner.username).encode("utf8")
-    logger.info("cert_text: %s" % cert_text)
+    logger.warning("cert_text: %s" % cert_text)
     cert_hash = sha256(cert_text)
-    logger.info("cert_hash: %s" % cert_hash)
+    logger.warning("cert_hash: %s" % cert_hash)
 
     context = {"certificate": certificate, "cert_text": cert_text, "cert_hash": cert_hash}
     return render(request, template, context)
@@ -382,13 +382,13 @@ API CALLS
 def event_bookmark(request, event_id):
     if request.is_ajax() and request.method == "POST":
         event = get_object_or_404(Event, id=event_id)
-        logger.info("event: %s" % event)
+        logger.warning("event: %s" % event)
         if Bookmark.objects.filter(event=event, user=request.user, deleted=False).exists():
             return HttpResponse(status=200)
         else:
             if Bookmark.objects.filter(event=event, user=request.user, deleted=True).exists():
                 bookmark = Bookmark.objects.get(event=event, user=request.user, deleted=True)
-                logger.info("bookmark: %s" % bookmark)
+                logger.warning("bookmark: %s" % bookmark)
                 bookmark.deleted = False
                 bookmark.save()
             else:
@@ -404,7 +404,7 @@ def remove_bookmark(request, event_id):
         event = get_object_or_404(Event, id=event_id)
         if Bookmark.objects.filter(event=event, user=request.user, deleted=False).exists():
             bookmark = Bookmark.objects.get(user=request.user, event=event, deleted=False)
-            logger.info("bookmark: %s" % bookmark)
+            logger.warning("bookmark: %s" % bookmark)
             bookmark.deleted = True
             bookmark.save()
             return HttpResponse(status=200)
@@ -436,10 +436,10 @@ def certificate_detail(request, certificate_id):
 def request_certificate(request, event_id):
     if request.is_ajax() and request.method == "POST":
         event = get_object_or_404(Event, id=event_id)
-        logger.info("event: %s" % event)
+        logger.warning("event: %s" % event)
         if CertificateRequest.objects.filter(event=event, user=request.user, state="DELETED").exists():
             certificate_request = CertificateRequest.objects.get(event=event, user=request.user, state="DELETED")
-            logger.info("certificate_request: %s" % certificate_request)
+            logger.warning("certificate_request: %s" % certificate_request)
             certificate_request.state = "PENDING"
             certificate_request.save()
         else:
@@ -454,7 +454,7 @@ def request_certificate(request, event_id):
 def cancel_cert_request(request, cert_request_id):
     if request.is_ajax() and request.method == "POST":
         certificate_request = get_object_or_404(CertificateRequest, id=cert_request_id)
-        logger.info("certificate_request: %s" % certificate_request)
+        logger.warning("certificate_request: %s" % certificate_request)
         if request.user == certificate_request.user:
             if Certificate.objects.filter(event=certificate_request.event, user=certificate_request.user).exists():
                 logger.warning("Intento de cancelar certificado existente: %s" % certificate_request.id)
@@ -478,13 +478,13 @@ def cancel_cert_request(request, cert_request_id):
 def accept_cert_request(request, cert_request_id):
     if request.is_ajax() and request.method == "POST":
         certificate_request = get_object_or_404(CertificateRequest, id=cert_request_id)
-        logger.info("certificate_request: %s" % certificate_request)
+        logger.warning("certificate_request: %s" % certificate_request)
         if request.user == certificate_request.event.owner:
             if Certificate.objects.filter(event=certificate_request.event, user=certificate_request.user).exists():
                 logger.warning("certificate ya existe")
             else:
                 new_cert = Certificate.objects.create(event=certificate_request.event, user=certificate_request.user)
-                logger.info("new_cert: %s" % new_cert)
+                logger.warning("new_cert: %s" % new_cert)
             certificate_request.state = "ACCEPTED"
             certificate_request.save()
             return HttpResponse(status=201)
@@ -497,7 +497,7 @@ def accept_cert_request(request, cert_request_id):
 def reject_cert_request(request, cert_request_id):
     if request.is_ajax() and request.method == "POST":
         certificate_request = get_object_or_404(CertificateRequest, id=cert_request_id)
-        logger.info("certificate_request: %s" % certificate_request)
+        logger.warning("certificate_request: %s" % certificate_request)
         if request.user == certificate_request.event.owner:
             if Certificate.objects.filter(event=certificate_request.event, user=certificate_request.user).exists():
                 logger.warning("Intento de rechazar certificado existente: %s" % certificate_request.id)
@@ -517,7 +517,7 @@ def reject_cert_request(request, cert_request_id):
 def restore_cert_request(request, cert_request_id):
     if request.is_ajax() and request.method == "POST":
         certificate_request = get_object_or_404(CertificateRequest, id=cert_request_id)
-        logger.info("certificate_request: %s" % certificate_request)
+        logger.warning("certificate_request: %s" % certificate_request)
         if request.user == certificate_request.event.owner:
             if Certificate.objects.filter(event=certificate_request.event, user=certificate_request.user).exists():
                 logger.warning("Intento de restaurar certificado existente: %s" % certificate_request.id)
