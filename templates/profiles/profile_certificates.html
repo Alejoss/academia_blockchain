@@ -61,7 +61,7 @@
                                 {% elif c.event.event_type == 'LIVE_COURSE' %}
                                     <img alt="" title="Curso en Vivo" src="{% static 'assets/img/diamante_amarillo.png' %}"
                                                                          class="diamond_certi_new" width="22px">
-                                {% elif c.event.event_type == "PRE-RECORDED" %}
+                                {% elif c.event.event_type == "PRE_RECORDED" %}
                                     <img alt="" title="Curso Pre Grabado" src="{% static 'assets/img/diamante_magenta.png' %}"
                                                                          class="diamond_certi_new" width="22px">
                                 {% elif c.event.event_type == 'EXAM' %}
@@ -133,25 +133,6 @@
 
                     {% endfor %}
                 </div>
-
-                {% if courses_certificates %}
-                    <div class="text-white rounded bg-info text-uppercase font-weight-medium px-6 py-3 mb-3">Certificados Entregados</div>
-                    {% for c in courses_certificates %}
-                        <div class="media media-list-view mb-5">
-                            <div class="media-body">
-                                <h3>
-                                    <p>{{ c.date_created|date:"SHORT_DATE_FORMAT" }} - {{ c.event.title }} - {{ c.user.username }}</p>
-                                </h3>
-                                <div class="text-sm-right profile_certificates-button-wrapper">
-                                    <button class="btn btn-sm btn-white text-uppercase mb-1 mr-2 btn-hover-info"
-                                        onclick="location.href = '{% url 'certificate_preview' c.id %}' ">
-                                        <i class="fa fa-certificate mr-2" aria-hidden="true"></i>Ver Certificado
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    {% endfor %}
-                {% endif %}
             </div>
         </div>
     </div>
