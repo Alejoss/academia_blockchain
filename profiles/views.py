@@ -375,11 +375,8 @@ def profile_certificates(request):
     certificates = Certificate.objects.filter(user=request.user, deleted=False)
     user_diamonds = get_user_diamonds(request.user, certificates=certificates)
 
-    courses_certificates = Certificate.objects.filter(event__owner=request.user)  # certificates awarded by user
-
     context = {"profile_index_active": "active", "underline_certificates": "text-underline",
-               "certificates": certificates, "courses_certificates": courses_certificates,
-               "user_diamonds": user_diamonds}
+               "certificates": certificates, "user_diamonds": user_diamonds}
     return render(request, template, context)
 
 
