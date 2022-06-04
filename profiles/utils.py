@@ -164,9 +164,9 @@ def send_confirmation_email(request, user, user_email):
                        receiver_email=user_email
                        )
 
-    logger.debug("current_site: %s" % current_site)
-    logger.debug("uid: %s" % uid)
-    logger.debug("activation_token: %s" % activation_token)
+    logger.warning("current_site: %s" % current_site)
+    logger.warning("uid: %s" % uid)
+    logger.warning("activation_token: %s" % activation_token)
 
 
 def get_user_diamonds(user, certificates=None):
