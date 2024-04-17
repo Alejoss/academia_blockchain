@@ -43,6 +43,8 @@ def register_profile(request):
 
             # Crear perfil de usuario
             new_profile = Profile.objects.create(user=new_user)
+            new_profile.email_confirmed = True  # TODO remover esto, debe activarse por email
+            new_profile.save()
             logger.warning("new_profile: %s" % new_profile)
 
             # Crear Accepted Cryptos por default
@@ -121,6 +123,7 @@ class AcademiaPasswordResetCompleteView(PasswordResetCompleteView):
 
 
 def resend_activation_email(request):
+    # TODO probar este. Error Anonymous user doesnt have email
     user_email = request.user.email
     if user_email:
         logger.debug("user_email: %s" % user_email)
