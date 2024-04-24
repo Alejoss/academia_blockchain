@@ -26,4 +26,4 @@ WORKDIR /app
 EXPOSE 8000
 ENV PYTHONUNBUFFERED=1
 
-CMD ["gunicorn", "--bind", ":8000", "--workers", "3", "academia_blockchain.asgi:application"]
+CMD ["gunicorn", "--bind", ":8000", "--workers", "3", "--log-level", "debug", "--error-logfile", "-", "academia_blockchain.asgi:application"]
