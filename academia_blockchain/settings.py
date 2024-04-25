@@ -30,8 +30,8 @@ def get_env_variable(variable_name):
 
 ALLOWED_HOSTS = ["*"]
 DEBUG = True
-DOCKER = get_env_variable('ENV') == "local" and get_env_variable('DOCKER') == "True"
-SECRET_KEY = get_env_variable('ACADEMIA_BLOCKCHAIN_SKEY')
+DOCKER = True
+SECRET_KEY = os.getenv('ACADEMIA_BLOCKCHAIN_SKEY')
 
 # Application definition
 INSTALLED_APPS = [
@@ -95,7 +95,16 @@ DATABASES = {
 }
 
 if DOCKER:
-    DATABASES['default'] = dj_database_url.config(conn_max_age=600)
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.postgresql",
+            "NAME": "ACADEMIA_BLOCKCHAIN_DB",
+            "USER": "ADMIN",
+            "PASSWORD": os.getenv("POSTGRES_PASSWORD", "any_password"),
+            "HOST": "postgres",  # The service name in Docker Compose
+            "PORT": "5432",
+        }
+    }
 
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
