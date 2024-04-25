@@ -163,10 +163,36 @@ if HEROKU:
 # Logging
 LOGGING = {
     "version": 1,
-    "loggers": {"app_logger": {"level": "INFO", "handlers": ["console"]}},
-    "handlers": {"console": {"class": "logging.StreamHandler", "formatter": "verbose", "stream": "ext://sys.stdout"}},
-    "formatters": {"verbose": {"format": "[%(asctime)s] %(levelname)s [%(name)s.%(funcName)s:%(lineno)d] %(message)s"}}
+    "disable_existing_loggers": False,
+    "handlers": {
+        "console": {
+            "class": "logging.StreamHandler",
+            "formatter": "verbose",
+            "stream": "ext://sys.stdout"
+        },
+    },
+    "formatters": {
+        "verbose": {
+            "format": "[%(asctime)s] %(levelname)s [%(name)s.%(funcName)s:%(lineno)d] %(message)s",
+            "datefmt": "%Y-%m-%d %H:%M:%S"
+        },
+    },
+    "loggers": {
+        "django": {
+            "handlers": ["console"],
+            "level": "DEBUG",
+        },
+        "app_logger": {
+            "handlers": ["console"],
+            "level": "DEBUG",
+        },
+        "": {  # This is the root logger
+            "handlers": ["console"],
+            "level": "DEBUG",
+        },
+    },
 }
+
 
 
 # Other config

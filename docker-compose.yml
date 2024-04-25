@@ -1,32 +1,28 @@
-version: "3.0"
+version: "3.8"
 
 services:
-  client:
+  backend:
+    build:
+      context: .
+      dockerfile: backend.Dockerfile
+    volumes:
+      - .:/app
+      - static_volume:/app/static
+    command: python manage.py runserver 0.0.0.0:8000
     env_file:
       - .env
-    build: ./client
-    volumes:
-      - ./client/src:/app/client/src
-      - ./static/assets/build:/app/client/build
+    ports:
+      - "8000:8000"
+    depends_on:
+      - postgres
+
   postgres:
     image: postgres
     env_file:
       - .env
     volumes:
       - postgres_data:/var/lib/postgresql/data
-  backend:
-    env_file:
-      - .env
-    build:
-      context: .
-      dockerfile: backend.Dockerfile
-    command: python manage.py runserver 0.0.0.0:8000
-    volumes:
-      - .:/code
-    ports:
-      - "8000:8000"
-    depends_on:
-      - postgres
-      - client
+
 volumes:
-  postgres_data: {}
+  postgres_data:
+  static_volume:
