@@ -12,7 +12,6 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 
 import ast
 import os
-import django_heroku
 import dj_database_url
 import logging
 
@@ -32,7 +31,6 @@ def get_env_variable(variable_name):
 ALLOWED_HOSTS = ["*"]
 DEBUG = True
 DOCKER = get_env_variable('ENV') == "local" and get_env_variable('DOCKER') == "True"
-HEROKU = get_env_variable('ENV') == "HEROKU"
 SECRET_KEY = get_env_variable('ACADEMIA_BLOCKCHAIN_SKEY')
 
 # Application definition
@@ -96,9 +94,6 @@ DATABASES = {
     }
 }
 
-if HEROKU:
-    DATABASES['default'] = dj_database_url.config(conn_max_age=600, ssl_require=True)
-
 if DOCKER:
     DATABASES['default'] = dj_database_url.config(conn_max_age=600)
 
@@ -140,26 +135,6 @@ STATIC_URL = '/static/'
 
 STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
 
-if HEROKU:
-    AWS_ACCESS_KEY_ID = get_env_variable('AWSAccessKeyId')
-    AWS_SECRET_ACCESS_KEY = get_env_variable('AWSSecretKey')
-    AWS_STORAGE_BUCKET_NAME = get_env_variable('AWS_STORAGE_BUCKET_NAME')
-    S3_URL = 'http://%s.s3.amazonaws.com/' % AWS_STORAGE_BUCKET_NAME
-    STATIC_URL = S3_URL
-    MEDIA_URL = S3_URL
-    STATICFILES_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
-    DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
-    AWS_DEFAULT_ACL = None
-
-    # Email
-    MAILGUN_API_KEY = get_env_variable('MAILGUN_API_KEY')
-    MAILGUN_DOMAIN = get_env_variable('MAILGUN_DOMAIN')
-    MAILGUN_PUBLIC_KEY = get_env_variable('MAILGUN_PUBLIC_KEY')
-    MAILGUN_SMTP_LOGIN = get_env_variable('MAILGUN_SMTP_LOGIN')
-    MAILGUN_SMTP_PASSWORD = get_env_variable('MAILGUN_SMTP_PASSWORD')
-    MAILGUN_SMTP_PORT = get_env_variable('MAILGUN_SMTP_PORT')
-    MAILGUN_SMTP_SERVER = get_env_variable('MAILGUN_SMTP_SERVER')
-
 # Logging
 LOGGING = {
     "version": 1,
@@ -193,13 +168,8 @@ LOGGING = {
     },
 }
 
-
-
 # Other config
 LOGIN_URL = "login"
 LOGIN_REDIRECT_URL = "event_index"
 LOGOUT_REDIRECT_URL = "event_index"
 LANGUAGE_CODE = "es-ES"
-
-if HEROKU:
-    django_heroku.settings(locals())
