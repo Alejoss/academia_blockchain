@@ -99,7 +99,7 @@ if DOCKER:
         "default": {
             "ENGINE": "django.db.backends.postgresql",
             "NAME": "ACADEMIA_BLOCKCHAIN_DB",
-            "USER": "ADMIN",
+            "USER": os.getenv("POSTGRES_USER", "postgres"),
             "PASSWORD": os.getenv("POSTGRES_PASSWORD", "any_password"),
             "HOST": "postgres",  # The service name in Docker Compose
             "PORT": "5432",
