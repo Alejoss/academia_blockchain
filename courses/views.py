@@ -32,7 +32,7 @@ logger = logging.getLogger('app_logger')
 HTML RENDERS
 """
 
-
+# Display a list of all non-deleted events along with their associated tags
 def event_index(request):
     template = "courses/events.html"
     events = Event.objects.filter(deleted=False)
@@ -41,19 +41,19 @@ def event_index(request):
     context = {"events": events, "event_index_active": "active", "tags": tags}
     return render(request, template, context)
 
-
+# Display about page
 def about(request):
     template = "courses/about.html"
     context = {"info_index_active": "active"}
     return render(request, template, context)
 
-
+# Display a page with extra info on descentralized education
 def descentralize_education(request):
     template = "courses/descentralize_education.html"
     context = {"info_index_active": "active"}
     return render(request, template, context)
 
-
+# Display events associated with a specific tag
 def events_tag(request, tag_id):
     template = "courses/events_tag.html"
     tag = get_object_or_404(Tag, id=tag_id)
@@ -62,7 +62,7 @@ def events_tag(request, tag_id):
     context = {"events": events, "event_index_active": "active", "tags": tags, "tag": tag}
     return render(request, template, context)
 
-
+# Display all events
 def events_all(request):
     template = "courses/events_all.html"
     events = Event.objects.all()
@@ -70,7 +70,7 @@ def events_all(request):
     context = {"events": events, "event_index_active": "active", "tags": tags}
     return render(request, template, context)
 
-
+# Handle search functionality for events
 def event_search(request):
     template = "courses/events_result.html"
     if request.method == "POST":
@@ -85,7 +85,7 @@ def event_search(request):
     else:
         return HttpResponse(status=400)
 
-
+# Display detailed information about a specific event
 def event_detail(request, event_id):
     template = "courses/event_detail.html"
     event = get_object_or_404(Event, id=event_id)
@@ -147,41 +147,40 @@ def event_detail(request, event_id):
     return render(request, template, context)
 
 
-def event_recorded_online(request):
-    template = "courses/event_recorded_online.html"
-    context = {"event_index_active": "active"}
-    return render(request, template, context)
-
-
-def event_recurrent_localized(request):
-    template = "courses/event_recurrent_localized.html"
-    context = {"event_index_active": "active"}
-    return render(request, template, context)
-
-
-def event_singular_online(request):
-    template = "courses/event_singular_online.html"
-    context = {"event_index_active": "active"}
-    return render(request, template, context)
-
-
 @login_required
 def event_create(request):
-    if request.method == "GET":
-        template = "courses/event_create.html"
-        platforms = ConnectionPlatform.objects.filter(deleted=False)
-        profile = Profile.objects.get(user=request.user)
-        logger.warning("platforms: %s" % platforms)
-        logger.warning("profile.email_confirmed: %s" % profile.email_confirmed)
-        user_contact_methods = ContactMethod.objects.filter(user=request.user)
+    """
+    Handle the creation of a new event. This view supports both GET and POST requests.
+    GET requests return a form for creating a new event, pre-populated with necessary data.
+    POST requests process the submitted form to create an event and redirect to the event detail page.
+    Requires the user to be logged in.
+    """
 
-        context = {"event_index_active": "active", "platforms": platforms, "profile": profile,
-                   "user_contact_methods": user_contact_methods}
+    if request.method == "GET":
+        # Prepare the template and context data for event creation form
+        template = "courses/event_create.html"
+        platforms = ConnectionPlatform.objects.filter(deleted=False)  # Retrieve available platforms
+        profile = Profile.objects.get(user=request.user)  # Get the profile of the logged-in user
+        user_contact_methods = ContactMethod.objects.filter(user=request.user)  # User's contact methods
+
+        # Log data to help in debugging or monitoring
+        logger.warning(f"Platforms: {platforms}")
+        logger.warning(f"Profile email confirmed: {profile.email_confirmed}")
+
+        context = {
+            "event_index_active": "active",  # Context variable to indicate active page
+            "platforms": platforms,
+            "profile": profile,
+            "user_contact_methods": user_contact_methods
+        }
+
         return render(request, template, context)
 
     elif request.method == "POST":
+        # Process form data to create a new event
         event_data = get_event_data_request(request)
 
+        # Create event instance
         created_event = Event.objects.create(
             event_type=event_data['event_type'],
             is_recurrent=event_data['event_recurrent'],
@@ -196,44 +195,77 @@ def event_create(request):
             schedule_description=event_data['schedule_description']
         )
 
+        # Update profile to reflect user as a teacher
         profile = Profile.objects.get(user=request.user)
         profile.is_teacher = True
         profile.save()
 
-        # Guardar imagen
+        # Save the uploaded event picture, if available
         if "event_picture" in request.FILES:
             event_picture = request.FILES['event_picture']
-            logger.warning("event_picture: %s" % event_picture)
+            logger.warning(f"Event picture: {event_picture}")
             created_event.image.save(event_picture.name, event_picture)
 
-        # Sumar Tags
+        # Add tags to the created event
         for tag in event_data['tags']:
-            logger.warning("tag_added: %s" % tag)
+            logger.warning(f"Tag added: {tag}")
             created_event.tags.add(tag)
 
+        # Redirect to the detail view of the newly created event
         return redirect("event_detail", event_id=created_event.id)
 
 
 @login_required
 def event_edit(request, event_id):
-    if request.method == "GET":
-        template = "courses/event_edit.html"
-        event = get_object_or_404(Event, id=event_id)
-        logger.warning("event: %s" % event)
-        platforms = ConnectionPlatform.objects.filter(deleted=False)
-        user_contact_methods = ContactMethod.objects.filter(user=event.owner)
-        event_tags = [e.name for e in event.tags.all()]
-        logger.warning("platforms: %s" % platforms)
-        logger.warning("user_contact_methods: %s" % user_contact_methods)
+    """
+    Handle the editing of an existing event. This view supports both GET and POST requests.
+    GET requests provide a form prefilled with the event's current details.
+    POST requests process the submitted form to update the event and redirect to its detail page.
+    Requires the user to be logged in.
 
-        context = {"event": event, "platforms": platforms, "user_contact_methods": user_contact_methods,
-                   "event_tags": json.dumps(event_tags)}
+    Args:
+        request: HttpRequest object.
+        event_id: The ID of the event to be edited.
+
+    Returns:
+        HttpResponse object with the rendered edit form on GET.
+        HttpResponse redirecting to the event detail page on successful POST, or back to the form on error.
+    """
+
+    if request.method == "GET":
+        # Fetch the event or return 404 if not found
+        event = get_object_or_404(Event, id=event_id)
+        # Log event retrieval
+        logger.warning(f"Event: {event}")
+
+        # Retrieve data necessary for the form
+        platforms = ConnectionPlatform.objects.filter(deleted=False)  # Available platforms for the event
+        user_contact_methods = ContactMethod.objects.filter(user=event.owner)  # Contact methods of the event's owner
+        event_tags = [e.name for e in event.tags.all()]  # Current tags of the event
+
+        # Log the fetched data
+        logger.warning(f"Platforms: {platforms}")
+        logger.warning(f"User contact methods: {user_contact_methods}")
+
+        # Prepare the context with the event data and supporting information
+        context = {
+            "event": event,
+            "platforms": platforms,
+            "user_contact_methods": user_contact_methods,
+            "event_tags": json.dumps(event_tags)  # Serialize tags for JSON transport
+        }
+
+        # Render and return the event editing form
+        template = "courses/event_edit.html"
         return render(request, template, context)
 
     elif request.method == "POST":
+        # Fetch the event or return 404 if not found
         event = get_object_or_404(Event, id=event_id)
+        # Get data from the form submission
         event_data = get_event_data_request(request)
 
+        # Update the event details based on form data
         event.event_type = event_data['event_type']
         event.is_recurrent = event_data['event_recurrent']
         event.owner = request.user
@@ -245,27 +277,27 @@ def event_edit(request, event_id):
         event.date_end = event_data['date_end']
         event.date_recorded = event_data['record_date']
         event.schedule_description = event_data['schedule_description']
-        event.save()
+        event.save()  # Save the updated event details
 
-        # Guardar imagen
+        # Handle event picture upload
         if "event_picture" in request.FILES:
             event_picture = request.FILES['event_picture']
-            logger.warning("event_picture: %s" % event_picture)
+            logger.warning(f"Event picture: {event_picture}")
             event.image.save(event_picture.name, event_picture)
 
-        # Actualizar tags
+        # Update tags based on changes in the form
         event_tags = [e.name for e in event.tags.all()]
         for tag in event_data['tags']:
             if tag not in event_tags:
                 event.tags.add(tag.strip())
-                logger.warning("new_tag: %s" % tag)
+                logger.warning(f"New tag added: {tag}")
         for existing_tag in event_tags:
             if existing_tag not in event_data['tags']:
                 event.tags.remove(existing_tag)
-                logger.warning("remove_tag: %s" % existing_tag)
+                logger.warning(f"Removed tag: {existing_tag}")
 
+        # Redirect to the detail view of the event after successful update
         return redirect("event_detail", event_id=event.id)
-
 
 @login_required
 def event_delete(request, event_id):
